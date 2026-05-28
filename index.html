@@ -300,7 +300,90 @@
       display: flex;
       align-items: center;
       gap: 0.7rem;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 0.3rem 0.4rem;
+      transition: background 0.18s, transform 0.15s;
     }
+    .member-item:hover {
+      background: rgba(61,92,58,0.07);
+      transform: translateX(3px);
+    }
+    .member-item:active { transform: scale(0.98); }
+
+    /* ── MODAL ── */
+    .person-modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(20,16,8,0.55);
+      z-index: 9000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(3px);
+    }
+    .person-modal-overlay.open { display: flex; }
+    .person-modal {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 480px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+      animation: modalIn 0.22s ease;
+    }
+    @keyframes modalIn {
+      from { transform: translateY(18px) scale(0.97); opacity: 0; }
+      to   { transform: translateY(0)    scale(1);    opacity: 1; }
+    }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: none; border: none; font-size: 1.4rem; cursor: pointer;
+      color: rgba(28,24,16,0.4); line-height: 1;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .modal-close:hover { background: rgba(0,0,0,0.07); color: var(--ink); }
+    .modal-header {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem;
+    }
+    .modal-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 700; color: var(--cream);
+      flex-shrink: 0; letter-spacing: 0.02em;
+    }
+    .modal-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--ink); line-height: 1.1; }
+    .modal-detail { font-size: 0.8rem; color: rgba(28,24,16,0.5); margin-top: 0.2rem; }
+    .modal-section-title {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--forest); margin-bottom: 0.6rem;
+    }
+    .modal-bio {
+      font-size: 0.88rem; color: rgba(28,24,16,0.7); line-height: 1.6;
+      margin-bottom: 1.4rem; font-style: italic;
+    }
+    .modal-photos {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem;
+      margin-bottom: 1.4rem;
+    }
+    .modal-photo {
+      aspect-ratio: 1; border-radius: 10px;
+      background: rgba(61,92,58,0.08);
+      border: 1.5px dashed rgba(61,92,58,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: rgba(61,92,58,0.3);
+    }
+    .modal-melody {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: rgba(61,92,58,0.06); border-radius: 10px;
+      padding: 0.65rem 0.85rem; font-size: 0.82rem; color: rgba(28,24,16,0.6);
+    }
+    .modal-melody-icon { font-size: 1.2rem; }
 
     .member-avatar {
       width: 36px;
@@ -482,7 +565,7 @@
       </div>
       <div class="unit-body">
         <ul class="members-list">
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('peter')">
             <div class="member-avatar">PA</div>
             <div class="member-info">
               <div class="name">Peter Almström</div>
@@ -490,14 +573,14 @@
             </div>
             <span class="member-badge">Admin</span>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('carina')">
             <div class="member-avatar terra">CA</div>
             <div class="member-info">
               <div class="name">Carina Almström</div>
               <div class="detail">50 år</div>
             </div>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('elias')">
             <div class="member-avatar">EA</div>
             <div class="member-info">
               <div class="name">Elias Almström</div>
@@ -523,7 +606,7 @@
       </div>
       <div class="unit-body">
         <ul class="members-list">
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('tora')">
             <div class="member-avatar terra">TR</div>
             <div class="member-info">
               <div class="name">Tora Rutkowski</div>
@@ -531,14 +614,14 @@
             </div>
             <span class="member-badge">Admin</span>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('mattias')">
             <div class="member-avatar">MR</div>
             <div class="member-info">
               <div class="name">Mattias Rutkowski</div>
               <div class="detail">36 år</div>
             </div>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('jenna')">
             <div class="member-avatar" style="background:linear-gradient(135deg,#e8b4c0,#d4899a); color:#4a1a25; font-size:1.1rem;">👶</div>
             <div class="member-info">
               <div class="name">Jenna <span class="baby-chip">🍼 3 mån</span></div>
@@ -563,7 +646,7 @@
       </div>
       <div class="unit-body">
         <ul class="members-list">
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('alva')">
             <div class="member-avatar terra">AD</div>
             <div class="member-info">
               <div class="name">Alva Demervik Almström</div>
@@ -571,21 +654,21 @@
             </div>
             <span class="member-badge">Admin</span>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('isak')">
             <div class="member-avatar">ID</div>
             <div class="member-info">
               <div class="name">Isak Demervik Almström</div>
               <div class="detail">27 år</div>
             </div>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('svea')">
             <div class="member-avatar" style="background:linear-gradient(135deg,#b8d4b0,#8ab88a); color:#1a3a18; font-size:0.85rem;">Sv</div>
             <div class="member-info">
               <div class="name">Svea</div>
               <div class="detail">2,5 år · storasyster</div>
             </div>
           </li>
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('signe')">
             <div class="member-avatar" style="background:linear-gradient(135deg,#e8b4c0,#d4899a); color:#4a1a25; font-size:1.1rem;">👶</div>
             <div class="member-info">
               <div class="name">Signe <span class="baby-chip">🍼 nyfödd</span></div>
@@ -610,7 +693,7 @@
       </div>
       <div class="unit-body">
         <ul class="members-list">
-          <li class="member-item">
+          <li class="member-item" onclick="openCard('benke')">
             <div class="member-avatar" style="background:linear-gradient(135deg,#8B6914,#C9A030);">BH</div>
             <div class="member-info">
               <div class="name">Benke Hirvonen</div>
@@ -626,6 +709,33 @@
     </div>
 
   </div><!-- /units-grid -->
+
+  <!-- ── PERSONKORT MODAL ── -->
+  <div class="person-modal-overlay" id="personModal" onclick="closeCardOutside(event)">
+    <div class="person-modal" id="personModalInner">
+      <button class="modal-close" onclick="closeCard()">✕</button>
+      <div class="modal-header">
+        <div class="modal-avatar" id="mAvatar"></div>
+        <div>
+          <div class="modal-name" id="mName"></div>
+          <div class="modal-detail" id="mDetail"></div>
+        </div>
+      </div>
+      <div class="modal-section-title">Om mig</div>
+      <div class="modal-bio" id="mBio"></div>
+      <div class="modal-section-title">Foton</div>
+      <div class="modal-photos">
+        <div class="modal-photo">📷</div>
+        <div class="modal-photo">📷</div>
+        <div class="modal-photo">📷</div>
+      </div>
+      <div class="modal-section-title">Favoritlåt</div>
+      <div class="modal-melody">
+        <span class="modal-melody-icon" id="mEmoji"></span>
+        <span id="mMelody"></span>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p>Familjen Demervik Almström Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2025</p>
@@ -660,6 +770,42 @@
       if (!data?.session) { window.location.href = 'login.html'; }
     });
   
+    const PERSONS = {
+      peter:   { name:'Peter Almström',           detail:'52 år · Admin · Stamhuset',       initials:'PA', bg:'linear-gradient(135deg,#3D5C3A,#6a9466)', bio:'Pappan som startade hela familjesajten. Gillar teknik, natur och en god kopp kaffe. Alltid på jakt efter nästa projekt att bygga.', emoji:'🏡', melody:'Lägg till favoritlåt…' },
+      carina:  { name:'Carina Almström',           detail:'50 år · Stamhuset',               initials:'CA', bg:'linear-gradient(135deg,#A84C2A,#d4855e)', bio:'Familjehjärtat som håller ihop allt. Älskar trädgård, matlagning och långa promenader med Tyce.', emoji:'🌸', melody:'Lägg till favoritlåt…' },
+      elias:   { name:'Elias Almström',            detail:'20 år · Admin · Stamhuset',       initials:'EA', bg:'linear-gradient(135deg,#3D5C3A,#6a9466)', bio:'Yngste Almström-killen. Gamer, teknikintresserad och alltid redo för en utmaning.', emoji:'🎮', melody:'Lägg till favoritlåt…' },
+      tora:    { name:'Tora Rutkowski',            detail:'29 år · Admin · Familjen Rutkowski', initials:'TR', bg:'linear-gradient(135deg,#A84C2A,#d4855e)', bio:'Storesyster som blivit mamma. Solig, energisk och fullständigt förälskad i lille Jenna.', emoji:'☀️', melody:'Lägg till favoritlåt…' },
+      mattias: { name:'Mattias Rutkowski',         detail:'36 år · Familjen Rutkowski',      initials:'MR', bg:'linear-gradient(135deg,#3D5C3A,#6a9466)', bio:'Jazzentusiast och nyblivit pappa. Spelar saxofon och gör de bästa frukostsmörgåsarna.', emoji:'🎷', melody:'Lägg till favoritlåt…' },
+      jenna:   { name:'Jenna Rutkowski',           detail:'3 månader · Nyfödda stjärnan',    initials:'👶', bg:'linear-gradient(135deg,#e8b4c0,#d4899a)', bio:'Världens nyaste och gulligaste Rutkowski. Specialistutbildad på att le och sova.', emoji:'🍼', melody:'Byssan lull 🎵' },
+      alva:    { name:'Alva Demervik Almström',    detail:'26 år · Admin · Familjen Demervik Almström', initials:'AD', bg:'linear-gradient(135deg,#A84C2A,#d4855e)', bio:'Storesyster, mamma till Svea och Signe, och numera admin på familjesajten. Kreativ och omtänksam.', emoji:'🌺', melody:'Lägg till favoritlåt…' },
+      isak:    { name:'Isak Demervik Almström',    detail:'27 år · Familjen Demervik Almström', initials:'ID', bg:'linear-gradient(135deg,#3D5C3A,#6a9466)', bio:'Delar födelsedag med Peter (22 juni)! Lugn, pålitlig och otroligt bra pappa till Svea och Signe.', emoji:'⚡', melody:'Lägg till favoritlåt…' },
+      svea:    { name:'Svea Demervik Almström',    detail:'2,5 år · Storasyster',             initials:'Sv', bg:'linear-gradient(135deg,#b8d4b0,#8ab88a)', bio:'Storasyster extraordinaire. Håller ett vakande öga på Signe och älskar att springa i trädgården.', emoji:'🌼', melody:'Imse vimse spindel 🎵' },
+      signe:   { name:'Signe Demervik Almström',   detail:'Nyfödd 2026 · Nyaste familjemedlemmen', initials:'👶', bg:'linear-gradient(135deg,#e8b4c0,#d4899a)', bio:'Välkommen till familjen, Signe! Allt väntar på att bli utforskat.', emoji:'🌟', melody:'Trollmors vaggsång 🎵' },
+      benke:   { name:'Benke Hirvonen',            detail:'62 år · Allas farbror',           initials:'BH', bg:'linear-gradient(135deg,#8B6914,#C9A030)', bio:'Farbror Benke — en fast punkt i familjen sedan alltid. Hemmastadda på alla familjemiddagar och alltid med en god historia.', emoji:'🦌', melody:'Lägg till favoritlåt…' },
+    };
+
+    function openCard(id) {
+      const p = PERSONS[id]; if (!p) return;
+      document.getElementById('mAvatar').textContent   = p.initials.length > 2 ? p.initials : '';
+      document.getElementById('mAvatar').innerHTML     = p.initials.length > 2 ? p.initials : p.initials;
+      document.getElementById('mAvatar').style.background = p.bg;
+      document.getElementById('mName').textContent     = p.name;
+      document.getElementById('mDetail').textContent   = p.detail;
+      document.getElementById('mBio').textContent      = p.bio;
+      document.getElementById('mEmoji').textContent    = p.emoji;
+      document.getElementById('mMelody').textContent   = p.melody;
+      document.getElementById('personModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCard() {
+      document.getElementById('personModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeCardOutside(e) {
+      if (e.target === document.getElementById('personModal')) closeCard();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+
     function toggleNav() {
       const nl = document.getElementById('navLinks');
       nl.classList.toggle('open');
