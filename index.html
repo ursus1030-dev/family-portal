@@ -617,10 +617,12 @@
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
 
 // MÅSTE vara innan createClient — Supabase rensar hash vid initiering!
-        const _initHash = window.location.hash;
-        if (_initHash && _initHash.includes('type=recovery')) {
-                window.location.replace('login.html' + _initHash);
-        }
+        const _initHash   = window.location.hash;
+    const _initSearch = window.location.search;
+    if ((_initHash   && _initHash.includes('type=recovery')) ||
+        (_initSearch && _initSearch.includes('code='))) {
+      window.location.replace('login.html' + _initSearch + _initHash);
+    }
     
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
