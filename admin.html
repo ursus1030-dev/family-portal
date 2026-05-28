@@ -444,9 +444,18 @@
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
       auth: { flowType: 'pkce' }
     });
+    const ADMIN_EMAILS = [
+      'pealmab@hotmail.com',
+      'elias.almstrom@hotmail.com',
+      'alvaalmstrom@hotmail.com'
+    ];
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
     sb.auth.getSession().then(({ data }) => {
-      if (!data?.session) window.location.href = 'login.html';
+      if (!data?.session) { window.location.href = 'login.html'; return; }
+      const email = data.session.user.email?.toLowerCase();
+      if (!ADMIN_EMAILS.includes(email)) {
+        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:serif;flex-direction:column;gap:1rem;background:#2d4a2d;color:#f5f0e8"><h2>Åtkomst nekad</h2><p>Du har inte behörighet till admin-sidan.</p><a href="index.html" style="color:#c8a96e">Tillbaka till startsidan</a></div>';
+      }
     });
   
     function toggleNav() {
