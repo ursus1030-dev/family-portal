@@ -243,7 +243,7 @@
         return `<div class="book-card">
           <div class="book-emoji">📖</div>
           <div class="book-title">${esc(b.titel)}</div>
-          <div class="book-author">av ${esc(b.forfatter || '?')}</div>
+          <div class="book-author">av ${esc(b.forfattare || '?')}</div>
           <div class="book-stars">${stars}</div>
           ${b.kommentar ? `<div class="book-comment">"${esc(b.kommentar)}"</div>` : ''}
           <div class="book-meta">
@@ -302,7 +302,7 @@
       if (!titel) { alert('Ange en boktitel!'); return; }
       const { error } = await sb.from('boktips').insert({
         titel,
-        forfatter: document.getElementById('fForfatter').value.trim(),
+        forfattare: document.getElementById('fForfatter').value.trim(),
         genre: document.getElementById('fGenre').value,
         betyg: pickedStars || null,
         kommentar: document.getElementById('fKommentar').value.trim(),
