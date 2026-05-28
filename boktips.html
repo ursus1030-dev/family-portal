@@ -247,7 +247,7 @@
           <div class="book-stars">${stars}</div>
           ${b.kommentar ? `<div class="book-comment">"${esc(b.kommentar)}"</div>` : ''}
           <div class="book-meta">
-            <span>${esc(b.skapad_av || 'Familjemedlem')} · ${date}</span>
+            <span>${esc(b.rekommenderas_av || 'Familjemedlem')} · ${date}</span>
             <button class="book-delete" onclick="deleteBook('${b.id}')">🗑</button>
           </div>
         </div>`;
@@ -306,7 +306,7 @@
         genre: document.getElementById('fGenre').value,
         betyg: pickedStars || null,
         kommentar: document.getElementById('fKommentar').value.trim(),
-        skapad_av: currentUser?.email?.split('@')[0] || 'Okänd'
+        rekommenderas_av: currentUser?.email?.split('@')[0] || 'Okänd'
       });
       if (error) { alert('Kunde inte spara: ' + error.message); return; }
       closeModal();
