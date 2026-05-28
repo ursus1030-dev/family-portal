@@ -321,6 +321,9 @@
     const SUPABASE_URL = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
 
+    // Spara hash INNAN Supabase createClient rensar den!
+    const _savedHash = window.location.hash;
+
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
     const emailEl = document.getElementById('email');
@@ -365,7 +368,7 @@
     // ── Kolla om det är en återställningslänk ──
     (async () => {
       // Supabase v2 lägger token i URL-hash
-      const hash = window.location.hash;
+      const hash = _savedHash; // Använd sparad hash (Supabase rensar window.location.hash)
       if (hash && hash.includes('type=recovery')) {
         // Visa återställningsformulär
         document.getElementById('loginCard').style.display = 'none';
