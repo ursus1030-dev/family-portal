@@ -24,6 +24,19 @@
     .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
     .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
     .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    @media (max-width: 720px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow: visible; justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
 
     .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, #5a3d6b 60%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
     .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 30%, rgba(90,61,107,0.4) 0%, transparent 60%); }
@@ -111,7 +124,8 @@
   <!-- NAV -->
   <nav>
     <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
-    <div class="nav-links">
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">&#9776;</button>
+    <div class="nav-links" id="navLinks">
       <a href="index.html">Hem</a>
       <a href="dagbok.html">Dagbok</a>
       <a href="fotoalbum.html" class="active">Foto</a>
@@ -127,9 +141,15 @@
       <a href="familjerekord.html">Rekord</a>
       <a href="boktips.html">Böcker</a>
       <a href="kartor.html">Kartor</a>
+      <div class="nav-mobile-footer">
+        <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
+        <button class="nav-logout" onclick="logOut()">Logga ut</button>
+      </div>
     </div>
+    <div class="nav-right">
     <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
     <button class="nav-logout" onclick="logOut()">Logga ut</button>
+    </div>
   </nav>
 
   <header class="hero">
@@ -414,6 +434,15 @@
       document.getElementById('albumModal').classList.remove('open');
       document.getElementById('fAlbumName').value = '';
     };
+  
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
   </script>
 </body>
 </html>

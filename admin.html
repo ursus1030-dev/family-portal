@@ -180,7 +180,8 @@
 
   <nav>
     <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
-    <div class="nav-links">
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">&#9776;</button>
+    <div class="nav-links" id="navLinks">
       <a href="index.html">Hem</a>
       <a href="dagbok.html">Dagbok</a>
       <a href="stamtavla.html">Stamtavla</a>
@@ -195,8 +196,14 @@
       <a href="familjetrad.html">Trädet</a>
       <a href="boktips.html">Böcker</a>
       <a href="kartor.html">Kartor</a>
+      <div class="nav-mobile-footer">
+        <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
+        <button class="nav-logout" onclick="logOut()">Logga ut</button>
+      </div>
     </div>
+    <div class="nav-right">
     <button class="nav-logout" onclick="logOut()">Logga ut</button>
+    </div>
   </nav>
 
   <div class="hero">
@@ -440,6 +447,15 @@
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) window.location.href = 'login.html';
+    });
+  
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
   </script>
 </body>
