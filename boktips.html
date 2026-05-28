@@ -190,7 +190,7 @@
   <script>
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
 
     let currentUser = null;
     let allBooks = [];
