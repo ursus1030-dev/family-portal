@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minneslådan — Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest:    #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
+      --terra:     #A84C2A; --terra-lt:  #c4603a;
+      --cream:     #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
+      --ink:       #1C1810; --bg: #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links {
+      display: flex;
+      gap: 0.1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+      justify-content: center;
+      padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 60%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 20%, rgba(168,76,42,0.2) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* TOOLBAR */
+    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
+    .year-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .year-tab { padding: 0.4rem 1rem; border: 1px solid rgba(61,92,58,0.25); border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; user-select: none; background: white; }
+    .year-tab:hover { border-color: var(--forest); }
+    .year-tab.active { background: var(--forest); color: white; border-color: var(--forest); }
+    .btn-upload { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.3rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .btn-upload:hover { background: var(--terra-lt); }
+
+    /* YEAR SECTIONS */
+    .year-section { margin-bottom: 3rem; }
+    .year-heading { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--ink); letter-spacing: 0.04em; margin-bottom: 1.2rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(28,24,16,0.1); display: flex; align-items: baseline; gap: 0.8rem; }
+    .year-count { font-family: 'Jost', sans-serif; font-size: 0.75rem; color: #aaa; font-weight: 400; }
+
+    /* MASONRY-LIKE GRID */
+    .photo-grid { columns: 4; column-gap: 0.8rem; }
+    @media (max-width: 900px) { .photo-grid { columns: 3; } }
+    @media (max-width: 600px) { .photo-grid { columns: 2; } }
+    .photo-item { break-inside: avoid; margin-bottom: 0.8rem; position: relative; cursor: pointer; border-radius: 10px; overflow: hidden; }
+    .photo-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.3s; }
+    .photo-item:hover img { transform: scale(1.03); }
+    .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%); opacity: 0; transition: opacity 0.25s; border-radius: 10px; display: flex; align-items: flex-end; padding: 0.8rem; }
+    .photo-item:hover .photo-overlay { opacity: 1; }
+    .photo-overlay-text { color: white; font-size: 0.8rem; line-height: 1.4; }
+    .photo-overlay-text strong { display: block; font-weight: 500; }
+    .photo-overlay-text span { opacity: 0.8; font-size: 0.72rem; }
+
+    /* LIGHTBOX */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 500; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; }
+    .lightbox-inner img { max-width: 90vw; max-height: 80vh; border-radius: 8px; object-fit: contain; display: block; }
+    .lightbox-close { position: fixed; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.15); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: background 0.2s; }
+    .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+    .lightbox-caption { color: rgba(255,255,255,0.8); text-align: center; margin-top: 1rem; font-size: 0.9rem; }
+    .lightbox-caption small { color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-left: 0.5rem; }
+    .lightbox-delete { margin-top: 0.7rem; background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: block; margin-left: auto; margin-right: auto; }
+    .lightbox-delete:hover { border-color: rgba(255,100,100,0.6); color: rgba(255,100,100,0.8); }
+    .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.12); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; transition: background 0.2s; }
+    .lb-nav:hover { background: rgba(255,255,255,0.22); }
+    #lbPrev { left: 1.5rem; }
+    #lbNext { right: 1.5rem; }
+
+    /* UPLOAD MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 300; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 20px; padding: 2rem; width: 100%; max-width: 520px; box-shadow: 0 24px 80px rgba(0,0,0,0.3); animation: slideUp 0.25s ease; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; margin-bottom: 1.4rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.3rem; margin-top: 0.9rem; }
+    label:first-child { margin-top: 0; }
+    input[type=text], input[type=number], select, textarea { width: 100%; padding: 0.65rem 0.85rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--ink); background: #fafafa; outline: none; transition: border-color 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: var(--forest); background: white; }
+
+    .drop-zone { border: 2px dashed rgba(61,92,58,0.25); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; margin-top: 0.3rem; }
+    .drop-zone:hover, .drop-zone.dragover { border-color: var(--forest); background: rgba(61,92,58,0.03); }
+    .drop-zone input { display: none; }
+    .drop-zone .dz-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .drop-zone p { font-size: 0.85rem; color: #888; }
+    .drop-zone small { font-size: 0.75rem; color: #bbb; }
+    .preview-strip { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+    .preview-thumb { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+    .upload-progress { font-size: 0.8rem; color: var(--forest); margin-top: 0.4rem; min-height: 1.2em; }
+
+    .author-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+    .author-chip { padding: 0.3rem 0.7rem; border: 1px solid #ddd; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .author-chip:hover { border-color: var(--forest); }
+    .author-chip.selected { background: var(--forest); color: white; border-color: var(--forest); }
+
+    .form-actions { display: flex; gap: 0.8rem; margin-top: 1.4rem; }
+    .btn-save { flex: 1; background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-cancel { padding: 0.85rem 1.2rem; border: 1px solid #ddd; background: none; font-family: 'Jost', sans-serif; font-size: 0.85rem; color: #666; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .btn-cancel:hover { background: #f5f5f5; }
+
+    .empty-state { text-align: center; padding: 5rem 2rem; color: #bbb; }
+    .empty-state .icon { font-size: 4rem; margin-bottom: 1rem; }
+
+    footer { text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(28,24,16,0.3); border-top: 1px solid rgba(28,24,16,0.08); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <div class="nav-links">
+      <a href="index.html">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="visdomsbanken.html">Visdom</a>
+      <a href="kalender.html">Kalender</a>
+      <a href="receptbok.html">Recept</a>
+      <a href="minnesladan.html" class="active">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="tidskapseln.html">Kapsel</a>
+      <a href="familjedialekten.html">Dialekt</a>
+      <a href="familjerekord.html">Rekord</a>
+    
+      <a href="fotoalbum.html">Foto</a>
+      <a href="familjetrad.html">Trädet</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+    </div>
+    <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Minnes<em>lådan</em></h1>
+      <p>Alla era foton — ordnade per år</p>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="toolbar">
+      <div class="year-tabs" id="yearTabs"></div>
+      <button class="btn-upload" onclick="openUpload()">📷 Ladda upp foton</button>
+    </div>
+    <div id="photoContent">
+      <div class="empty-state"><div class="icon">📸</div><p>Laddar minnen…</p></div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="handleLbClick(event)">
+    <button class="lb-nav" id="lbPrev" onclick="lbStep(-1)">‹</button>
+    <div class="lightbox-inner">
+      <img id="lbImg" src="" alt="" />
+      <div class="lightbox-caption" id="lbCaption"></div>
+      <button class="lightbox-delete" id="lbDelete" onclick="deleteCurrent()">Ta bort</button>
+    </div>
+    <button class="lb-nav" id="lbNext" onclick="lbStep(1)">›</button>
+    <button class="lightbox-close" onclick="closeLb()">✕</button>
+  </div>
+
+  <!-- Upload modal -->
+  <div class="modal-overlay" id="uploadOverlay" onclick="handleUploadOverlay(event)">
+    <div class="modal">
+      <h2>Ladda upp foton</h2>
+
+      <label>Foton</label>
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('photoFiles').click()"
+           ondragover="dzDragOver(event)" ondrop="dzDrop(event)" ondragleave="dzDragLeave(event)">
+        <div class="dz-icon">🖼️</div>
+        <p>Klicka eller dra foton hit</p>
+        <small>JPG, PNG, WEBP — flera foton på en gång</small>
+        <input type="file" id="photoFiles" accept="image/*" multiple onchange="handleFiles(event.target.files)" />
+      </div>
+      <div class="preview-strip" id="previewStrip"></div>
+      <div class="upload-progress" id="uploadProgress"></div>
+
+      <div class="form-row">
+        <div>
+          <label>År</label>
+          <input type="number" id="upYear" min="1950" max="2099" placeholder="2024" />
+        </div>
+        <div>
+          <label>Månad (valfri)</label>
+          <select id="upMonth">
+            <option value="">— välj —</option>
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Mars</option><option value="4">April</option>
+            <option value="5">Maj</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Augusti</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Beskrivning (valfri)</label>
+      <input type="text" id="upDesc" placeholder="Vad händer på bilden?" />
+
+      <label>Vem laddar upp?</label>
+      <div class="author-chips" id="upAuthorChips"></div>
+
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeUpload()">Avbryt</button>
+        <button class="btn-save" id="saveBtn" onclick="savePhotos()">Spara</button>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>Familjen Almström &nbsp;·&nbsp; Minneslådan &nbsp;·&nbsp; 2025</p></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    const CLOUD  = 'dnl6r7axn';
+    const PRESET = 'family_porta';
+
+    const MEMBERS = [
+      { name:'Peter',emoji:'👨' },{ name:'Carina',emoji:'👩' },
+      { name:'Elias',emoji:'🧑' },{ name:'Tora',emoji:'👧' },
+      { name:'Mattias',emoji:'🧔' },{ name:'Alva',emoji:'👱‍♀️' },
+      { name:'Isak',emoji:'🧑‍🦱' },
+    ];
+
+    let allPhotos    = [];
+    let currentYear  = 'alla';
+    let selectedAuthor = null;
+    let stagedFiles  = [];
+    let uploadedUrls = [];
+    let lbIndex      = 0;
+    let lbPhotos     = [];
+
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html'; return; }
+      init();
+    });
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+    async function init() {
+      document.getElementById('upYear').value = new Date().getFullYear();
+      buildAuthorChips();
+      await loadPhotos();
+      buildYearTabs();
+      renderPhotos();
+    }
+
+    async function loadPhotos() {
+      const { data } = await sb.from('minnesladan').select('*').order('year', { ascending: false }).order('created_at', { ascending: false });
+      allPhotos = data || [];
+    }
+
+    function getYears() {
+      const years = [...new Set(allPhotos.map(p => p.year))].sort((a,b) => b-a);
+      return years;
+    }
+
+    function buildYearTabs() {
+      const tabs = document.getElementById('yearTabs');
+      const years = getYears();
+      tabs.innerHTML = '';
+      const allTab = document.createElement('div');
+      allTab.className = 'year-tab' + (currentYear === 'alla' ? ' active' : '');
+      allTab.textContent = 'Alla år';
+      allTab.onclick = () => { currentYear = 'alla'; setActiveTab(allTab); renderPhotos(); };
+      tabs.appendChild(allTab);
+      years.forEach(y => {
+        const tab = document.createElement('div');
+        tab.className = 'year-tab' + (currentYear === y ? ' active' : '');
+        tab.textContent = y;
+        tab.onclick = () => { currentYear = y; setActiveTab(tab); renderPhotos(); };
+        tabs.appendChild(tab);
+      });
+    }
+
+    function setActiveTab(el) {
+      document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function renderPhotos() {
+      const content = document.getElementById('photoContent');
+      const filtered = currentYear === 'alla' ? allPhotos : allPhotos.filter(p => p.year === currentYear);
+
+      if (!filtered.length) {
+        content.innerHTML = '<div class="empty-state"><div class="icon">📸</div><p>Inga foton ännu — ladda upp familjens minnen!</p></div>';
+        return;
+      }
+
+      // Group by year
+      const byYear = {};
+      filtered.forEach(p => {
+        if (!byYear[p.year]) byYear[p.year] = [];
+        byYear[p.year].push(p);
+      });
+
+      lbPhotos = filtered;
+
+      content.innerHTML = Object.keys(byYear).sort((a,b)=>b-a).map(year => `
+        <div class="year-section">
+          <div class="year-heading">${year} <span class="year-count">${byYear[year].length} foto${byYear[year].length !== 1 ? 'n' : ''}</span></div>
+          <div class="photo-grid">
+            ${byYear[year].map((p, i) => {
+              const idx = filtered.indexOf(p);
+              return `
+                <div class="photo-item" onclick="openLb(${idx})">
+                  <img src="${p.photo_url}" alt="${p.description||''}" loading="lazy" />
+                  <div class="photo-overlay">
+                    <div class="photo-overlay-text">
+                      ${p.description ? `<strong>${p.description}</strong>` : ''}
+                      <span>${p.author_emoji||''} ${p.author_name||''}</span>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ── LIGHTBOX ──
+    function openLb(idx) {
+      lbIndex = idx;
+      showLb();
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function showLb() {
+      const p = lbPhotos[lbIndex];
+      document.getElementById('lbImg').src = p.photo_url;
+      document.getElementById('lbCaption').innerHTML = `${p.description||''}${p.author_name ? `<small>${p.author_emoji||''} ${p.author_name} · ${p.year}</small>` : `<small>${p.year}</small>`}`;
+      document.getElementById('lbDelete').dataset.id = p.id;
+      document.getElementById('lbPrev').style.display = lbIndex > 0 ? '' : 'none';
+      document.getElementById('lbNext').style.display = lbIndex < lbPhotos.length-1 ? '' : 'none';
+    }
+    function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
+    function lbStep(dir) { lbIndex = Math.max(0, Math.min(lbPhotos.length-1, lbIndex+dir)); showLb(); }
+    function handleLbClick(e) { if (e.target === document.getElementById('lightbox')) closeLb(); }
+    async function deleteCurrent() {
+      const id = document.getElementById('lbDelete').dataset.id;
+      if (!confirm('Ta bort det här fotot?')) return;
+      await sb.from('minnesladan').delete().eq('id', id);
+      closeLb();
+      await loadPhotos();
+      buildYearTabs();
+      renderPhotos();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') lbStep(-1);
+      if (e.key === 'ArrowRight') lbStep(1);
+      if (e.key === 'Escape') closeLb();
+    });
+
+    // ── UPLOAD MODAL ──
+    function openUpload() { document.getElementById('uploadOverlay').classList.add('open'); }
+    function closeUpload() { document.getElementById('uploadOverlay').classList.remove('open'); resetUpload(); }
+    function handleUploadOverlay(e) { if (e.target === document.getElementById('uploadOverlay')) closeUpload(); }
+
+    function buildAuthorChips() {
+      const c = document.getElementById('upAuthorChips');
+      MEMBERS.forEach(m => {
+        const chip = document.createElement('div');
+        chip.className = 'author-chip';
+        chip.textContent = `${m.emoji} ${m.name}`;
+        chip.onclick = () => {
+          document.querySelectorAll('#upAuthorChips .author-chip').forEach(x => x.classList.remove('selected'));
+          chip.classList.add('selected');
+          selectedAuthor = m;
+        };
+        c.appendChild(chip);
+      });
+    }
+
+    function dzDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
+    function dzDragLeave() { document.getElementById('dropZone').classList.remove('dragover'); }
+    function dzDrop(e) { e.preventDefault(); dzDragLeave(); handleFiles(e.dataTransfer.files); }
+
+    function handleFiles(files) {
+      stagedFiles = [...files];
+      uploadedUrls = [];
+      const strip = document.getElementById('previewStrip');
+      strip.innerHTML = '';
+      stagedFiles.forEach(f => {
+        const img = document.createElement('img');
+        img.className = 'preview-thumb';
+        img.src = URL.createObjectURL(f);
+        strip.appendChild(img);
+      });
+      document.getElementById('uploadProgress').textContent = `${stagedFiles.length} foto${stagedFiles.length !== 1 ? 'n' : ''} valda`;
+    }
+
+    async function savePhotos() {
+      const year = parseInt(document.getElementById('upYear').value);
+      if (!year) { alert('Ange ett år.'); return; }
+      if (!stagedFiles.length) { alert('Välj minst ett foto.'); return; }
+
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+
+      const month   = parseInt(document.getElementById('upMonth').value) || null;
+      const desc    = document.getElementById('upDesc').value.trim() || null;
+
+      // Upload all files to Cloudinary
+      const urls = [];
+      for (let i = 0; i < stagedFiles.length; i++) {
+        document.getElementById('uploadProgress').textContent = `Laddar upp ${i+1} / ${stagedFiles.length}…`;
+        const fd = new FormData();
+        fd.append('file', stagedFiles[i]);
+        fd.append('upload_preset', PRESET);
+        fd.append('folder', `minnen/${year}`);
+        try {
+          const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD}/image/upload`, { method:'POST', body:fd });
+          const data = await res.json();
+          urls.push(data.secure_url);
+        } catch { /* skip failed */ }
+      }
+
+      if (!urls.length) { btn.disabled = false; alert('Ingen bild laddades upp.'); return; }
+
+      // Save all to Supabase
+      const rows = urls.map(url => ({
+        photo_url:    url,
+        year,
+        month,
+        description:  desc,
+        author_name:  selectedAuthor?.name  || null,
+        author_emoji: selectedAuthor?.emoji || null,
+      }));
+
+      const { error } = await sb.from('minnesladan').insert(rows);
+      btn.disabled = false;
+      if (error) { alert('Kunde inte spara: ' + error.message); return; }
+
+      document.getElementById('uploadProgress').textContent = `✓ ${urls.length} foto${urls.length!==1?'n':''} sparade!`;
+      setTimeout(() => closeUpload(), 1000);
+      await loadPhotos();
+      buildYearTabs();
+      renderPhotos();
+    }
+
+    function resetUpload() {
+      stagedFiles = []; uploadedUrls = [];
+      document.getElementById('previewStrip').innerHTML = '';
+      document.getElementById('uploadProgress').textContent = '';
+      document.getElementById('photoFiles').value = '';
+      document.getElementById('upDesc').value = '';
+      document.getElementById('upMonth').value = '';
+      document.getElementById('upYear').value = new Date().getFullYear();
+      document.querySelectorAll('#upAuthorC

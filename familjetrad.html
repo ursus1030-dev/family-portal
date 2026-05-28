@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Familjeträdet — Familjen Almström Demervik Rutkowski Hirvonen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
+      --terra: #A84C2A; --terra-lt: #c4603a;
+      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
+      --ink: #1C1810; --bg: #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+
+    .hero { background: linear-gradient(160deg, #2a3f28 0%, #3D5C3A 50%, #5a4a2a 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 80%, rgba(107,76,53,0.3) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
+    .search-box { flex: 1; max-width: 320px; position: relative; }
+    .search-box input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem; border: 1px solid #ddd; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.9rem; background: white; }
+    .search-box input:focus { outline: none; border-color: var(--forest); }
+    .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 1rem; pointer-events: none; }
+    .btn-primary { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.3rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--terra-lt); }
+
+    /* TREE VISUALIZATION */
+    .tree-container { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 2rem; overflow-x: auto; min-height: 300px; }
+    .tree-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 0.8rem; }
+    .tree-hint { color: #bbb; font-size: 0.85rem; font-style: italic; }
+
+    /* FAMILY TREE SVG AREA */
+    #treeSvg { width: 100%; overflow-x: auto; }
+
+    /* NOTES LIST */
+    .notes-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .note-card { background: white; border-radius: 12px; padding: 1.3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--forest); }
+    .note-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .note-years { font-size: 0.8rem; color: #888; margin-bottom: 0.4rem; }
+    .note-relation { display: inline-block; background: rgba(61,92,58,0.1); color: var(--forest); font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 20px; margin-bottom: 0.6rem; }
+    .note-text { font-size: 0.88rem; color: #555; line-height: 1.6; }
+    .note-footer { margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.75rem; color: #bbb; display: flex; justify-content: space-between; }
+    .note-delete { background: none; border: none; color: #ddd; cursor: pointer; font-size: 0.9rem; transition: color 0.2s; }
+    .note-delete:hover { color: var(--terra); }
+
+    .section-head { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
+
+    .empty-state { text-align: center; padding: 3rem 2rem; color: #aaa; }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; }
+
+    /* MODAL */
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; align-items: center; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: white; border-radius: 16px; padding: 2rem; width: min(520px, 92vw); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.5rem; }
+    .form-row { margin-bottom: 1.1rem; }
+    .form-row label { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
+    .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.95rem; transition: border-color 0.2s; }
+    .form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--forest); }
+    .form-row textarea { resize: vertical; min-height: 90px; }
+    .year-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+    .btn-cancel { background: none; border: 1px solid #ddd; color: #888; font-family: 'Jost', sans-serif; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .btn-cancel:hover { border-color: #bbb; color: #555; }
+    .btn-save { background: var(--forest); border: none; color: white; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .btn-save:hover { background: var(--forest-lt); }
+
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.5); text-align: center; padding: 2rem; font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <div class="nav-links">
+      <a href="index.html">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="fotoalbum.html">Foto</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="familjetrad.html" class="active">Trädet</a>
+      <a href="visdomsbanken.html">Visdom</a>
+      <a href="kalender.html">Kalender</a>
+      <a href="receptbok.html">Recept</a>
+      <a href="minnesladan.html">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="tidskapseln.html">Kapsel</a>
+      <a href="familjedialekten.html">Dialekt</a>
+      <a href="familjerekord.html">Rekord</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+    </div>
+    <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🌳</div>
+      <h1>Familje<em>trädet</em></h1>
+      <p>Vår historia och släktforskning</p>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- Built-in family tree for current family -->
+    <div class="tree-container">
+      <div class="tree-title">🌳 Familjeöversikt</div>
+      <div id="builtinTree"></div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Sök på namn..." oninput="renderNotes()" />
+      </div>
+      <button class="btn-primary" id="btnAdd">+ Lägg till släkting / not</button>
+    </div>
+
+    <div class="section-head">Anteckningar &amp; Äldre släktingar</div>
+    <div class="notes-list" id="notesList"></div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🌳</div>
+      <p>Inga anteckningar ännu — börja dokumentera familjehistoriken!</p>
+    </div>
+  </div>
+
+  <!-- ADD MODAL -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h2>🌳 Lägg till person / not</h2>
+      <div class="form-row">
+        <label>Namn *</label>
+        <input type="text" id="fNamn" placeholder="Fullständigt namn..." />
+      </div>
+      <div class="form-row">
+        <label>Relation till familjen</label>
+        <select id="fRelation">
+          <option value="Farmor/farfar">Farmor / Farfar</option>
+          <option value="Morfar/mormor">Morfar / Mormor</option>
+          <option value="Morbror/moster">Morbror / Moster</option>
+          <option value="Farbror/faster">Farbror / Faster</option>
+          <option value="Kusin">Kusin</option>
+          <option value="Anfader">Anfader / Anmoder</option>
+          <option value="Övrigt">Övrigt</option>
+        </select>
+      </div>
+      <div class="year-row">
+        <div class="form-row">
+          <label>Födelseår</label>
+          <input type="number" id="fFodd" placeholder="t.ex. 1940" min="1800" max="2025" />
+        </div>
+        <div class="form-row">
+          <label>Dödsår (valfritt)</label>
+          <input type="number" id="fAvliden" placeholder="lämna tomt om levande" min="1800" max="2025" />
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Anteckningar / Historia</label>
+        <textarea id="fNotat" placeholder="Skriv vad du vet om den här personen — var de bodde, vad de jobbade med, minnen..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancel">Avbryt</button>
+        <button class="btn-save" id="btnSave">Spara</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Familjen Almström Demervik Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2025</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    let currentUser = null;
+    let allNotes = [];
+
+    // Built-in family tree data
+    const builtinFamily = [
+      { gen: 'Generationen ovan', members: [
+        { name: 'Farfar / Farmor Almström', years: '?–?', note: 'Foräldrar till Peter' },
+        { name: 'Morfar / Mormor (Carinas sida)', years: '?–?', note: 'Föräldrar till Carina' },
+      ]},
+      { gen: 'Vår generation', members: [
+        { name: 'Peter Almström', years: '1973–', note: '52 år · Admin' },
+        { name: 'Carina Almström', years: '1975–', note: '50 år' },
+        { name: 'Bengt Hirvonen', years: '1963–', note: 'Farbror Benke · 62 år' },
+        { name: 'Mattias Rutkowski', years: '1989–', note: '36 år' },
+      ]},
+      { gen: 'Barnen', members: [
+        { name: 'Tora Rutkowski', years: '1996–', note: '29 år · Admin' },
+        { name: 'Alva Demervik Almström', years: '1999–', note: '26 år' },
+        { name: 'Isak Demervik Almström', years: '1998–', note: '27 år' },
+        { name: 'Elias Almström', years: '2005–', note: '20 år' },
+      ]},
+      { gen: 'Barnbarnen', members: [
+        { name: 'Svea Demervik', years: '2022–', note: '2,5 år · storasyster' },
+        { name: 'Jenna Rutkowski', years: '2025–', note: '3 mån' },
+        { name: 'Sigrid Demervik', years: '2025–', note: 'Nyaste familjemedlemmen' },
+      ]},
+    ];
+
+    function renderBuiltinTree() {
+      const container = document.getElementById('builtinTree');
+      container.innerHTML = builtinFamily.map(gen => `
+        <div style="margin-bottom:1.5rem;">
+          <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:0.7rem;">${gen.gen}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+            ${gen.members.map(m => `
+              <div style="background:rgba(61,92,58,0.07);border:1px solid rgba(61,92,58,0.15);border-radius:10px;padding:0.6rem 1rem;min-width:160px;">
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;">${esc(m.name)}</div>
+                <div style="font-size:0.72rem;color:#aaa;">${esc(m.years)} · ${esc(m.note)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    sb.auth.getSession().then(({ data }) => {
+      if (!data.session) { window.location.href = 'login.html'; return; }
+      currentUser = data.session.user;
+      renderBuiltinTree();
+      loadNotes();
+    });
+
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+    async function loadNotes() {
+      const { data } = await sb.from('slakt_noter').select('*').order('fodd', { ascending: true, nullsFirst: false });
+      allNotes = data || [];
+      renderNotes();
+    }
+
+    function renderNotes() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const list = document.getElementById('notesList');
+      const empty = document.getElementById('emptyState');
+      const filtered = allNotes.filter(n => !q || n.namn?.toLowerCase().includes(q) || n.relation?.toLowerCase().includes(q) || n.notat?.toLowerCase().includes(q));
+      if (!filtered.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      list.innerHTML = filtered.map(n => {
+        const years = [n.fodd, n.avliden ? `†${n.avliden}` : ''].filter(Boolean).join(' – ');
+        return `<div class="note-card">
+          <div class="note-name">${esc(n.namn)}</div>
+          ${years ? `<div class="note-years">${years}</div>` : ''}
+          ${n.relation ? `<span class="note-relation">${esc(n.relation)}</span>` : ''}
+          ${n.notat ? `<div class="note-text">${esc(n.notat)}</div>` : ''}
+          <div class="note-footer">
+            <span>${esc(n.skapad_av || '')} · ${new Date(n.created_at).toLocaleDateString('sv-SE')}</span>
+            <button class="note-delete" onclick="deleteNote('${n.id}')">🗑</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    async function deleteNote(id) {
+      if (!confirm('Ta bort denna anteckning?')) return;
+      await sb.from('slakt_noter').delete().eq('id', id);
+      allNotes = allNotes.filter(n => n.id !== id);
+      renderNotes();
+    }
+
+    // Modal
+    document.getElementById('btnAdd').onclick = () => document.getElementById('modal').classList.add('open');
+    document.getElementById('btnCancel').onclick = closeModal;
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      ['fNamn','fFodd','fAvliden','fNotat'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    document.getElementById('btnSave').onclick = async () => {
+      const namn = document.getElementById('fNamn').value.trim();
+      if (!namn) { alert('Ange ett namn!'); return; }
+      const { error } = await sb.from('slakt_noter').insert({
+        namn,
+        relation: document.getElementById('fRelation').value,
+        fodd: parseInt(document.getElementById('fFodd').value) || null,
+        avliden: parseInt(document.getElementById('fAvliden').value) || null,
+        notat: document.getElementById('fNotat').value.trim(),
+        skapad_av: currentUser?.email?.split('@')[0] || 'Okänd'
+      });
+      if (error) { alert('Kunde inte spara: ' + error.message); return; }
+      closeModal();
+      loadNotes();
+    };
+  </script>
+</body>
+</html>

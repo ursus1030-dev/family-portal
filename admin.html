@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --forest:#3D5C3A; --forest-dk:#2a3f28; --forest-lt:#4e7349;
+      --terra:#A84C2A; --terra-lt:#c4603a;
+      --cream:#F5F0E8; --sand:#E8DCC8; --bark:#6B4C35;
+      --gold:#C9A96E; --ink:#1C1810; --bg:#F0EBE0;
+      --navy:#0D1B2A;
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; }
+
+    nav { position:sticky; top:0; z-index:100; background:rgba(13,27,42,0.97); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,0.06); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:60px; }
+    .nav-brand { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:400; color:var(--cream); letter-spacing:0.04em; text-decoration:none; }
+    .nav-links {
+      display: flex;
+      gap: 0.1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+      justify-content: center;
+      padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { background:rgba(255,255,255,0.08); color:var(--cream); }
+    .nav-links a.active { background:rgba(201,169,110,0.15); color:var(--gold); }
+    .nav-logout { background:none; border:1px solid rgba(245,240,232,0.2); color:rgba(245,240,232,0.5); font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.35rem 0.8rem; border-radius:6px; cursor:pointer; transition:all 0.2s; }
+    .nav-logout:hover { border-color:rgba(245,240,232,0.4); color:var(--cream); }
+
+    .hero { background:linear-gradient(160deg,var(--navy) 0%,#112236 60%,#1a3250 100%); padding:3rem 2rem 2.5rem; text-align:center; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 120%,rgba(201,169,110,0.1) 0%,transparent 60%); }
+    .hero-content { position:relative; z-index:1; }
+    .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,4vw,2.5rem); font-weight:300; color:var(--cream); letter-spacing:0.04em; }
+    .hero h1 em { font-style:italic; color:var(--gold); }
+    .hero p { font-size:0.8rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(245,240,232,0.4); margin-top:0.5rem; }
+
+    .main { max-width:900px; margin:0 auto; padding:2.5rem 1.5rem 4rem; }
+
+    /* SECTION TITLES */
+    .section-title { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:400; color:var(--ink); margin-bottom:1.2rem; margin-top:2.5rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(28,24,16,0.1); }
+    .section-title:first-child { margin-top:0; }
+
+    /* STAT GRID */
+    .stat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:1rem; margin-bottom:0.5rem; }
+    .stat-card { background:white; border-radius:14px; padding:1.2rem 1rem; text-align:center; box-shadow:0 2px 16px rgba(0,0,0,0.07); transition:transform 0.15s; }
+    .stat-card:hover { transform:translateY(-2px); }
+    .stat-num { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:400; color:var(--forest); line-height:1; }
+    .stat-label { font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:#888; margin-top:0.3rem; }
+    .stat-icon { font-size:1.4rem; margin-bottom:0.4rem; }
+
+    /* MODULE CARDS */
+    .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.2rem; }
+    .module-card { background:white; border-radius:16px; padding:1.4rem; box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+    .module-header { display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem; }
+    .module-icon { font-size:1.6rem; }
+    .module-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; }
+    .module-count { font-size:0.75rem; color:#aaa; }
+    .module-actions { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .btn-visit { padding:0.4rem 0.9rem; background:rgba(61,92,58,0.08); border:1px solid rgba(61,92,58,0.15); color:var(--forest); font-family:'Jost',sans-serif; font-size:0.75rem; font-weight:500; border-radius:8px; cursor:pointer; text-decoration:none; transition:all 0.15s; display:inline-flex; align-items:center; gap:0.3rem; }
+    .btn-visit:hover { background:rgba(61,92,58,0.14); }
+
+    /* INVITE SECTION */
+    .invite-card { background:white; border-radius:16px; padding:1.8rem; box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+    .invite-card p { font-size:0.88rem; color:#666; line-height:1.65; margin-bottom:1.2rem; }
+    .invite-form { display:flex; gap:0.8rem; flex-wrap:wrap; }
+    .invite-input { flex:1; min-width:200px; padding:0.7rem 0.9rem; border:1px solid #ddd; border-radius:9px; font-family:'Jost',sans-serif; font-size:0.88rem; outline:none; transition:border-color 0.2s; }
+    .invite-input:focus { border-color:var(--forest); }
+    .btn-invite { padding:0.7rem 1.4rem; background:var(--forest); color:var(--cream); border:none; font-family:'Jost',sans-serif; font-size:0.82rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; border-radius:9px; cursor:pointer; transition:background 0.2s; white-space:nowrap; }
+    .btn-invite:hover { background:var(--forest-lt); }
+    .invite-note { font-size:0.75rem; color:#aaa; margin-top:0.8rem; line-height:1.5; }
+    .invite-result { margin-top:0.8rem; font-size:0.82rem; min-height:1.2em; }
+    .invite-result.success { color:var(--forest); }
+    .invite-result.error { color:var(--terra); }
+
+    /* DANGER ZONE */
+    .danger-card { background:white; border-radius:16px; padding:1.8rem; box-shadow:0 2px 16px rgba(0,0,0,0.07); border:1px solid rgba(168,76,42,0.1); }
+    .danger-row { display:flex; align-items:center; justify-content:space-between; padding:0.8rem 0; border-bottom:1px solid rgba(28,24,16,0.06); gap:1rem; flex-wrap:wrap; }
+    .danger-row:last-child { border-bottom:none; }
+    .danger-info h4 { font-size:0.9rem; font-weight:500; margin-bottom:0.2rem; }
+    .danger-info p { font-size:0.78rem; color:#999; }
+    .btn-danger { padding:0.45rem 1rem; background:none; border:1px solid rgba(168,76,42,0.3); color:var(--terra); font-family:'Jost',sans-serif; font-size:0.78rem; font-weight:500; border-radius:8px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+    .btn-danger:hover { background:var(--terra); color:white; border-color:var(--terra); }
+
+    /* ACTIVITY LOG */
+    .activity-list { display:flex; flex-direction:column; gap:0.5rem; }
+    .activity-item { display:flex; gap:0.8rem; align-items:flex-start; padding:0.6rem 0; border-bottom:1px solid rgba(28,24,16,0.05); font-size:0.82rem; }
+    .activity-item:last-child { border-bottom:none; }
+    .activity-dot { width:8px; height:8px; border-radius:50%; background:var(--forest); flex-shrink:0; margin-top:0.35rem; }
+    .activity-text { flex:1; color:var(--ink); }
+    .activity-time { color:#bbb; font-size:0.72rem; white-space:nowrap; }
+
+    .loading { text-align:center; padding:2rem; color:#bbb; font-size:0.88rem; }
+
+    /* PROGRESS DASHBOARD */
+    .progress-hero-card {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3250 50%, #112236 100%);
+      border-radius: 20px;
+      padding: 2rem;
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .progress-hero-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(201,169,110,0.12) 0%, transparent 65%);
+    }
+    .progress-hero-inner { position: relative; z-index: 1; }
+    .progress-title { font-family:'Cormorant Garamond',serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+    .progress-title span { color: var(--gold); font-style: italic; }
+    .progress-subtitle { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,240,232,0.45); margin-bottom: 1.5rem; }
+    .progress-kpi-row { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .progress-kpi { text-align: center; }
+    .progress-kpi-num { font-family:'Cormorant Garamond',serif; font-size: 2.4rem; font-weight: 300; color: var(--gold); line-height: 1; }
+    .progress-kpi-lbl { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.2rem; }
+
+    .progress-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    @media (max-width: 640px) { .progress-two-col { grid-template-columns: 1fr; } }
+
+    .prog-card { background: white; border-radius: 16px; padding: 1.4rem; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+    .prog-card-title { font-family:'Cormorant Garamond',serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+    /* SKILLS */
+    .skill-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+    .skill-name { font-size: 0.8rem; min-width: 130px; color: #555; }
+    .skill-stars { display: flex; gap: 3px; }
+    .star { width: 14px; height: 14px; border-radius: 50%; }
+    .star-full { background: var(--forest); }
+    .star-half { background: linear-gradient(90deg, var(--forest) 50%, #ddd 50%); }
+    .star-empty { background: #e0e0e0; }
+    .skill-note { font-size: 0.68rem; color: #bbb; margin-left: 0.3rem; }
+
+    /* TIMELINE */
+    .milestone-list { display: flex; flex-direction: column; gap: 0; }
+    .milestone { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid rgba(28,24,16,0.05); }
+    .milestone:last-child { border-bottom: none; }
+    .milestone-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
+    .milestone-dot-gold { background: var(--gold); }
+    .milestone-dot-green { background: var(--forest); }
+    .milestone-dot-terra { background: var(--terra); }
+    .milestone-content { flex: 1; }
+    .milestone-title { font-size: 0.82rem; color: var(--ink); font-weight: 500; line-height: 1.4; }
+    .milestone-date { font-size: 0.68rem; color: #bbb; margin-top: 0.1rem; }
+
+    /* FOCUS CARD */
+    .focus-card { background: linear-gradient(135deg, rgba(61,92,58,0.05) 0%, rgba(61,92,58,0.02) 100%); border: 1px solid rgba(61,92,58,0.12); border-radius: 16px; padding: 1.4rem; margin-bottom: 1.2rem; }
+    .focus-card-title { font-family:'Cormorant Garamond',serif; font-size: 1.1rem; color: var(--forest); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+    .focus-item { display: flex; gap: 0.7rem; align-items: flex-start; margin-bottom: 0.65rem; font-size: 0.82rem; line-height: 1.55; color: #444; }
+    .focus-item::before { content: '→'; color: var(--forest); font-weight: 600; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* CLAUDE EVAL */
+    .claude-eval { background: rgba(13,27,42,0.03); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 1rem 1.2rem; font-size: 0.82rem; color: #555; line-height: 1.7; font-style: italic; margin-bottom: 1.2rem; }
+    .claude-eval cite { display: block; margin-top: 0.5rem; font-style: normal; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #bbb; }
+
+    footer { text-align:center; padding:2rem; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(28,24,16,0.3); border-top:1px solid rgba(28,24,16,0.08); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <div class="nav-links">
+      <a href="index.html">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="kalender.html">Kalender</a>
+      <a href="receptbok.html">Recept</a>
+      <a href="minnesladan.html">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="familjerekord.html">Rekord</a>
+      <a href="admin.html" class="active">⚙ Admin</a>
+    
+      <a href="fotoalbum.html">Foto</a>
+      <a href="familjetrad.html">Trädet</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+    </div>
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Admin<em>panel</em></h1>
+      <p>Statistik · Inbjudningar · Underhåll</p>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- PROGRESS DASHBOARD -->
+    <div class="section-title">🌱 Din resa med projektet</div>
+
+    <!-- Hero-kort med nyckeltal -->
+    <div class="progress-hero-card">
+      <div class="progress-hero-inner">
+        <div class="progress-title">Peters <span>webb-resa</span></div>
+        <div class="progress-subtitle">Familjesajten · Startad april 2026</div>
+        <div class="progress-kpi-row">
+          <div class="progress-kpi">
+            <div class="progress-kpi-num">17</div>
+            <div class="progress-kpi-lbl">Sidor byggda</div>
+          </div>
+          <div class="progress-kpi">
+            <div class="progress-kpi-num">8</div>
+            <div class="progress-kpi-lbl">Tekniker lärda</div>
+          </div>
+          <div class="progress-kpi">
+            <div class="progress-kpi-num">12+</div>
+            <div class="progress-kpi-lbl">Problem lösta</div>
+          </div>
+          <div class="progress-kpi">
+            <div class="progress-kpi-num">3</div>
+            <div class="progress-kpi-lbl">Databastabeller</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Claude:s utvärdering -->
+    <div class="claude-eval">
+      "Peter har gått från noll till en fullt fungerande familjesajt med autentisering, databas, bildlagring och kartor — det är en imponerande resa. Det som sticker ut är uthålligheten: när något krånglar (och det krånglar alltid med deploy och SHA1) håller du dig lugn och vi löser det systematiskt. Du absorberar ny kunskap snabbt och ställer bra frågor. Nästa nivå handlar om att börja förstå <em>varför</em> koden fungerar — inte bara vad den gör."
+      <cite>— Claude:s utvärdering, maj 2026</cite>
+    </div>
+
+    <!-- Färdigheter + Milstolpar -->
+    <div class="progress-two-col">
+
+      <!-- Färdigheter -->
+      <div class="prog-card">
+        <div class="prog-card-title">⭐ Färdigheter upplåsta</div>
+
+        <div class="skill-row">
+          <div class="skill-name">HTML &amp; CSS</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Stark bas</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Netlify deploy</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Bemästrad</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Supabase Auth</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Inloggning klart</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Supabase DB</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-half"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Grunderna</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Supabase Storage</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Nytt — maj 2026</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">JavaScript</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Förstår logiken</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Webb-design</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">Konsekvent tema</div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Felsökning</div>
+          <div class="skill-stars">
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-full"></div>
+            <div class="star star-empty"></div>
+            <div class="star star-empty"></div>
+          </div>
+          <div class="skill-note">SHA1, RLS, CRLF</div>
+        </div>
+      </div>
+
+      <!-- Milstolpar -->
+      <div class="prog-card">
+        <div class="prog-card-title">🏆 Milstolpar</div>
+        <div class="milestone-list">
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-gold"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Skapade första familjesidan</div>
+              <div class="milestone-date">April 2026 · Startskottet</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-green"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Deployade till Netlify — sajten live!</div>
+              <div class="milestone-date">Maj 2026 · Första publika versionen</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-green"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Integrerade Supabase Auth</div>
+              <div class="milestone-date">Maj 2026 · Privat inloggning för familjen</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-green"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Byggde 17 sidor med konsekvent design</div>
+              <div class="milestone-date">Maj 2026 · Komplett familjesajt</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-terra"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Löste SHA1-deploy-problemet</div>
+              <div class="milestone-date">28 maj 2026 · Bash ≠ Chrome bytes-skillnad</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-gold"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Supabase Storage + bilduppladdning</div>
+              <div class="milestone-date">28 maj 2026 · Fotoalbum fungerar</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-green"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Lade till interaktiva kartor (Leaflet)</div>
+              <div class="milestone-date">Maj 2026 · Familjeplatser på karta</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot milestone-dot-gold"></div>
+            <div class="milestone-content">
+              <div class="milestone-title">Admin-roller &amp; RLS-säkerhetspolicies</div>
+              <div class="milestone-date">Maj 2026 · Peter, Tora, Alva, Elias</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vad du bör fokusera på härnäst -->
+    <div class="focus-card">
+      <div class="focus-card-title">🎯 Claude rekommenderar — fokusera på detta härnäst</div>
+      <div class="focus-item">
+        <span><strong>JavaScript-timer (födelsedag-countdown):</strong> Signe's nedräkning på startsidan är ett perfekt nästa steg — du lär dig <code>setInterval</code>, datum-beräkning och DOM-manipulation. Tre viktiga JS-koncept på en gång.</span>
+      </div>
+      <div class="focus-item">
+        <span><strong>Förstå varför Supabase RLS fungerar:</strong> Du har implementerat Row Level Security men nästa nivå är att förstå hur policies faktiskt filtrerar data. Testa att logga ut och se vad som blir dolt.</span>
+      </div>
+      <div class="focus-item">
+        <span><strong>Personnkort med bio + bilder:</strong> Kräver att du kombinerar det du redan kan — HTML-struktur, CSS-modal, och Supabase Storage. Bra övning att sätta ihop pusselbitar själv.</span>
+      </div>
+      <div class="focus-item">
+        <span><strong>Lägg till ett litet databasanrop på egen hand:</strong> Välj en funktion (t.ex. lägg till ett dialektord) och försök skriva <code>sb.from(...).insert()</code> utan hjälp. Det är steget från "förstår kod" till "skriver kod".</span>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="section-title">📊 Familjesidans statistik</div>
+    <div class="stat-grid" id="statGrid">
+      <div class="loading">Laddar…</div>
+    </div>
+
+    <!-- MODULES -->
+    <div class="section-title">🗂️ Moduler</div>
+    <div class="module-grid" id="moduleGrid">
+      <div class="loading">Laddar…</div>
+    </div>
+
+    <!-- INVITE -->
+    <div class="section-title">✉️ Bjud in familjemedlem</div>
+    <div class="invite-card">
+      <p>Skicka en inbjudningslänk till en ny familjemedlem. De får ett e-postmeddelande från Supabase med en länk att skapa sitt konto.</p>
+      <div class="invite-form">
+        <input type="email" class="invite-input" id="inviteEmail" placeholder="familjemedlem@email.se" />
+        <button class="btn-invite" onclick="sendInvite()">Skicka inbjudan</button>
+      </div>
+      <div class="invite-result" id="inviteResult"></div>
+      <p class="invite-note">⚠️ Obs: Inbjudningar skickas via Supabase och kräver att e-postadressen inte redan är registrerad. Kontakta Peter om något inte fungerar.</p>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="section-title">🕐 Senaste aktivitet</div>
+    <div style="background:white;border-radius:16px;padding:1.5rem;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+      <div class="activity-list" id="activityList">
+        <div class="loading">Laddar aktivitet…</div>
+      </div>
+    </div>
+
+    <!-- DANGER ZONE -->
+    <div class="section-title" style="color:var(--terra);">⚠️ Underhåll</div>
+    <div class="danger-card">
+      <div class="danger-row">
+        <div class="danger-info">
+          <h4>Rensa dagboksinlägg</h4>
+          <p>Ta bort alla inlägg i familjedagboken permanent</p>
+        </div>
+        <button class="btn-danger" onclick="clearTable('memories','dagboksinlägg')">Rensa</button>
+      </div>
+      <div class="danger-row">
+        <div class="danger-info">
+          <h4>Rensa kalender</h4>
+          <p>Ta bort alla händelser i familjekalendern</p>
+        </div>
+        <button class="btn-danger" onclick="clearTable('kalender_events','kalenderhändelser')">Rensa</button>
+      </div>
+      <div class="danger-row">
+        <div class="danger-info">
+          <h4>Rensa quiz-citat</h4>
+          <p>Ta bort alla citat i "Vem sa det?"-quizet</p>
+        </div>
+        <button class="btn-danger" onclick="clearTable('quiz_citat','quiz-citat')">Rensa</button>
+      </div>
+      <div class="danger-row">
+        <div class="danger-info">
+          <h4>Rensa poänglista</h4>
+          <p>Nollställ quiz-topplistan</p>
+        </div>
+        <button class="btn-danger" onclick="clearTable('quiz_poang','poäng')">Nollställ</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer><p>Familjen Almström &nbsp;·&nbsp; Admin &nbsp;·&nbsp; Privat</p></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const MODULES = [
+      { icon:'📖', name:'Familjedagbok',    table:'memories',         page:'dagbok.html' },
+      { icon:'🌳', name:'Stamtavla',         table:null,               page:'stamtavla.html' },
+      { icon:'💬', name:'Visdomsbanken',     table:'visdom_questions', page:'visdomsbanken.html' },
+      { icon:'📅', name:'Kalender',          table:'kalender_events',  page:'kalender.html' },
+      { icon:'🍽️', name:'Receptboken',      table:'recept',           page:'receptbok.html' },
+      { icon:'📸', name:'Minneslådan',       table:'minnesladan',      page:'minnesladan.html' },
+      { icon:'🎮', name:'Quiz',              table:'quiz_citat',       page:'quiz.html' },
+      { icon:'📦', name:'Tidskapseln',       table:'tidskapslar',      page:'tidskapseln.html' },
+      { icon:'📚', name:'Familjedialekten',  table:'dialekt_ord',      page:'familjedialekten.html' },
+    ];
+
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html'; return; }
+      loadAll();
+    });
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+    async function loadAll() {
+      await Promise.all([loadStats(), loadModules(), loadActivity()]);
+    }
+
+    async function loadStats() {
+      const tables = ['memories','visdom_questions','visdom_answers','kalender_events','recept','minnesladan','quiz_citat','dialekt_ord','tidskapslar'];
+      const counts = await Promise.all(tables.map(t =>
+        sb.from(t).select('*', { count:'exact', head:true }).then(r => ({ table:t, count:r.count||0 }))
+      ));
+      const totals = counts.reduce((a,c) => a + c.count, 0);
+
+      const grid = document.getElementById('statGrid');
+      grid.innerHTML = `
+        <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-num">${totals}</div><div class="stat-label">Totalt innehåll</div></div>
+        <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-num">${counts.find(c=>c.table==='memories')?.count||0}</div><div class="stat-label">Dagboksinlägg</div></div>
+        <div class="stat-card"><div class="stat-icon">📸</div><div class="stat-num">${counts.find(c=>c.table==='minnesladan')?.count||0}</div><div class="stat-label">Foton</div></div>
+        <div class="stat-card"><div class="stat-icon">🍽️</div><div class="stat-num">${counts.find(c=>c.table==='recept')?.count||0}</div><div class="stat-label">Recept</div></div>
+        <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">${counts.find(c=>c.table==='kalender_events')?.count||0}</div><div class="stat-label">Händelser</div></div>
+        <div class="stat-card"><div class="stat-icon">💬</div><div class="stat-num">${counts.find(c=>c.table==='visdom_questions')?.count||0}</div><div class="stat-label">Frågor</div></div>
+        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-num">${counts.find(c=>c.table==='dialekt_ord')?.count||0}</div><div class="stat-label">Dialectord</div></div>
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-num">${counts.find(c=>c.table==='tidskapslar')?.count||0}</div><div class="stat-label">Kapslar</div></div>
+      `;
+    }
+
+    async function loadModules() {
+      const grid = document.getElementById('moduleGrid');
+      const countResults = await Promise.all(MODULES.map(async m => {
+        let count = null;
+        if (m.table) {
+          const r = await sb.from(m.table).select('*', { count:'exact', head:true });
+          count = r.count || 0;
+        }
+        return { ...m, count };
+      }));
+
+      grid.innerHTML = countResults.map(m => `
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">${m.icon}</div>
+            <div>
+              <div class="module-title">${m.name}</div>
+              <div class="module-count">${m.count !== null ? m.count + ' poster' : 'Statisk sida'}</div>
+            </div>
+          </div>
+          <div class="module-actions">
+            <a class="btn-visit" href="${m.page}">Öppna →</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadActivity() {
+      // Pull recent items from several tables
+      const fetches = [
+        sb.from('memories').select('author_name,created_at').order('created_at',{ascending:false}).limit(3).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} skrev ett dagboksinlägg`, time:x.created_at }))),
+        sb.from('kalender_events').select('title,author_name,created_at').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} lade till "${x.title}" i kalendern`, time:x.created_at }))),
+        sb.from('recept').select('title,author_name,created_at').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} lade till receptet "${x.title}"`, time:x.created_at }))),
+        sb.from('minnesladan').select('author_name,created_at,year').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} laddade upp ett foto från ${x.year}`, time:x.created_at }))),
+        sb.from('dialekt_ord').select('ord,upphovsman,created_at').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`"${x.ord}" lades till i dialekten${x.upphovsman?' av '+x.upphovsman:''}`, time:x.created_at }))),
+        sb.from('tidskapslar').select('title,author_name,created_at').order('created_at',{ascending:false}).limit(1).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} förseglade en tidskapsel: "${x.title}"`, time:x.created_at }))),
+      ];
+
+      const all = (await Promise.all(fetches)).flat();
+      all.sort((a,b) => new Date(b.time)-new Date(a.time));
+      const top = all.slice(0,12);
+
+      const container = document.getElementById('activityList');
+      if (!top.length) {
+        container.innerHTML = '<div style="text-align:center;color:#ccc;padding:1.5rem;">Ingen aktivitet ännu.</div>';
+        return;
+      }
+      container.innerHTML = top.map(a => {
+        const d = new Date(a.time);
+        const timeStr = d.toLocaleDateString('sv-SE', { month:'short', day:'numeric' }) + ' ' + d.toLocaleTimeString('sv-SE', { hour:'2-digit', minute:'2-digit' });
+        return `
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div class="activity-text">${a.text}</div>
+            <div class="activity-time">${timeStr}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function sendInvite() {
+      const email = document.getElementById('inviteEmail').value.trim();
+      const result = document.getElementById('inviteResult');
+      if (!email) { result.textContent = 'Ange en e-postadress.'; result.className = 'invite-result error'; return; }
+
+      result.textContent = 'Skickar…';
+      result.className = 'invite-result';
+
+      // Use Supabase Admin API to invite user
+      // Note: this requires service_role key which we don't expose client-side
+      // Instead we'll use the magic link approach via signInWithOtp
+      const { error } = await sb.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: true, emailRedirectTo: window.location.origin + '/index.html' }
+      });
+
+      if (error) {
+        result.textContent = 'Kunde inte skicka: ' + error.message;
+        result.className = 'invite-result error';
+      } else {
+        result.textContent = `✓ En inbjudningslänk har skickats till ${email}`;
+        result.className = 'invite-result success';
+        document.getElementById('inviteEmail').value = '';
+      }
+    }
+
+    async function clearTable(table, label) {
+      const confirmed = confirm(`⚠️ Är du SÄKER på att du vill rensa alla ${label}?\n\nDetta kan inte ångras.`);
+      if (!confirmed) return;
+      const confirm2 = confirm(`Sista chansen: Rensa ${label} permanent?`);
+      if (!confirm2) return;
+
+      // Delete all rows — using a filter that matches everything
+      const { error } = await sb.from(table).delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if (error) {
+        alert('Fel: ' + error.message);
+      } else {
+        alert(`✓ Alla ${label} har rensats.`);
+        await loadAll();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Familjekalender — Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --terra-lt:  #c4603a;
+      --cream:     #F5F0E8;
+      --cream-dim: rgba(245,240,232,0.65);
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+      --bg:        #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(61,92,58,0.96); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links {
+      display: flex;
+      gap: 0.1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+      justify-content: center;
+      padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 60%, var(--bark) 100%);
+      padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 30%, rgba(168,76,42,0.2) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    /* ── MAIN ── */
+    .main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ── CALENDAR HEADER ── */
+    .cal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .cal-nav { display: flex; align-items: center; gap: 1rem; }
+    .cal-nav button {
+      background: var(--forest); border: none; color: var(--cream);
+      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .cal-nav button:hover { background: var(--forest-lt); }
+    .cal-month {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 400; color: var(--ink);
+      letter-spacing: 0.04em; min-width: 200px; text-align: center;
+    }
+    .btn-add-event {
+      background: var(--terra); border: none; color: var(--cream);
+      font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-add-event:hover { background: var(--terra-lt); }
+
+    /* ── CALENDAR GRID ── */
+    .cal-grid {
+      background: white; border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08); overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .cal-days-header {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      background: var(--forest);
+    }
+    .cal-days-header span {
+      text-align: center; padding: 0.8rem 0;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(245,240,232,0.7);
+    }
+    .cal-cells {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+    }
+    .cal-cell {
+      min-height: 100px; border-right: 1px solid #f0ebe0;
+      border-bottom: 1px solid #f0ebe0; padding: 0.4rem;
+      cursor: pointer; transition: background 0.15s; position: relative;
+    }
+    .cal-cell:nth-child(7n) { border-right: none; }
+    .cal-cell:hover { background: rgba(61,92,58,0.04); }
+    .cal-cell.other-month { opacity: 0.35; }
+    .cal-cell.today { background: rgba(61,92,58,0.06); }
+    .cal-cell.today .day-num { background: var(--forest); color: white; }
+    .day-num {
+      font-size: 0.8rem; font-weight: 500; color: var(--ink);
+      width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; margin-bottom: 0.25rem;
+    }
+    .cal-cell.sunday .day-num { color: var(--terra); }
+    .event-chip {
+      font-size: 0.68rem; padding: 0.15rem 0.4rem; border-radius: 4px;
+      margin-bottom: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      cursor: pointer; transition: opacity 0.15s; line-height: 1.4;
+    }
+    .event-chip:hover { opacity: 0.8; }
+    .cat-födelsedag { background: rgba(201,100,42,0.15); color: #8B4A1A; }
+    .cat-semester   { background: rgba(61,92,58,0.15); color: #2a4f28; }
+    .cat-träff      { background: rgba(90,100,180,0.15); color: #404880; }
+    .cat-milstolpe  { background: rgba(180,140,40,0.15); color: #7a5c10; }
+    .cat-övrigt     { background: rgba(100,100,100,0.12); color: #444; }
+
+    /* ── UPCOMING EVENTS ── */
+    .section-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400;
+      color: var(--ink); letter-spacing: 0.03em; margin-bottom: 1rem;
+    }
+    .upcoming-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .event-card {
+      background: white; border-radius: 12px; padding: 1rem 1.2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .event-date-badge {
+      background: var(--forest); color: var(--cream); border-radius: 10px;
+      min-width: 50px; text-align: center; padding: 0.4rem 0.6rem; flex-shrink: 0;
+    }
+    .event-date-badge .day { font-size: 1.4rem; font-weight: 600; line-height: 1; }
+    .event-date-badge .mon { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; }
+    .event-info { flex: 1; }
+    .event-info h4 { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem; }
+    .event-info p { font-size: 0.8rem; color: #666; }
+    .event-meta { font-size: 0.72rem; color: #999; margin-top: 0.3rem; }
+    .event-category {
+      display: inline-block; font-size: 0.68rem; padding: 0.15rem 0.5rem;
+      border-radius: 20px; margin-top: 0.3rem; font-weight: 500;
+    }
+    .event-delete {
+      background: none; border: none; cursor: pointer; color: #ccc; font-size: 1rem;
+      padding: 0.2rem; transition: color 0.2s; flex-shrink: 0;
+    }
+    .event-delete:hover { color: var(--terra); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 200; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 16px; padding: 2rem;
+      width: 100%; max-width: 480px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 1.5rem; color: var(--ink); }
+    .modal-form { display: flex; flex-direction: column; gap: 1rem; }
+    .modal-form label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.25rem; display: block; }
+    .modal-form input, .modal-form select, .modal-form textarea {
+      width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px;
+      font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink);
+      background: #fafafa; outline: none; transition: border-color 0.2s;
+    }
+    .modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus { border-color: var(--forest); background: white; }
+    .modal-form textarea { resize: vertical; min-height: 80px; }
+    .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .modal-author { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .author-chip {
+      padding: 0.3rem 0.7rem; border: 1px solid #ddd; border-radius: 20px;
+      font-size: 0.8rem; cursor: pointer; transition: all 0.15s; user-select: none;
+    }
+    .author-chip:hover { border-color: var(--forest); }
+    .author-chip.selected { background: var(--forest); color: white; border-color: var(--forest); }
+    .modal-actions { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
+    .btn-save {
+      flex: 1; background: var(--forest); color: var(--cream); border: none;
+      font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem;
+      border-radius: 8px; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-cancel {
+      padding: 0.8rem 1.2rem; border: 1px solid #ddd; background: none;
+      font-family: 'Jost', sans-serif; font-size: 0.85rem; color: #666;
+      border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-cancel:hover { background: #f5f5f5; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 3rem; color: #aaa; }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .empty-state p { font-size: 0.9rem; }
+
+    /* ── FOOTER ── */
+    footer { text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(28,24,16,0.3); border-top: 1px solid rgba(28,24,16,0.08); }
+
+    @media (max-width: 600px) {
+      .cal-cell { min-height: 60px; }
+      .event-chip { display: none; }
+      .cal-cell.has-events::after { content: '●'; font-size: 0.5rem; color: var(--terra); position: absolute; bottom: 4px; right: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <div class="nav-links">
+      <a href="index.html">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="visdomsbanken.html">Visdom</a>
+      <a href="kalender.html" class="active">Kalender</a>
+      <a href="receptbok.html">Recept</a>
+      <a href="minnesladan.html">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="tidskapseln.html">Kapsel</a>
+      <a href="familjedialekten.html">Dialekt</a>
+      <a href="familjerekord.html">Rekord</a>
+    
+      <a href="fotoalbum.html">Foto</a>
+      <a href="familjetrad.html">Trädet</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+    </div>
+    <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Familje<em>kalender</em></h1>
+      <p>Håll koll på det som betyder något</p>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Calendar header -->
+    <div class="cal-header">
+      <div class="cal-nav">
+        <button onclick="prevMonth()">‹</button>
+        <div class="cal-month" id="calMonthLabel"></div>
+        <button onclick="nextMonth()">›</button>
+      </div>
+      <button class="btn-add-event" onclick="openModal()">+ Lägg till händelse</button>
+    </div>
+
+    <!-- Calendar grid -->
+    <div class="cal-grid">
+      <div class="cal-days-header">
+        <span>Mån</span><span>Tis</span><span>Ons</span><span>Tor</span><span>Fre</span><span>Lör</span><span>Sön</span>
+      </div>
+      <div class="cal-cells" id="calCells"></div>
+    </div>
+
+    <!-- Upcoming events -->
+    <div class="section-title">Kommande händelser</div>
+    <div class="upcoming-list" id="upcomingList">
+      <div class="empty-state"><div class="icon">📅</div><p>Inga kommande händelser</p></div>
+    </div>
+  </div>
+
+  <!-- Add event modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <h2>Lägg till händelse</h2>
+      <div class="modal-form">
+        <div>
+          <label>Titel</label>
+          <input type="text" id="evTitle" placeholder="Vad händer?" />
+        </div>
+        <div class="modal-row">
+          <div>
+            <label>Datum</label>
+            <input type="date" id="evDate" />
+          </div>
+          <div>
+            <label>Tid (valfri)</label>
+            <input type="time" id="evTime" />
+          </div>
+        </div>
+        <div>
+          <label>Kategori</label>
+          <select id="evCategory">
+            <option value="födelsedag">🎂 Födelsedag</option>
+            <option value="semester">🌴 Semester / Resa</option>
+            <option value="träff">👨‍👩‍👧‍👦 Familjeträff</option>
+            <option value="milstolpe">⭐ Milstolpe</option>
+            <option value="övrigt" selected>📌 Övrigt</option>
+          </select>
+        </div>
+        <div>
+          <label>Beskrivning (valfri)</label>
+          <textarea id="evDesc" placeholder="Mer info om händelsen…"></textarea>
+        </div>
+        <div>
+          <label>Vem lägger till?</label>
+          <div class="modal-author" id="authorPicker"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal()">Avbryt</button>
+          <button class="btn-save" onclick="saveEvent()">Spara</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Familjen Almström &nbsp;·&nbsp; Kalender &nbsp;·&nbsp; 2025</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const MEMBERS = [
+      { name: 'Peter', emoji: '👨' },
+      { name: 'Carina', emoji: '👩' },
+      { name: 'Elias', emoji: '🧑' },
+      { name: 'Tora', emoji: '👧' },
+      { name: 'Mattias', emoji: '🧔' },
+      { name: 'Alva', emoji: '👱‍♀️' },
+      { name: 'Isak', emoji: '🧑‍🦱' },
+      { name: 'Jenna', emoji: '👶' },
+      { name: 'Svea', emoji: '👶' },
+    ];
+
+    const SV_MONTHS = ['januari','februari','mars','april','maj','juni','juli','augusti','september','oktober','november','december'];
+
+    let currentYear  = new Date().getFullYear();
+    let currentMonth = new Date().getMonth(); // 0-indexed
+    let allEvents    = [];
+    let selectedAuthor = null;
+
+    // ── AUTH ──
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html'; return; }
+      init();
+    });
+
+    async function logOut() {
+      await sb.auth.signOut();
+      window.location.href = 'login.html';
+    }
+
+    // ── INIT ──
+    async function init() {
+      buildAuthorPicker();
+      await loadEvents();
+      renderCalendar();
+      renderUpcoming();
+      // Set today as default date
+      document.getElementById('evDate').value = new Date().toISOString().split('T')[0];
+    }
+
+    // ── LOAD EVENTS ──
+    async function loadEvents() {
+      const { data, error } = await sb.from('kalender_events').select('*').order('event_date', { ascending: true });
+      if (error) { console.error(error); return; }
+      allEvents = data || [];
+    }
+
+    // ── RENDER CALENDAR ──
+    function renderCalendar() {
+      const label = document.getElementById('calMonthLabel');
+      label.textContent = SV_MONTHS[currentMonth].charAt(0).toUpperCase() + SV_MONTHS[currentMonth].slice(1) + ' ' + currentYear;
+
+      const cells = document.getElementById('calCells');
+      cells.innerHTML = '';
+
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      const lastDay  = new Date(currentYear, currentMonth + 1, 0);
+      // Start on Monday (0=Mon...6=Sun)
+      let startDow = firstDay.getDay(); // 0=Sun
+      startDow = (startDow + 6) % 7;   // Convert to Mon=0
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      // Previous month padding
+      for (let i = 0; i < startDow; i++) {
+        const d = new Date(currentYear, currentMonth, -startDow + i + 1);
+        cells.appendChild(buildCell(d, true));
+      }
+      // Current month days
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const date = new Date(currentYear, currentMonth, d);
+        cells.appendChild(buildCell(date, false));
+      }
+      // Next month padding
+      const totalCells = cells.children.length;
+      const remaining = (7 - (totalCells % 7)) % 7;
+      for (let i = 1; i <= remaining; i++) {
+        const date = new Date(currentYear, currentMonth + 1, i);
+        cells.appendChild(buildCell(date, true));
+      }
+    }
+
+    function buildCell(date, otherMonth) {
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell' + (otherMonth ? ' other-month' : '');
+
+      const today = new Date(); today.setHours(0,0,0,0);
+      if (date.getTime() === today.getTime()) cell.classList.add('today');
+      if (date.getDay() === 0) cell.classList.add('sunday');
+
+      const numEl = document.createElement('div');
+      numEl.className = 'day-num';
+      numEl.textContent = date.getDate();
+      cell.appendChild(numEl);
+
+      // Events for this day
+      const dayStr = date.toISOString().split('T')[0];
+      const dayEvents = allEvents.filter(e => e.event_date === dayStr);
+      if (dayEvents.length) cell.classList.add('has-events');
+      dayEvents.slice(0,3).forEach(ev => {
+        const chip = document.createElement('div');
+        chip.className = `event-chip cat-${ev.category}`;
+        chip.textContent = ev.title;
+        chip.title = ev.title;
+        cell.appendChild(chip);
+      });
+      if (dayEvents.length > 3) {
+        const more = document.createElement('div');
+        more.className = 'event-chip cat-övrigt';
+        more.textContent = `+${dayEvents.length - 3} till`;
+        cell.appendChild(more);
+      }
+
+      cell.onclick = () => {
+        const d = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+        document.getElementById('evDate').value = d;
+        openModal();
+      };
+
+      return cell;
+    }
+
+    // ── RENDER UPCOMING ──
+    function renderUpcoming() {
+      const container = document.getElementById('upcomingList');
+      const today = new Date(); today.setHours(0,0,0,0);
+      const upcoming = allEvents.filter(e => new Date(e.event_date) >= today).slice(0, 10);
+
+      if (!upcoming.length) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>Inga kommande händelser — lägg till era viktiga datum!</p></div>';
+        return;
+      }
+
+      const catColors = {
+        födelsedag: 'rgba(201,100,42,0.15)',
+        semester:   'rgba(61,92,58,0.15)',
+        träff:      'rgba(90,100,180,0.15)',
+        milstolpe:  'rgba(180,140,40,0.15)',
+        övrigt:     'rgba(100,100,100,0.12)'
+      };
+      const catLabels = { födelsedag:'🎂 Födelsedag', semester:'🌴 Resa/Semester', träff:'👨‍👩‍👧‍👦 Familjeträff', milstolpe:'⭐ Milstolpe', övrigt:'📌 Övrigt' };
+
+      container.innerHTML = upcoming.map(ev => {
+        const d = new Date(ev.event_date);
+        const day = d.getDate();
+        const mon = SV_MONTHS[d.getMonth()].substring(0,3);
+        const timeStr = ev.event_time ? ` kl. ${ev.event_time.substring(0,5)}` : '';
+        const authorStr = ev.author_emoji && ev.author_name ? `${ev.author_emoji} ${ev.author_name} lade till` : '';
+        return `
+          <div class="event-card">
+            <div class="event-date-badge">
+              <div class="day">${day}</div>
+              <div class="mon">${mon}</div>
+            </div>
+            <div class="event-info">
+              <h4>${ev.title}</h4>
+              ${ev.description ? `<p>${ev.description}</p>` : ''}
+              <div class="event-meta">${timeStr}${authorStr ? (timeStr ? ' · ' : '') + authorStr : ''}</div>
+              <span class="event-category" style="background:${catColors[ev.category]||catColors.övrigt}">${catLabels[ev.category]||'📌 Övrigt'}</span>
+            </div>
+            <button class="event-delete" onclick="deleteEvent('${ev.id}', event)" title="Ta bort">✕</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ── MODAL ──
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    function buildAuthorPicker() {
+      const container = document.getElementById('authorPicker');
+      MEMBERS.forEach(m => {
+        const chip = document.createElement('div');
+        chip.className = 'author-chip';
+        chip.textContent = `${m.emoji} ${m.name}`;
+        chip.onclick = () => {
+          document.querySelectorAll('.author-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          selectedAuthor = m;
+        };
+        container.appendChild(chip);
+      });
+    }
+
+    // ── SAVE EVENT ──
+    async function saveEvent() {
+      const title = document.getElementById('evTitle').value.trim();
+      const date  = document.getElementById('evDate').value;
+      const time  = document.getElementById('evTime').value || null;
+      const cat   = document.getElementById('evCategory').value;
+      const desc  = document.getElementById('evDesc').value.trim() || null;
+
+      if (!title) { alert('Ange en titel för händelsen.'); return; }
+      if (!date)  { alert('Välj ett datum.'); return; }
+
+      const payload = {
+        title,
+        event_date: date,
+        event_time: time,
+        category: cat,
+        description: desc,
+        author_name:  selectedAuthor ? selectedAuthor.name  : null,
+        author_emoji: selectedAuthor ? selectedAuthor.emoji : null,
+      };
+
+      const { error } = await sb.from('kalender_events').insert(payload);
+      if (error) { alert('Kunde inte spara: ' + error.message); return; }
+
+      // Reset form
+      document.getElementById('evTitle').value = '';
+      document.getElementById('evTime').value  = '';
+      document.getElementById('evDesc').value  = '';
+      document.getElementById('evCategory').value = 'övrigt';
+      document.querySelectorAll('.author-chip').forEach(c => c.classList.remove('selected'));
+      selectedAuthor = null;
+
+      closeModal();
+      await loadEvents();
+      renderCalendar();
+      renderUpcoming();
+    }
+
+    // ── DELETE EVENT ──
+    async function deleteEvent(id, e) {
+      e.stopPropagation();
+      if (!confirm('Ta bort den här händelsen?')) return;
+      await sb.from('kalender_events').delete().eq('id', id);
+      await loadEvents();
+      renderCalendar();
+      renderUpcoming();
+    }
+
+    // ── NAV MONTH ──
+    function prevMonth() {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    }
+    function nextMonth() {
+      currentMonth++;
+      if (currentMonth > 11) { current

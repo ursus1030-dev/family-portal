@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Familjen Demervik Almström Rutkowski Hirvonen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --terra-lt:  #c4603a;
+      --cream:     #F5F0E8;
+      --cream-dim: rgba(245,240,232,0.65);
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: #F0EBE0;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(61,92,58,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+      justify-content: center;
+      padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    .nav-links a {
+      color: rgba(245,240,232,0.75);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(255,255,255,0.12);
+      color: var(--cream);
+    }
+
+    .nav-logout {
+      background: none;
+      border: 1px solid rgba(245,240,232,0.25);
+      color: rgba(245,240,232,0.6);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 50%, var(--forest-lt) 100%);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(168,76,42,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 300;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--sand);
+    }
+
+    .hero-sub {
+      font-size: 0.85rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.55);
+      margin-bottom: 2.5rem;
+    }
+
+    /* Familjestatistik */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--sand);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-lbl {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+      margin-top: 0.2rem;
+    }
+
+    /* ── VÄLKOMSTTEXT ── */
+    .welcome-bar {
+      background: var(--cream);
+      border-bottom: 1px solid rgba(61,92,58,0.1);
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    #welcome-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--forest);
+    }
+
+    /* ── SEKTIONSRUBRIK ── */
+    .section-head {
+      padding: 3rem 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .section-head h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--forest-dk);
+      letter-spacing: 0.03em;
+    }
+
+    .section-head .rule {
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: var(--terra);
+      margin: 0.8rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── FAMILJEENHETER GRID ── */
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 0 2rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── ENHETSKORT ── */
+    .unit-card {
+      background: var(--cream);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(61,92,58,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .unit-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(61,92,58,0.12);
+    }
+
+    .unit-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid rgba(61,92,58,0.08);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .unit-emoji {
+      font-size: 2.2rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .unit-title h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--forest-dk);
+      line-height: 1.1;
+    }
+
+    .unit-title span {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--terra);
+    }
+
+    .unit-body {
+      padding: 1.2rem 1.5rem 1.5rem;
+    }
+
+    /* Människor */
+    .members-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .member-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .member-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--forest), var(--forest-lt));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cream);
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .member-avatar.terra {
+      background: linear-gradient(135deg, var(--terra), var(--terra-lt));
+    }
+
+    .member-info .name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .member-info .detail {
+      font-size: 0.72rem;
+      color: rgba(28,24,16,0.5);
+    }
+
+    .member-badge {
+      margin-left: auto;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(61,92,58,0.1);
+      color: var(--forest);
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+    }
+
+    /* Husdjur */
+    .pets-row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(61,92,58,0.08);
+    }
+
+    .pet-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(168,76,42,0.08);
+      border: 1px solid rgba(168,76,42,0.15);
+      border-radius: 20px;
+      padding: 0.25rem 0.65rem 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      color: var(--bark);
+    }
+
+    .pet-chip .pet-icon { font-size: 1rem; }
+
+    /* Bebis-chip */
+    .baby-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(201,169,110,0.12);
+      border: 1px dashed rgba(201,169,110,0.4);
+      border-radius: 20px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.72rem;
+      color: #7a5e2a;
+      margin-left: 0.5rem;
+    }
+
+    /* ── FARBROR BENKE – SPECIALKORT ── */
+    .unit-card.benke .unit-header {
+      background: linear-gradient(135deg, #f0e8d5, #e8dcc8);
+    }
+
+    /* ── SIDFOT ── */
+    footer {
+      background: var(--forest-dk);
+      color: rgba(245,240,232,0.4);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="fotoalbum.html">Foto</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="familjetrad.html">Trädet</a>
+      <a href="visdomsbanken.html">Visdom</a>
+      <a href="kalender.html">Kalender</a>
+      <a href="receptbok.html">Recept</a>
+      <a href="minnesladan.html">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="tidskapseln.html">Kapsel</a>
+      <a href="familjedialekten.html">Dialekt</a>
+      <a href="familjerekord.html">Rekord</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+    </div>
+    <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🌲</div>
+      <h1>Familjen <em>Almström Demervik Rutkowski Hirvonen</em></h1>
+      <p class="hero-sub">Vår privata plats på nätet</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">13</span>
+          <span class="stat-lbl">Familjemedlemmar</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">4</span>
+          <span class="stat-lbl">Husdjur</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">2</span>
+          <span class="stat-lbl">Nyfödda 2025</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">3</span>
+          <span class="stat-lbl">Hem</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- VÄLKOMST -->
+  <div class="welcome-bar">
+    <span id="welcome-name">Välkommen hem</span>
+  </div>
+
+  <!-- FAMILJEENHETER -->
+  <div class="section-head">
+    <h2>Våra familjeenheter</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="units-grid">
+
+    <!-- ── PETER & CARINA ── -->
+    <div class="unit-card">
+      <div class="unit-header">
+        <div class="unit-emoji">🏡</div>
+        <div class="unit-title">
+          <h3>Peter & Carina</h3>
+          <span>Hemma · Stamhuset</span>
+        </div>
+      </div>
+      <div class="unit-body">
+        <ul class="members-list">
+          <li class="member-item">
+            <div class="member-avatar">PA</div>
+            <div class="member-info">
+              <div class="name">Peter Almström</div>
+              <div class="detail">52 år · Admin</div>
+            </div>
+            <span class="member-badge">Admin</span>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar terra">CA</div>
+            <div class="member-info">
+              <div class="name">Carina Almström</div>
+              <div class="detail">50 år</div>
+            </div>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar">EA</div>
+            <div class="member-info">
+              <div class="name">Elias Almström</div>
+              <div class="detail">20 år · Admin</div>
+            </div>
+            <span class="member-badge">Admin</span>
+          </li>
+        </ul>
+        <div class="pets-row">
+          <div class="pet-chip"><span class="pet-icon">🐕</span> Tyce · Leonberger · 3 år</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TORA & MATTIAS ── -->
+    <div class="unit-card">
+      <div class="unit-header">
+        <div class="unit-emoji">🌸</div>
+        <div class="unit-title">
+          <h3>Tora & Mattias</h3>
+          <span>Familjen Rutkowski</span>
+        </div>
+      </div>
+      <div class="unit-body">
+        <ul class="members-list">
+          <li class="member-item">
+            <div class="member-avatar terra">TR</div>
+            <div class="member-info">
+              <div class="name">Tora Rutkowski</div>
+              <div class="detail">29 år · Admin</div>
+            </div>
+            <span class="member-badge">Admin</span>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar">MR</div>
+            <div class="member-info">
+              <div class="name">Mattias Rutkowski</div>
+              <div class="detail">36 år</div>
+            </div>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar" style="background:linear-gradient(135deg,#e8b4c0,#d4899a); color:#4a1a25; font-size:1.1rem;">👶</div>
+            <div class="member-info">
+              <div class="name">Jenna <span class="baby-chip">🍼 3 mån</span></div>
+              <div class="detail">Nyfödda stjärnan</div>
+            </div>
+          </li>
+        </ul>
+        <div class="pets-row">
+          <div class="pet-chip"><span class="pet-icon">🐾</span> Darcy · Fransk bulldog · 5 år</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALVA & ISAK ── -->
+    <div class="unit-card">
+      <div class="unit-header">
+        <div class="unit-emoji">🌿</div>
+        <div class="unit-title">
+          <h3>Alva & Isak</h3>
+          <span>Familjen Demervik Almström</span>
+        </div>
+      </div>
+      <div class="unit-body">
+        <ul class="members-list">
+          <li class="member-item">
+            <div class="member-avatar terra">AD</div>
+            <div class="member-info">
+              <div class="name">Alva Demervik Almström</div>
+              <div class="detail">26 år · Admin</div>
+            </div>
+            <span class="member-badge">Admin</span>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar">ID</div>
+            <div class="member-info">
+              <div class="name">Isak Demervik Almström</div>
+              <div class="detail">27 år</div>
+            </div>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar" style="background:linear-gradient(135deg,#b8d4b0,#8ab88a); color:#1a3a18; font-size:0.85rem;">Sv</div>
+            <div class="member-info">
+              <div class="name">Svea</div>
+              <div class="detail">2,5 år · storasyster</div>
+            </div>
+          </li>
+          <li class="member-item">
+            <div class="member-avatar" style="background:linear-gradient(135deg,#e8b4c0,#d4899a); color:#4a1a25; font-size:1.1rem;">👶</div>
+            <div class="member-info">
+              <div class="name">Signe <span class="baby-chip">🍼 nyfödd</span></div>
+              <div class="detail">Nyaste familjemedlemmen · född 2026</div>
+            </div>
+          </li>
+        </ul>
+        <div class="pets-row">
+          <div class="pet-chip"><span class="pet-icon">🐕</span> Truls · Springer spaniel · 5 år</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BENKE ── -->
+    <div class="unit-card benke">
+      <div class="unit-header">
+        <div class="unit-emoji">🦌</div>
+        <div class="unit-title">
+          <h3>Farbror Benke</h3>
+          <span>Familjemedlem sedan alltid</span>
+        </div>
+      </div>
+      <div class="unit-body">
+        <ul class="members-list">
+          <li class="member-item">
+            <div class="member-avatar" style="background:linear-gradient(135deg,#8B6914,#C9A030);">BH</div>
+            <div class="member-info">
+              <div class="name">Benke Hirvonen</div>
+              <div class="detail">62 år · allas farbror</div>
+            </div>
+          </li>
+        </ul>
+        <div class="pets-row">
+          <div class="pet-chip"><span class="pet-icon">🦌</span> Rådjuret</div>
+          <div class="pet-chip"><span class="pet-icon">🪲</span> Silverfiskarna</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /units-grid -->
+
+  <footer>
+    <p>Familjen Demervik Almström Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2025</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // Autentiseringskontroll
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) {
+        window.location.href = 'login.html';
+        return;
+      }
+      const user = data.session.user;
+      const email = user.email || '';
+      const name = email.split('@')[0];
+      // Mappa kända mejl till namn
+      const nameMap = {
+        'pealmab@hotmail.com': 'Peter',
+        'tora': 'Tora',
+        'alva': 'Alva',
+        'isak': 'Isak',
+        'mattias': 'Mattias',
+        'carina': 'Carina',
+        'elias': 'Elias',
+        'benke': 'Benke'
+      };
+      let displayName = nameMap[email] || nameMap[name] || name;
+      document.getElementById('welcome-name').textContent = `Välk

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Receptboken — Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --terra-lt:  #c4603a;
+      --cream:     #F5F0E8;
+      --cream-dim: rgba(245,240,232,0.65);
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+      --bg:        #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links {
+      display: flex;
+      gap: 0.1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+      justify-content: center;
+      padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 60%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 80%, rgba(168,76,42,0.25) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    /* ── MAIN ── */
+    .main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ── TOOLBAR ── */
+    .toolbar { display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+    .search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .search-wrap input {
+      width: 100%; padding: 0.7rem 1rem 0.7rem 2.5rem; border: 1px solid rgba(61,92,58,0.2);
+      border-radius: 10px; font-family: 'Jost', sans-serif; font-size: 0.9rem;
+      background: white; outline: none; transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--forest); }
+    .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); font-size: 1rem; opacity: 0.5; pointer-events: none; }
+    .filter-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .filter-chip {
+      padding: 0.35rem 0.8rem; border: 1px solid rgba(61,92,58,0.25);
+      border-radius: 20px; font-size: 0.78rem; cursor: pointer;
+      transition: all 0.15s; user-select: none; background: white;
+    }
+    .filter-chip:hover { border-color: var(--forest); }
+    .filter-chip.active { background: var(--forest); color: white; border-color: var(--forest); }
+    .btn-new-recept {
+      background: var(--terra); border: none; color: var(--cream);
+      font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 0.7rem 1.3rem;
+      border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-new-recept:hover { background: var(--terra-lt); }
+
+    /* ── RECIPE GRID ── */
+    .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .recipe-card {
+      background: white; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07); cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .recipe-card:hover { transform: translateY(-3px); box-shadow: 0 6px 30px rgba(0,0,0,0.12); }
+    .recipe-photo { width: 100%; height: 180px; object-fit: cover; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .recipe-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .recipe-body { padding: 1.2rem; }
+    .recipe-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; margin-bottom: 0.4rem; }
+    .recipe-body p { font-size: 0.82rem; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .recipe-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.8rem; }
+    .recipe-cat { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 500; }
+    .cat-frukost   { background: rgba(255,200,50,0.2); color: #8a6000; }
+    .cat-lunch     { background: rgba(61,92,58,0.15); color: #2a4f28; }
+    .cat-middag    { background: rgba(168,76,42,0.15); color: #7a2a0a; }
+    .cat-bakning   { background: rgba(200,150,100,0.2); color: #7a4020; }
+    .cat-dessert   { background: rgba(220,100,150,0.15); color: #8a2050; }
+    .cat-övrigt    { background: rgba(100,100,100,0.12); color: #444; }
+    .recipe-author { font-size: 0.72rem; color: #aaa; }
+
+    /* ── EMPTY ── */
+    .empty-state { grid-column: 1/-1; text-align: center; padding: 4rem; color: #aaa; }
+    .empty-state .icon { font-size: 4rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: 0.9rem; }
+
+    /* ── DETAIL MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 200; align-items: flex-start; justify-content: center;
+      padding: 2rem 1rem; overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 20px; width: 100%; max-width: 600px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+      animation: slideUp 0.25s ease; position: relative;
+      margin: auto;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem; background: rgba(0,0,0,0.08);
+      border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 1;
+    }
+    .modal-close:hover { background: rgba(0,0,0,0.15); }
+    .modal-photo { width: 100%; height: 250px; object-fit: cover; border-radius: 20px 20px 0 0; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+    .modal-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px 20px 0 0; }
+    .modal-body { padding: 1.8rem 2rem 2rem; }
+    .modal-body h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .modal-meta { font-size: 0.78rem; color: #999; margin-bottom: 1.5rem; }
+    .recipe-section-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.6rem; margin-top: 1.4rem; }
+    .ingredients-list { font-size: 0.88rem; line-height: 1.9; color: var(--ink); white-space: pre-wrap; }
+    .instructions-text { font-size: 0.9rem; line-height: 1.8; color: var(--ink); white-space: pre-wrap; }
+    .modal-delete {
+      margin-top: 1.5rem; background: none; border: 1px solid rgba(168,76,42,0.3);
+      color: var(--terra); font-family: 'Jost', sans-serif; font-size: 0.8rem;
+      padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    }
+    .modal-delete:hover { background: var(--terra); color: white; }
+
+    /* ── ADD MODAL ── */
+    .add-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      z-index: 300; align-items: flex-start; justify-content: center;
+      padding: 2rem 1rem; overflow-y: auto;
+    }
+    .add-overlay.open { display: flex; }
+    .add-modal {
+      background: white; border-radius: 20px; width: 100%; max-width: 560px;
+      padding: 2rem; box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+      animation: slideUp 0.25s ease; margin: auto;
+    }
+    .add-modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; margin-bottom: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.3rem; margin-top: 0.9rem; }
+    label:first-child { margin-top: 0; }
+    input[type=text], input[type=number], select, textarea {
+      width: 100%; padding: 0.65rem 0.85rem; border: 1px solid #ddd; border-radius: 8px;
+      font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--ink);
+      background: #fafafa; outline: none; transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--forest); background: white; }
+    textarea { resize: vertical; min-height: 90px; }
+    .author-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+    .author-chip { padding: 0.3rem 0.7rem; border: 1px solid #ddd; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .author-chip:hover { border-color: var(--forest); }
+    .author-chip.selected { background: var(--forest); color: white; border-color: var(--forest); }
+    .photo-upload-area {
+      border: 2px dashed rgba(61,92,58,0.25); border-radius: 10px;
+      padding: 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s;
+      margin-top: 0.3rem;
+    }
+    .photo-upload-area:hover { border-color: var(--forest); }
+    .photo-upload-area input { display: none; }
+    .photo-preview { max-width: 100%; max-height: 160px; border-radius: 8px; margin-top: 0.5rem; }
+    .upload-status { font-size: 0.78rem; color: #888; margin-top: 0.3rem; }
+    .form-actions { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+    .btn-save { flex: 1; background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-cancel { padding: 0.85rem 1.2rem; border: 1px solid #ddd; background: none; font-family: 'Jost', sans-serif; font-size: 0.85rem; color: #666; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .btn-cancel:hover { background: #f5f5f5; }
+
+    footer { text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(28,24,16,0.3); border-top: 1px solid rgba(28,24,16,0.08); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <div class="nav-links">
+      <a href="index.html">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="visdomsbanken.html">Visdom</a>
+      <a href="kalender.html">Kalender</a>
+      <a href="receptbok.html" class="active">Recept</a>
+      <a href="minnesladan.html">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="tidskapseln.html">Kapsel</a>
+      <a href="familjedialekten.html">Dialekt</a>
+      <a href="familjerekord.html">Rekord</a>
+    
+      <a href="fotoalbum.html">Foto</a>
+      <a href="familjetrad.html">Trädet</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+    </div>
+    <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Familje<em>receptboken</em></h1>
+      <p>Generationers smaker — sparade för alltid</p>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Sök recept…" oninput="filterRecipes()" />
+      </div>
+      <div class="filter-chips" id="filterChips">
+        <div class="filter-chip active" data-cat="alla" onclick="setFilter('alla', this)">Alla</div>
+        <div class="filter-chip" data-cat="frukost" onclick="setFilter('frukost', this)">🌅 Frukost</div>
+        <div class="filter-chip" data-cat="lunch" onclick="setFilter('lunch', this)">🥗 Lunch</div>
+        <div class="filter-chip" data-cat="middag" onclick="setFilter('middag', this)">🍽️ Middag</div>
+        <div class="filter-chip" data-cat="bakning" onclick="setFilter('bakning', this)">🧁 Bakning</div>
+        <div class="filter-chip" data-cat="dessert" onclick="setFilter('dessert', this)">🍮 Dessert</div>
+      </div>
+      <button class="btn-new-recept" onclick="openAddModal()">+ Nytt recept</button>
+    </div>
+
+    <div class="recipe-grid" id="recipeGrid">
+      <div class="empty-state"><div class="icon">👨‍🍳</div><p>Laddar recept…</p></div>
+    </div>
+  </div>
+
+  <!-- Detail modal -->
+  <div class="modal-overlay" id="detailOverlay" onclick="handleDetailOverlay(event)">
+    <div class="modal" id="detailModal">
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <!-- Add modal -->
+  <div class="add-overlay" id="addOverlay" onclick="handleAddOverlay(event)">
+    <div class="add-modal">
+      <h2>Lägg till recept</h2>
+      <label>Receptnamn</label>
+      <input type="text" id="rTitle" placeholder="Vad lagar vi?" />
+
+      <div class="form-row">
+        <div>
+          <label>Kategori</label>
+          <select id="rCategory">
+            <option value="frukost">🌅 Frukost</option>
+            <option value="lunch">🥗 Lunch</option>
+            <option value="middag" selected>🍽️ Middag</option>
+            <option value="bakning">🧁 Bakning</option>
+            <option value="dessert">🍮 Dessert</option>
+            <option value="övrigt">📌 Övrigt</option>
+          </select>
+        </div>
+        <div>
+          <label>Portioner</label>
+          <input type="number" id="rServings" placeholder="4" min="1" max="20" />
+        </div>
+      </div>
+
+      <label>Kort beskrivning</label>
+      <input type="text" id="rDesc" placeholder="En liten intro om rätten…" />
+
+      <label>Ingredienser</label>
+      <textarea id="rIngredients" placeholder="En ingrediens per rad:&#10;300g pasta&#10;2 vitlöksklyftor&#10;1 dl grädde"></textarea>
+
+      <label>Tillagning</label>
+      <textarea id="rInstructions" placeholder="Steg-för-steg instruktioner…" style="min-height:120px;"></textarea>
+
+      <label>Foto (valfri)</label>
+      <div class="photo-upload-area" onclick="document.getElementById('rPhotoInput').click()">
+        <div>📷 Klicka för att ladda upp ett foto</div>
+        <input type="file" id="rPhotoInput" accept="image/*" onchange="handlePhotoChange(event)" />
+        <img id="rPhotoPreview" class="photo-preview" style="display:none" />
+        <div class="upload-status" id="rPhotoStatus"></div>
+      </div>
+
+      <label>Vems recept?</label>
+      <div class="author-chips" id="rAuthorChips"></div>
+
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeAddModal()">Avbryt</button>
+        <button class="btn-save" onclick="saveRecept()">Spara recept</button>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>Familjen Almström &nbsp;·&nbsp; Receptboken &nbsp;·&nbsp; 2025</p></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const CLOUDINARY_CLOUD  = 'dnl6r7axn';
+    const CLOUDINARY_PRESET = 'family_porta';
+
+    const MEMBERS = [
+      { name: 'Peter', emoji: '👨' }, { name: 'Carina', emoji: '👩' },
+      { name: 'Elias', emoji: '🧑' }, { name: 'Tora', emoji: '👧' },
+      { name: 'Mattias', emoji: '🧔' }, { name: 'Alva', emoji: '👱‍♀️' },
+      { name: 'Isak', emoji: '🧑‍🦱' },
+    ];
+
+    const CAT_EMOJIS = { frukost:'🌅', lunch:'🥗', middag:'🍽️', bakning:'🧁', dessert:'🍮', övrigt:'🍴' };
+
+    let allRecipes = [];
+    let currentFilter = 'alla';
+    let selectedAuthor = null;
+    let uploadedPhotoUrl = null;
+
+    // ── AUTH ──
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html'; return; }
+      init();
+    });
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+    async function init() {
+      buildAuthorChips();
+      await loadRecipes();
+      renderGrid();
+    }
+
+    async function loadRecipes() {
+      const { data } = await sb.from('recept').select('*').order('created_at', { ascending: false });
+      allRecipes = data || [];
+    }
+
+    function getFilteredRecipes() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      return allRecipes.filter(r => {
+        const matchCat = currentFilter === 'alla' || r.category === currentFilter;
+        const matchQ   = !query || r.title.toLowerCase().includes(query) || (r.description||'').toLowerCase().includes(query) || (r.author_name||'').toLowerCase().includes(query);
+        return matchCat && matchQ;
+      });
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('recipeGrid');
+      const filtered = getFilteredRecipes();
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="empty-state"><div class="icon">👨‍🍳</div><p>Inga recept hittade — lägg till familjens favoriträtter!</p></div>';
+        return;
+      }
+      grid.innerHTML = filtered.map(r => `
+        <div class="recipe-card" onclick="openDetail('${r.id}')">
+          <div class="recipe-photo">
+            ${r.photo_url ? `<img src="${r.photo_url}" alt="${r.title}" loading="lazy" />` : CAT_EMOJIS[r.category]||'🍴'}
+          </div>
+          <div class="recipe-body">
+            <h3>${r.title}</h3>
+            ${r.description ? `<p>${r.description}</p>` : ''}
+            <div class="recipe-footer">
+              <span class="recipe-cat cat-${r.category}">${CAT_EMOJIS[r.category]||''} ${r.category}</span>
+              <span class="recipe-author">${r.author_emoji||''} ${r.author_name||'Familjen'}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setFilter(cat, el) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      renderGrid();
+    }
+
+    function filterRecipes() { renderGrid(); }
+
+    // ── DETAIL ──
+    function openDetail(id) {
+      const r = allRecipes.find(x => x.id === id);
+      if (!r) return;
+      const content = document.getElementById('detailContent');
+      content.innerHTML = `
+        <div class="modal-photo">
+          ${r.photo_url ? `<img src="${r.photo_url}" alt="${r.title}" />` : CAT_EMOJIS[r.category]||'🍴'}
+        </div>
+        <div class="modal-body">
+          <h2>${r.title}</h2>
+          <div class="modal-meta">
+            ${r.author_emoji||''} ${r.author_name||'Familjen'} · ${r.category}${r.servings ? ' · ' + r.servings + ' portioner' : ''}
+          </div>
+          ${r.description ? `<p style="color:#555;font-size:0.9rem;line-height:1.6;">${r.description}</p>` : ''}
+          ${r.ingredients ? `
+            <div class="recipe-section-title">Ingredienser</div>
+            <div class="ingredients-list">${r.ingredients}</div>
+          ` : ''}
+          ${r.instructions ? `
+            <div class="recipe-section-title">Tillagnng</div>
+            <div class="instructions-text">${r.instructions}</div>
+          ` : ''}
+          <button class="modal-delete" onclick="deleteRecept('${r.id}')">Ta bort recept</button>
+        </div>
+      `;
+      document.getElementById('detailOverlay').classList.add('open');
+    }
+
+    function closeDetail() { document.getElementById('detailOverlay').classList.remove('open'); }
+    function handleDetailOverlay(e) { if (e.target === document.getElementById('detailOverlay')) closeDetail(); }
+
+    async function deleteRecept(id) {
+      if (!confirm('Ta bort det här receptet?')) return;
+      await sb.from('recept').delete().eq('id', id);
+      closeDetail();
+      await loadRecipes();
+      renderGrid();
+    }
+
+    // ── ADD MODAL ──
+    function openAddModal() { document.getElementById('addOverlay').classList.add('open'); }
+    function closeAddModal() { document.getElementById('addOverlay').classList.remove('open'); resetForm(); }
+    function handleAddOverlay(e) { if (e.target === document.getElementById('addOverlay')) closeAddModal(); }
+
+    function buildAuthorChips() {
+      const container = document.getElementById('rAuthorChips');
+      MEMBERS.forEach(m => {
+        const chip = document.createElement('div');
+        chip.className = 'author-chip';
+        chip.textContent = `${m.emoji} ${m.name}`;
+        chip.onclick = () => {
+          document.querySelectorAll('#rAuthorChips .author-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          selectedAuthor = m;
+        };
+        container.appendChild(chip);
+      });
+    }
+
+    async function handlePhotoChange(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('rPhotoStatus').textContent = 'Laddar upp…';
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', CLOUDINARY_PRESET);
+      fd.append('folder', 'recept');
+      try {
+        const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: fd });
+        const data = await res.json();
+        uploadedPhotoUrl = data.secure_url;
+        document.getElementById('rPhotoPreview').src = uploadedPhotoUrl;
+        document.getElementById('rPhotoPreview').style.display = 'block';
+        document.getElementById('rPhotoStatus').textContent = '✓ Foto uppladdad';
+      } catch {
+        document.getElementById('rPhotoStatus').textContent = 'Kunde inte ladda upp foto.';
+      }
+    }
+
+    async function saveRecept() {
+      const title = document.getElementById('rTitle').value.trim();
+      if (!title) { alert('Ange ett receptnamn.'); return; }
+
+      const payload = {
+        title,
+        category:     document.getElementById('rCategory').value,
+        description:  document.getElementById('rDesc').value.trim() || null,
+        ingredients:  document.getElementById('rIngredients').value.trim() || null,
+        instructions: document.getElementById('rInstructions').value.trim() || null,
+        servings:     parseInt(document.getElementById('rServings').value) || null,
+        photo_url:    uploadedPhotoUrl,
+        author_name:  selectedAuthor ? selectedAuthor.name  : null,
+        author_emoji: selectedAuthor ? selectedAuthor.emoji : null,
+      };
+
+      const { error } = await sb.from('recept').insert(payload);
+      if (error) { alert('Kunde inte spara: ' + error.message); return; }
+
+      closeAddModal();
+      await loadRecipes();
+      renderGrid();
+    }
+
+    function resetForm() {
+      ['rTitle','rDesc','rIngredients','rInstructions','rServings'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('rCategory').value = 'middag';
+      document.getElementById('rPhotoPreview').style.display = 'none';
+      document.getElementById('rPhotoStatus').textContent = '';
+      document.getElementById('rPhotoInput').value = '';
+      document.querySelectorAll('#rAuthorChips .author-chip').forEach(c => c.classList.remove('selected'));
+      selectedAuthor = null;
+      uploadedPhotoUr
