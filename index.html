@@ -616,15 +616,17 @@
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
 
-// MÅSTE vara innan createClient — Supabase rensar hash vid initiering!
-        const _initHash   = window.location.hash;
+    // MÅSTE vara innan createClient — Supabase rensar hash/search vid initiering!
+    const _initHash   = window.location.hash;
     const _initSearch = window.location.search;
     if ((_initHash   && _initHash.includes('type=recovery')) ||
         (_initSearch && _initSearch.includes('code='))) {
       window.location.replace('login.html' + _initSearch + _initHash);
     }
-    
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { flowType: 'pkce' }
+    });
 
     // Fånga PASSWORD_RECOVERY-event (om hash-check ovan missades pga cache)
     sb.auth.onAuthStateChange((event) => {
@@ -635,7 +637,7 @@
 
     // Autentiseringskontroll
     sb.auth.getSession().then(({ data }) => {
-          if (!data?.session) {
+      if (!data?.session) {
         window.location.href = 'login.html';
         return;
       }

@@ -321,18 +321,14 @@
     const SUPABASE_URL = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
 
-    // Spara hash OCH search INNAN Supabase createClient rensar dem!
+    // Spara URL-parametrar INNAN Supabase createClient kan rensa dem
     const _savedHash   = window.location.hash;
     const _savedSearch = window.location.search;
 
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-    // ── Fånga PKCE-flödet (PASSWORD_RECOVERY-event) ──
-    sb.auth.onAuthStateChange((event, session) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        document.getElementById('loginCard').style.display = 'none';
-        document.getElementById('resetCard').style.display = 'block';
-      }
+    // detectSessionInUrl: false — vi hanterar URL-tokens manuellt (undviker race condition)
+    // flowType: 'pkce' — skyddar mot e-postskannrar (t.ex. Outlook SafeLinks) som konsumerar länken
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { detectSessionInUrl: false, flowType: 'pkce' }
     });
 
     const emailEl = document.getElementById('email');
@@ -399,7 +395,7 @@
         return;
       }
 
-      // PKCE-flöde: ?code= i URL
+      // PKCE-flöde: ?code= i URL — Supabase hanterar utbytet automatiskt
       if (search && search.includes('code=')) {
         const urlParams = new URLSearchParams(search);
         const code = urlParams.get('code');
