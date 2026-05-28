@@ -480,4 +480,11 @@
       document.getElementById('upDesc').value = '';
       document.getElementById('upMonth').value = '';
       document.getElementById('upYear').value = new Date().getFullYear();
-      document.querySelectorAll('#upAuthorC
+      document.querySelectorAll('#upAuthorChips .author-chip').forEach(c => c.classList.remove('selected'));
+      selectedAuthor = null;
+    }
+
+    init();
+  </script>
+</body>
+</html>

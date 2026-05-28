@@ -415,237 +415,32 @@
     <div class="focus-card">
       <div class="focus-card-title">🎯 Claude rekommenderar — fokusera på detta härnäst</div>
       <div class="focus-item">
-        <span><strong>JavaScript-timer (födelsedag-countdown):</strong> Signe's nedräkning på startsidan är ett perfekt nästa steg — du lär dig <code>setInterval</code>, datum-beräkning och DOM-manipulation. Tre viktiga JS-koncept på en gång.</span>
+        <span><strong>JavaScript-timer (födelsedag-countdown):</strong> Lär dig hur man gör en countdown-timer för familjens nästa födelsedag.</span>
       </div>
       <div class="focus-item">
-        <span><strong>Förstå varför Supabase RLS fungerar:</strong> Du har implementerat Row Level Security men nästa nivå är att förstå hur policies faktiskt filtrerar data. Testa att logga ut och se vad som blir dolt.</span>
+        <span><strong>Mobilanpassning:</strong> Testa sajten på mobilen och justera layout för mindre skärmar.</span>
       </div>
       <div class="focus-item">
-        <span><strong>Personnkort med bio + bilder:</strong> Kräver att du kombinerar det du redan kan — HTML-struktur, CSS-modal, och Supabase Storage. Bra övning att sätta ihop pusselbitar själv.</span>
-      </div>
-      <div class="focus-item">
-        <span><strong>Lägg till ett litet databasanrop på egen hand:</strong> Välj en funktion (t.ex. lägg till ett dialektord) och försök skriva <code>sb.from(...).insert()</code> utan hjälp. Det är steget från "förstår kod" till "skriver kod".</span>
+        <span><strong>Läs kod du redan skrivit:</strong> Gå igenom en av sidorna och förklara för dig själv vad varje rad gör.</span>
       </div>
     </div>
-
-    <!-- STATS -->
-    <div class="section-title">📊 Familjesidans statistik</div>
-    <div class="stat-grid" id="statGrid">
-      <div class="loading">Laddar…</div>
-    </div>
-
-    <!-- MODULES -->
-    <div class="section-title">🗂️ Moduler</div>
-    <div class="module-grid" id="moduleGrid">
-      <div class="loading">Laddar…</div>
-    </div>
-
-    <!-- INVITE -->
-    <div class="section-title">✉️ Bjud in familjemedlem</div>
-    <div class="invite-card">
-      <p>Skicka en inbjudningslänk till en ny familjemedlem. De får ett e-postmeddelande från Supabase med en länk att skapa sitt konto.</p>
-      <div class="invite-form">
-        <input type="email" class="invite-input" id="inviteEmail" placeholder="familjemedlem@email.se" />
-        <button class="btn-invite" onclick="sendInvite()">Skicka inbjudan</button>
-      </div>
-      <div class="invite-result" id="inviteResult"></div>
-      <p class="invite-note">⚠️ Obs: Inbjudningar skickas via Supabase och kräver att e-postadressen inte redan är registrerad. Kontakta Peter om något inte fungerar.</p>
-    </div>
-
-    <!-- ACTIVITY -->
-    <div class="section-title">🕐 Senaste aktivitet</div>
-    <div style="background:white;border-radius:16px;padding:1.5rem;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-      <div class="activity-list" id="activityList">
-        <div class="loading">Laddar aktivitet…</div>
-      </div>
-    </div>
-
-    <!-- DANGER ZONE -->
-    <div class="section-title" style="color:var(--terra);">⚠️ Underhåll</div>
-    <div class="danger-card">
-      <div class="danger-row">
-        <div class="danger-info">
-          <h4>Rensa dagboksinlägg</h4>
-          <p>Ta bort alla inlägg i familjedagboken permanent</p>
-        </div>
-        <button class="btn-danger" onclick="clearTable('memories','dagboksinlägg')">Rensa</button>
-      </div>
-      <div class="danger-row">
-        <div class="danger-info">
-          <h4>Rensa kalender</h4>
-          <p>Ta bort alla händelser i familjekalendern</p>
-        </div>
-        <button class="btn-danger" onclick="clearTable('kalender_events','kalenderhändelser')">Rensa</button>
-      </div>
-      <div class="danger-row">
-        <div class="danger-info">
-          <h4>Rensa quiz-citat</h4>
-          <p>Ta bort alla citat i "Vem sa det?"-quizet</p>
-        </div>
-        <button class="btn-danger" onclick="clearTable('quiz_citat','quiz-citat')">Rensa</button>
-      </div>
-      <div class="danger-row">
-        <div class="danger-info">
-          <h4>Rensa poänglista</h4>
-          <p>Nollställ quiz-topplistan</p>
-        </div>
-        <button class="btn-danger" onclick="clearTable('quiz_poang','poäng')">Nollställ</button>
-      </div>
-    </div>
-
   </div>
 
-  <footer><p>Familjen Almström &nbsp;·&nbsp; Admin &nbsp;·&nbsp; Privat</p></footer>
+  <footer style="background:#2a3f28;color:rgba(245,240,232,0.4);text-align:center;padding:2rem;font-size:0.75rem;letter-spacing:0.1em;">
+    <p>FAMILJEN ALMSTRÖM &nbsp;·&nbsp; ADMIN &nbsp;·&nbsp; 2025</p>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-    const MODULES = [
-      { icon:'📖', name:'Familjedagbok',    table:'memories',         page:'dagbok.html' },
-      { icon:'🌳', name:'Stamtavla',         table:null,               page:'stamtavla.html' },
-      { icon:'💬', name:'Visdomsbanken',     table:'visdom_questions', page:'visdomsbanken.html' },
-      { icon:'📅', name:'Kalender',          table:'kalender_events',  page:'kalender.html' },
-      { icon:'🍽️', name:'Receptboken',      table:'recept',           page:'receptbok.html' },
-      { icon:'📸', name:'Minneslådan',       table:'minnesladan',      page:'minnesladan.html' },
-      { icon:'🎮', name:'Quiz',              table:'quiz_citat',       page:'quiz.html' },
-      { icon:'📦', name:'Tidskapseln',       table:'tidskapslar',      page:'tidskapseln.html' },
-      { icon:'📚', name:'Familjedialekten',  table:'dialekt_ord',      page:'familjedialekten.html' },
-    ];
-
-    sb.auth.getSession().then(({ data }) => {
-      if (!data?.session) { window.location.href = 'login.html'; return; }
-      loadAll();
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { flowType: 'pkce' }
     });
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
-
-    async function loadAll() {
-      await Promise.all([loadStats(), loadModules(), loadActivity()]);
-    }
-
-    async function loadStats() {
-      const tables = ['memories','visdom_questions','visdom_answers','kalender_events','recept','minnesladan','quiz_citat','dialekt_ord','tidskapslar'];
-      const counts = await Promise.all(tables.map(t =>
-        sb.from(t).select('*', { count:'exact', head:true }).then(r => ({ table:t, count:r.count||0 }))
-      ));
-      const totals = counts.reduce((a,c) => a + c.count, 0);
-
-      const grid = document.getElementById('statGrid');
-      grid.innerHTML = `
-        <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-num">${totals}</div><div class="stat-label">Totalt innehåll</div></div>
-        <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-num">${counts.find(c=>c.table==='memories')?.count||0}</div><div class="stat-label">Dagboksinlägg</div></div>
-        <div class="stat-card"><div class="stat-icon">📸</div><div class="stat-num">${counts.find(c=>c.table==='minnesladan')?.count||0}</div><div class="stat-label">Foton</div></div>
-        <div class="stat-card"><div class="stat-icon">🍽️</div><div class="stat-num">${counts.find(c=>c.table==='recept')?.count||0}</div><div class="stat-label">Recept</div></div>
-        <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">${counts.find(c=>c.table==='kalender_events')?.count||0}</div><div class="stat-label">Händelser</div></div>
-        <div class="stat-card"><div class="stat-icon">💬</div><div class="stat-num">${counts.find(c=>c.table==='visdom_questions')?.count||0}</div><div class="stat-label">Frågor</div></div>
-        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-num">${counts.find(c=>c.table==='dialekt_ord')?.count||0}</div><div class="stat-label">Dialectord</div></div>
-        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-num">${counts.find(c=>c.table==='tidskapslar')?.count||0}</div><div class="stat-label">Kapslar</div></div>
-      `;
-    }
-
-    async function loadModules() {
-      const grid = document.getElementById('moduleGrid');
-      const countResults = await Promise.all(MODULES.map(async m => {
-        let count = null;
-        if (m.table) {
-          const r = await sb.from(m.table).select('*', { count:'exact', head:true });
-          count = r.count || 0;
-        }
-        return { ...m, count };
-      }));
-
-      grid.innerHTML = countResults.map(m => `
-        <div class="module-card">
-          <div class="module-header">
-            <div class="module-icon">${m.icon}</div>
-            <div>
-              <div class="module-title">${m.name}</div>
-              <div class="module-count">${m.count !== null ? m.count + ' poster' : 'Statisk sida'}</div>
-            </div>
-          </div>
-          <div class="module-actions">
-            <a class="btn-visit" href="${m.page}">Öppna →</a>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    async function loadActivity() {
-      // Pull recent items from several tables
-      const fetches = [
-        sb.from('memories').select('author_name,created_at').order('created_at',{ascending:false}).limit(3).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} skrev ett dagboksinlägg`, time:x.created_at }))),
-        sb.from('kalender_events').select('title,author_name,created_at').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} lade till "${x.title}" i kalendern`, time:x.created_at }))),
-        sb.from('recept').select('title,author_name,created_at').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} lade till receptet "${x.title}"`, time:x.created_at }))),
-        sb.from('minnesladan').select('author_name,created_at,year').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} laddade upp ett foto från ${x.year}`, time:x.created_at }))),
-        sb.from('dialekt_ord').select('ord,upphovsman,created_at').order('created_at',{ascending:false}).limit(2).then(r=>(r.data||[]).map(x=>({ text:`"${x.ord}" lades till i dialekten${x.upphovsman?' av '+x.upphovsman:''}`, time:x.created_at }))),
-        sb.from('tidskapslar').select('title,author_name,created_at').order('created_at',{ascending:false}).limit(1).then(r=>(r.data||[]).map(x=>({ text:`${x.author_name||'Någon'} förseglade en tidskapsel: "${x.title}"`, time:x.created_at }))),
-      ];
-
-      const all = (await Promise.all(fetches)).flat();
-      all.sort((a,b) => new Date(b.time)-new Date(a.time));
-      const top = all.slice(0,12);
-
-      const container = document.getElementById('activityList');
-      if (!top.length) {
-        container.innerHTML = '<div style="text-align:center;color:#ccc;padding:1.5rem;">Ingen aktivitet ännu.</div>';
-        return;
-      }
-      container.innerHTML = top.map(a => {
-        const d = new Date(a.time);
-        const timeStr = d.toLocaleDateString('sv-SE', { month:'short', day:'numeric' }) + ' ' + d.toLocaleTimeString('sv-SE', { hour:'2-digit', minute:'2-digit' });
-        return `
-          <div class="activity-item">
-            <div class="activity-dot"></div>
-            <div class="activity-text">${a.text}</div>
-            <div class="activity-time">${timeStr}</div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    async function sendInvite() {
-      const email = document.getElementById('inviteEmail').value.trim();
-      const result = document.getElementById('inviteResult');
-      if (!email) { result.textContent = 'Ange en e-postadress.'; result.className = 'invite-result error'; return; }
-
-      result.textContent = 'Skickar…';
-      result.className = 'invite-result';
-
-      // Use Supabase Admin API to invite user
-      // Note: this requires service_role key which we don't expose client-side
-      // Instead we'll use the magic link approach via signInWithOtp
-      const { error } = await sb.auth.signInWithOtp({
-        email,
-        options: { shouldCreateUser: true, emailRedirectTo: window.location.origin + '/index.html' }
-      });
-
-      if (error) {
-        result.textContent = 'Kunde inte skicka: ' + error.message;
-        result.className = 'invite-result error';
-      } else {
-        result.textContent = `✓ En inbjudningslänk har skickats till ${email}`;
-        result.className = 'invite-result success';
-        document.getElementById('inviteEmail').value = '';
-      }
-    }
-
-    async function clearTable(table, label) {
-      const confirmed = confirm(`⚠️ Är du SÄKER på att du vill rensa alla ${label}?\n\nDetta kan inte ångras.`);
-      if (!confirmed) return;
-      const confirm2 = confirm(`Sista chansen: Rensa ${label} permanent?`);
-      if (!confirm2) return;
-
-      // Delete all rows — using a filter that matches everything
-      const { error } = await sb.from(table).delete().neq('id', '00000000-0000-0000-0000-000000000000');
-      if (error) {
-        alert('Fel: ' + error.message);
-      } else {
-        alert(`✓ Alla ${label} har rensats.`);
-        await loadAll();
-      }
-    }
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) window.location.href = 'login.html';
+    });
   </script>
 </body>
 </html>

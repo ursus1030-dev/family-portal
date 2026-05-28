@@ -631,29 +631,14 @@
     // Fånga PASSWORD_RECOVERY-event (om hash-check ovan missades pga cache)
     sb.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') {
-        window.location.replace('login.html?recovery=1');
+        window.location.href = 'login.html';
       }
     });
 
-    // Autentiseringskontroll
+    // Kolla session – om inte inloggad → login
     sb.auth.getSession().then(({ data }) => {
-      if (!data?.session) {
-        window.location.href = 'login.html';
-        return;
-      }
-      const user = data.session.user;
-      const email = user.email || '';
-      const name = email.split('@')[0];
-      // Mappa kända mejl till namn
-      const nameMap = {
-        'pealmab@hotmail.com': 'Peter',
-        'tora': 'Tora',
-        'alva': 'Alva',
-        'isak': 'Isak',
-        'mattias': 'Mattias',
-        'carina': 'Carina',
-        'elias': 'Elias',
-        'benke': 'Benke'
-      };
-      let displayName = nameMap[email] || nameMap[name] || name;
-      document.getElementById('welcome-name').textContent = `Välk
+      if (!data?.session) { window.location.href = 'login.html'; }
+    });
+  </script>
+</body>
+</html>

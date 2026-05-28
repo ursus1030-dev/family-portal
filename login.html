@@ -472,7 +472,6 @@
       document.getElementById('forgotCard').style.display = 'block';
       document.getElementById('forgotEmail').focus();
     }
-
     function showLogin() {
       document.getElementById('forgotCard').style.display = 'none';
       document.getElementById('loginCard').style.display = 'block';
@@ -482,31 +481,14 @@
       const email = document.getElementById('forgotEmail').value.trim();
       const msgEl = document.getElementById('forgotMsg');
       const btn   = document.getElementById('forgotBtn');
-
-      if (!email) {
-        msgEl.textContent = 'Fyll i din e-postadress.';
-        msgEl.className = 'error';
-        return;
-      }
-
-      btn.disabled = true;
-      msgEl.textContent = 'Skickar…';
-      msgEl.className = '';
-
+      if (!email) { msgEl.textContent = 'Fyll i din e-postadress.'; msgEl.className = 'error'; return; }
+      btn.disabled = true; msgEl.textContent = 'Skickar…'; msgEl.className = '';
       const { error } = await sb.auth.resetPasswordForEmail(email, {
         redirectTo: 'https://ursus1030-dev.github.io/family-portal/login.html'
       });
-
-      if (error) {
-        msgEl.textContent = 'Fel: ' + error.message;
-        msgEl.className = 'error';
-        btn.disabled = false;
-        return;
-      }
-
+      if (error) { msgEl.textContent = 'Fel: ' + error.message; msgEl.className = 'error'; btn.disabled = false; return; }
       msgEl.textContent = 'Länk skickad! Kolla din e-post och klicka på länken.';
-      msgEl.className = 'success';
-      btn.disabled = true;
+      msgEl.className = 'success'; btn.disabled = true;
     }
   </script>
 </body>

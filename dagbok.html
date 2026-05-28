@@ -528,7 +528,9 @@
     const CLOUDINARY_CLOUD  = 'dnl6r7axn';
     const CLOUDINARY_PRESET = 'family_porta';
 
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { flowType: 'pkce' }
+    });
 
     /* ─── FAMILJEMEDLEMMAR ─── */
     const FAMILY_MEMBERS = [
@@ -799,4 +801,15 @@
     async function init() {
       const { data } = await sb.auth.getSession();
       if (!data?.session) {
-        wind
+        window.location.href = 'login.html';
+        return;
+      }
+      buildAuthorRow();
+      await loadEntries();
+      subscribeRealtime();
+    }
+
+    init();
+  </script>
+</body>
+</html>
