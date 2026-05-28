@@ -296,6 +296,23 @@
       </div>
       <button class="btn-login" id="loginBtn" onclick="doLogin()">Logga in</button>
       <div id="msg"></div>
+      <p style="text-align:center;margin-top:12px;">
+        <a href="#" onclick="showForgot();return false;" style="color:#c8a97e;font-size:0.85rem;opacity:0.8;">Glömt lösenordet?</a>
+      </p>
+    </div>
+
+    <!-- Glömt lösenord (visas vid klick på länken) -->
+    <div class="login-card" id="forgotCard" style="display:none;">
+      <h2 style="font-size:1.2rem;margin-bottom:1rem;">Återställ lösenord</h2>
+      <div class="form-group">
+        <label for="forgotEmail">Din e-postadress</label>
+        <input type="email" id="forgotEmail" placeholder="din@email.se" autocomplete="email" />
+      </div>
+      <button class="btn-login" id="forgotBtn" onclick="doForgot()">Skicka återställningslänk</button>
+      <div id="forgotMsg"></div>
+      <p style="text-align:center;margin-top:12px;">
+        <a href="#" onclick="showLogin();return false;" style="color:#c8a97e;font-size:0.85rem;opacity:0.8;">← Tillbaka till inloggning</a>
+      </p>
     </div>
 
     <!-- Nytt lösenord (visas vid återställningslänk) -->
@@ -448,6 +465,48 @@
       msg.textContent = 'Lösenordet sparat! Loggar in…';
       msg.className = 'success';
       setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    }
+
+    function showForgot() {
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('forgotCard').style.display = 'block';
+      document.getElementById('forgotEmail').focus();
+    }
+
+    function showLogin() {
+      document.getElementById('forgotCard').style.display = 'none';
+      document.getElementById('loginCard').style.display = 'block';
+    }
+
+    async function doForgot() {
+      const email = document.getElementById('forgotEmail').value.trim();
+      const msgEl = document.getElementById('forgotMsg');
+      const btn   = document.getElementById('forgotBtn');
+
+      if (!email) {
+        msgEl.textContent = 'Fyll i din e-postadress.';
+        msgEl.className = 'error';
+        return;
+      }
+
+      btn.disabled = true;
+      msgEl.textContent = 'Skickar…';
+      msgEl.className = '';
+
+      const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://ursus1030-dev.github.io/family-portal/login.html'
+      });
+
+      if (error) {
+        msgEl.textContent = 'Fel: ' + error.message;
+        msgEl.className = 'error';
+        btn.disabled = false;
+        return;
+      }
+
+      msgEl.textContent = 'Länk skickad! Kolla din e-post och klicka på länken.';
+      msgEl.className = 'success';
+      btn.disabled = true;
     }
   </script>
 </body>
