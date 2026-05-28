@@ -626,6 +626,13 @@
     
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+    // Fånga PASSWORD_RECOVERY-event (om hash-check ovan missades pga cache)
+    sb.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        window.location.replace('login.html?recovery=1');
+      }
+    });
+
     // Autentiseringskontroll
     sb.auth.getSession().then(({ data }) => {
           if (!data?.session) {
