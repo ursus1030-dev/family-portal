@@ -620,6 +620,11 @@
 
     // Autentiseringskontroll
     sb.auth.getSession().then(({ data }) => {
+          // Om recovery-länk landar här — skicka vidare till login.html med hash intakt
+          if (window.location.hash && window.location.hash.includes('type=recovery')) {
+                  window.location.href = 'login.html' + window.location.hash;
+          }
+      
       if (!data?.session) {
         window.location.href = 'login.html';
         return;
