@@ -616,16 +616,17 @@
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
 
+// MÅSTE vara innan createClient — Supabase rensar hash vid initiering!
+        const _initHash = window.location.hash;
+        if (_initHash && _initHash.includes('type=recovery')) {
+                window.location.replace('login.html' + _initHash);
+        }
+    
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
     // Autentiseringskontroll
     sb.auth.getSession().then(({ data }) => {
-          // Om recovery-länk landar här — skicka vidare till login.html med hash intakt
-          if (window.location.hash && window.location.hash.includes('type=recovery')) {
-                  window.location.href = 'login.html' + window.location.hash;
-          }
-      
-      if (!data?.session) {
+          if (!data?.session) {
         window.location.href = 'login.html';
         return;
       }
