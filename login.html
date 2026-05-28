@@ -392,8 +392,26 @@
         return;
       }
 
-      // PKCE-flöde: ?code= i URL — onAuthStateChange (ovan) visar reset-formulär
+      // Vidarebefordrad från index.html (onAuthStateChange fångade PASSWORD_RECOVERY)
+      if (search && search.includes('recovery=1')) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('resetCard').style.display = 'block';
+        return;
+      }
+
+      // PKCE-flöde: ?code= i URL
       if (search && search.includes('code=')) {
+        const urlParams = new URLSearchParams(search);
+        const code = urlParams.get('code');
+        if (code) {
+          const { error } = await sb.auth.exchangeCodeForSession(code);
+          if (!error) {
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('resetCard').style.display = 'block';
+          } else {
+            showMsg('Länken är ogiltig eller har löpt ut — begär en ny.', 'error');
+          }
+        }
         return;
       }
 
