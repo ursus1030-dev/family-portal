@@ -228,6 +228,17 @@
     #msg.error { color: #ff8080; }
     #msg.success { color: #80e0a0; }
 
+    #resetCard { display: none; }
+    #resetCard h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+
     .footer-note {
       margin-top: 2rem;
       font-size: 0.72rem;
@@ -273,7 +284,8 @@
       <p>Privat familjesajt</p>
     </div>
 
-    <div class="login-card">
+    <!-- Vanlig inloggning -->
+    <div class="login-card" id="loginCard">
       <div class="form-group">
         <label for="email">E-postadress</label>
         <input type="email" id="email" placeholder="din@email.se" autocomplete="email" />
@@ -284,6 +296,21 @@
       </div>
       <button class="btn-login" id="loginBtn" onclick="doLogin()">Logga in</button>
       <div id="msg"></div>
+    </div>
+
+    <!-- Nytt lösenord (visas vid återställningslänk) -->
+    <div class="login-card" id="resetCard">
+      <h2>Välj nytt lösenord</h2>
+      <div class="form-group">
+        <label for="newpass">Nytt lösenord</label>
+        <input type="password" id="newpass" placeholder="Minst 6 tecken" />
+      </div>
+      <div class="form-group">
+        <label for="newpass2">Upprepa lösenord</label>
+        <input type="password" id="newpass2" placeholder="Samma igen" />
+      </div>
+      <button class="btn-login" id="resetBtn" onclick="doReset()">Spara lösenord</button>
+      <div id="resetMsg"></div>
     </div>
 
     <p class="footer-note">Inbjudningsbaserad — kontakta Peter för åtkomst</p>
@@ -335,10 +362,65 @@
       msg.className = type;
     }
 
-    // Redan inloggad?
-    sb.auth.getSession().then(({ data }) => {
+    // ── Kolla om det är en återställningslänk ──
+    (async () => {
+      // Supabase v2 lägger token i URL-hash
+      const hash = window.location.hash;
+      if (hash && hash.includes('type=recovery')) {
+        // Visa återställningsformulär
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('resetCard').style.display = 'block';
+
+        // Extrahera tokens ur hash
+        const params = new URLSearchParams(hash.substring(1));
+        const access_token  = params.get('access_token');
+        const refresh_token = params.get('refresh_token');
+
+        if (access_token) {
+          // Etablera sessionen med återställnings-token
+          await sb.auth.setSession({ access_token, refresh_token });
+        }
+        return; // Gå ej vidare till session-kontroll
+      }
+
+      // Redan inloggad?
+      const { data } = await sb.auth.getSession();
       if (data?.session) window.location.href = 'index.html';
-    });
+    })();
+
+    async function doReset() {
+      const p1  = document.getElementById('newpass').value;
+      const p2  = document.getElementById('newpass2').value;
+      const msg = document.getElementById('resetMsg');
+      const btn = document.getElementById('resetBtn');
+
+      if (!p1 || p1.length < 6) {
+        msg.textContent = 'Lösenordet måste vara minst 6 tecken.';
+        msg.className = 'error';
+        return;
+      }
+      if (p1 !== p2) {
+        msg.textContent = 'Lösenorden stämmer inte överens.';
+        msg.className = 'error';
+        return;
+      }
+
+      btn.disabled = true;
+      msg.textContent = 'Sparar…';
+      msg.className = '';
+
+      const { error } = await sb.auth.updateUser({ password: p1 });
+      if (error) {
+        msg.textContent = 'Fel: ' + error.message;
+        msg.className = 'error';
+        btn.disabled = false;
+        return;
+      }
+
+      msg.textContent = 'Lösenordet sparat! Loggar in…';
+      msg.className = 'success';
+      setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    }
   </script>
 </body>
 </html>
