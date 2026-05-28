@@ -321,10 +321,19 @@
     const SUPABASE_URL = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
 
-    // Spara hash INNAN Supabase createClient rensar den!
-    const _savedHash = window.location.hash;
+    // Spara hash OCH search INNAN Supabase createClient rensar dem!
+    const _savedHash   = window.location.hash;
+    const _savedSearch = window.location.search;
 
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // ── Fånga PKCE-flödet (PASSWORD_RECOVERY-event) ──
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('resetCard').style.display = 'block';
+      }
+    });
 
     const emailEl = document.getElementById('email');
     const passEl  = document.getElementById('password');
@@ -367,23 +376,25 @@
 
     // ── Kolla om det är en återställningslänk ──
     (async () => {
-      // Supabase v2 lägger token i URL-hash
-      const hash = _savedHash; // Använd sparad hash (Supabase rensar window.location.hash)
+      const hash   = _savedHash;   // Sparad innan createClient rensade hash
+      const search = _savedSearch; // Sparad för PKCE-flöde (?code=)
+
+      // Implicit flöde: hash innehåller access_token direkt
       if (hash && hash.includes('type=recovery')) {
-        // Visa återställningsformulär
         document.getElementById('loginCard').style.display = 'none';
         document.getElementById('resetCard').style.display = 'block';
-
-        // Extrahera tokens ur hash
         const params = new URLSearchParams(hash.substring(1));
         const access_token  = params.get('access_token');
         const refresh_token = params.get('refresh_token');
-
         if (access_token) {
-          // Etablera sessionen med återställnings-token
           await sb.auth.setSession({ access_token, refresh_token });
         }
-        return; // Gå ej vidare till session-kontroll
+        return;
+      }
+
+      // PKCE-flöde: ?code= i URL — onAuthStateChange (ovan) visar reset-formulär
+      if (search && search.includes('code=')) {
+        return;
       }
 
       // Redan inloggad?
