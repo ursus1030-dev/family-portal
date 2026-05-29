@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flödet — Familjen Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
+      --terra: #A84C2A; --terra-lt: #c4603a;
+      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
+      --ink: #1C1810; --bg: #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    @media (max-width: 720px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow: visible; justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, #1a3a2a 60%, var(--forest) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 120%, rgba(61,92,58,0.3) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    /* ── MAIN ── */
+    .main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+    /* ── SINCE BANNER ── */
+    .since-banner {
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.4rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      flex-wrap: wrap;
+    }
+    .since-text { font-size: 0.85rem; color: #666; }
+    .since-text strong { color: var(--ink); }
+    .since-new-badge {
+      background: var(--terra);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .since-new-badge.none { background: #aaa; }
+
+    /* ── FEED ── */
+    .feed { display: flex; flex-direction: column; gap: 1rem; }
+
+    .feed-item {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem 1.4rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    .feed-item:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .feed-item.new-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--terra);
+      border-radius: 16px 0 0 16px;
+    }
+
+    .feed-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-foto { background: rgba(90,61,107,0.1); }
+    .icon-dagbok { background: rgba(61,92,58,0.1); }
+    .icon-recept { background: rgba(168,76,42,0.1); }
+    .icon-minne { background: rgba(107,76,53,0.1); }
+    .icon-tidskapsel { background: rgba(13,27,42,0.08); }
+
+    .feed-body { flex: 1; min-width: 0; }
+    .feed-meta { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
+    .feed-type { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #999; font-weight: 500; }
+    .feed-new-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--terra); flex-shrink: 0; }
+    .feed-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--ink); margin-bottom: 0.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .feed-sub { font-size: 0.82rem; color: #777; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .feed-time { font-size: 0.72rem; color: #bbb; margin-top: 0.4rem; }
+
+    /* Foto thumbnail */
+    .feed-thumb { flex-shrink: 0; width: 64px; height: 64px; border-radius: 10px; object-fit: cover; background: #eee; }
+
+    /* ── FILTER TABS ── */
+    .filter-bar { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .filter-btn { padding: 0.35rem 0.9rem; border: 1px solid rgba(61,92,58,0.2); border-radius: 20px; font-size: 0.78rem; cursor: pointer; background: white; transition: all 0.15s; font-family: 'Jost', sans-serif; color: var(--ink); }
+    .filter-btn:hover { border-color: var(--forest); }
+    .filter-btn.active { background: var(--forest); color: white; border-color: var(--forest); }
+
+    /* ── EMPTY / LOADING ── */
+    .state-msg { text-align: center; padding: 4rem 1rem; color: #aaa; font-size: 0.9rem; }
+    .state-msg .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .spinner { display: inline-block; width: 28px; height: 28px; border: 3px solid rgba(61,92,58,0.15); border-top-color: var(--forest); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Familjen Almström</a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Hem</a>
+    <a href="aktiviteter.html" class="active">Flödet</a>
+    <a href="dagbok.html">Dagbok</a>
+    <a href="fotoalbum.html">Foton</a>
+    <a href="receptbok.html">Recept</a>
+    <a href="minnesladan.html">Minnen</a>
+    <a href="tidskapseln.html">Tidskapseln</a>
+    <a href="familjetrad.html">Familjeträd</a>
+    <a href="kalender.html">Kalender</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="visdomsbanken.html">Visdom</a>
+    <a href="familjerekord.html">Rekord</a>
+    <a href="familjedialekten.html">Dialekten</a>
+    <a href="kartor.html">Kartor</a>
+    <a href="stamtavla.html">Stamtavla</a>
+    <a href="boktips.html">Böcker</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </div>
+  <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-icon">🌊</div>
+    <h1>Familje<em>flödet</em></h1>
+    <p>Vad som hänt sedan du var här senast</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- Sedan-du-var-här-banner -->
+  <div class="since-banner" id="sinceBanner" style="display:none;">
+    <div class="since-text">
+      Senast inloggad: <strong id="sinceDate">—</strong>
+    </div>
+    <div class="since-new-badge none" id="newBadge">Laddar…</div>
+  </div>
+
+  <!-- Filterknappar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('alla', this)">Alla</button>
+    <button class="filter-btn" onclick="setFilter('foto', this)">📷 Foton</button>
+    <button class="filter-btn" onclick="setFilter('dagbok', this)">📖 Dagbok</button>
+    <button class="filter-btn" onclick="setFilter('recept', this)">🍽️ Recept</button>
+    <button class="filter-btn" onclick="setFilter('minne', this)">🪴 Minnen</button>
+    <button class="filter-btn" onclick="setFilter('tidskapsel', this)">⏳ Tidskapslar</button>
+  </div>
+
+  <!-- Flöde -->
+  <div class="feed" id="feed">
+    <div class="state-msg"><div class="spinner"></div><br>Hämtar familjeflödet…</div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  const LAST_VISIT_KEY = 'flode_last_visit';
+  let allItems = [];
+  let currentFilter = 'alla';
+  let lastVisit = null;
+
+  // ── Auth guard ──
+  sb.auth.getSession().then(({ data }) => {
+    if (!data.session) { window.location.href = 'login.html'; return; }
+    init();
+  });
+
+  async function init() {
+    // Spara/hämta senaste besök
+    lastVisit = localStorage.getItem(LAST_VISIT_KEY);
+    const now = new Date().toISOString();
+
+    if (lastVisit) {
+      const sinceBanner = document.getElementById('sinceBanner');
+      sinceBanner.style.display = 'flex';
+      document.getElementById('sinceDate').textContent = fmtDate(lastVisit);
+    }
+
+    // Uppdatera besökstid
+    localStorage.setItem(LAST_VISIT_KEY, now);
+
+    await loadFeed();
+  }
+
+  async function loadFeed() {
+    const [foton, dagbok, recept, minnen, kapslar] = await Promise.all([
+      sb.from('foton').select('id, title, url, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('memories').select('id, title, body, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('recept').select('id, title, category, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('minnesladan').select('id, title, description, year, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('tidskapslar').select('id, title, message, created_at').order('created_at', { ascending: false }).limit(30),
+    ]);
+
+    allItems = [
+      ...(foton.data || []).map(r => ({ ...r, _type: 'foto' })),
+      ...(dagbok.data || []).map(r => ({ ...r, _type: 'dagbok' })),
+      ...(recept.data || []).map(r => ({ ...r, _type: 'recept' })),
+      ...(minnen.data || []).map(r => ({ ...r, _type: 'minne' })),
+      ...(kapslar.data || []).map(r => ({ ...r, _type: 'tidskapsel' })),
+    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    // Räkna nya sedan senaste besök
+    if (lastVisit) {
+      const newCount = allItems.filter(i => i.created_at > lastVisit).length;
+      const badge = document.getElementById('newBadge');
+      if (newCount === 0) {
+        badge.textContent = 'Inget nytt';
+      } else {
+        badge.textContent = `${newCount} nytt sedan sist`;
+        badge.classList.remove('none');
+      }
+    }
+
+    renderFeed();
+  }
+
+  function renderFeed() {
+    const feed = document.getElementById('feed');
+    const items = currentFilter === 'alla'
+      ? allItems
+      : allItems.filter(i => i._type === currentFilter);
+
+    if (items.length === 0) {
+      feed.innerHTML = `<div class="state-msg"><div class="icon">🌿</div>Inget att visa här än</div>`;
+      return;
+    }
+
+    feed.innerHTML = items.map(item => buildCard(item)).join('');
+  }
+
+  function buildCard(item) {
+    const isNew = lastVisit && item.created_at > lastVisit;
+    const newClass = isNew ? 'new-item' : '';
+    const newDot = isNew ? '<span class="feed-new-dot"></span>' : '';
+
+    const cfg = typeConfig(item);
+
+    // Thumbnail för foton
+    let thumb = '';
+    if (item._type === 'foto' && item.url) {
+      thumb = `<img class="feed-thumb" src="${item.url}" alt="" loading="lazy" onerror="this.style.display='none'">`;
+    }
+
+    return `
+      <a class="feed-item ${newClass}" href="${cfg.link}">
+        <div class="feed-icon ${cfg.iconClass}">${cfg.emoji}</div>
+        <div class="feed-body">
+          <div class="feed-meta">
+            <span class="feed-type">${cfg.label}</span>
+            ${newDot}
+          </div>
+          <div class="feed-title">${escHtml(item.title || item.message?.substring(0, 60) || '—')}</div>
+          <div class="feed-sub">${escHtml(cfg.sub(item))}</div>
+          <div class="feed-time">${fmtRelative(item.created_at)}</div>
+        </div>
+        ${thumb}
+      </a>`;
+  }
+
+  function typeConfig(item) {
+    switch (item._type) {
+      case 'foto':       return { emoji: '📷', label: 'Foto', iconClass: 'icon-foto',       link: 'fotoalbum.html',   sub: i => i.album || '' };
+      case 'dagbok':     return { emoji: '📖', label: 'Dagbok', iconClass: 'icon-dagbok',   link: 'dagbok.html',      sub: i => i.body?.substring(0, 80) || '' };
+      case 'recept':     return { emoji: '🍽️', label: 'Recept', iconClass: 'icon-recept',   link: 'receptbok.html',   sub: i => i.category || '' };
+      case 'minne':      return { emoji: '🪴', label: 'Minne', iconClass: 'icon-minne',     link: 'minnesladan.html', sub: i => i.year ? `År ${i.year}` : (i.description?.substring(0, 60) || '') };
+      case 'tidskapsel': return { emoji: '⏳', label: 'Tidskapsel', iconClass: 'icon-tidskapsel', link: 'tidskapseln.html', sub: i => i.message?.substring(0, 60) || '' };
+      default:           return { emoji: '📌', label: '', iconClass: '', link: '#', sub: () => '' };
+    }
+  }
+
+  function setFilter(type, el) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    renderFeed();
+  }
+
+  // ── Formatering ──
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function fmtRelative(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const min = Math.floor(diff / 60000);
+    const h   = Math.floor(min / 60);
+    const d   = Math.floor(h / 24);
+    if (min < 2)  return 'Just nu';
+    if (min < 60) return `${min} min sedan`;
+    if (h < 24)   return `${h} tim sedan`;
+    if (d === 1)  return 'Igår';
+    if (d < 7)    return `${d} dagar sedan`;
+    return new Date(iso).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  async function logOut() {
+    await sb.auth.signOut();
+    window.location.href = 'login.html';
+  }
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
