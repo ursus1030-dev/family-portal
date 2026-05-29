@@ -35,7 +35,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--nav-bg, rgba(61,92,58,0.96));
+      background: rgba(61,92,58,0.96);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: 0 2rem;
@@ -824,15 +824,20 @@
 
       const SEASONS = {
         var:    { cls:'season-var',    icon:'🌸', text:'Våren är här — välkommen in i värmen!',
-                  root:{ '--forest':'#4a7a3a','--forest-dk':'#2d5a28','--forest-lt':'#7aaa6a','--terra':'#a05090','--cream':'#f8f2f8','--sand':'#edd8ed','--nav-bg':'rgba(74,122,58,0.96)' } },
+                  navBg:'rgba(80,120,60,0.96)',
+                  root:{ '--forest':'#4a8a40','--forest-dk':'#2d6228','--forest-lt':'#80c070','--terra':'#b060a0','--cream':'#f8f2f8','--sand':'#f0d8f0','--ink':'#2a1a30' } },
         sommar: { cls:'season-sommar', icon:'☀️', text:'Sommartid! Solen skiner över familjesajten.',
-                  root:{ '--forest':'#2d6e2a','--forest-dk':'#1a4a18','--forest-lt':'#5aaa55','--terra':'#c4691a','--cream':'#faf5e4','--sand':'#f0e4c0','--nav-bg':'rgba(45,110,42,0.97)' } },
+                  navBg:'rgba(160,100,20,0.96)',
+                  root:{ '--forest':'#a06010','--forest-dk':'#7a4a08','--forest-lt':'#c88030','--terra':'#d45010','--cream':'#fff8e0','--sand':'#ffe8a0','--ink':'#2a1a08' } },
         host:   { cls:'season-host',   icon:'🍂', text:'Höstens färger lyser upp — kryp nära varandra!',
-                  root:{ '--forest':'#6a4a1a','--forest-dk':'#3a2a0a','--forest-lt':'#9a7a3a','--terra':'#b8420e','--cream':'#f8eedd','--sand':'#ecdab8','--nav-bg':'rgba(90,60,20,0.97)' } },
+                  navBg:'rgba(100,50,15,0.96)',
+                  root:{ '--forest':'#8a4a18','--forest-dk':'#5a2a08','--forest-lt':'#b87030','--terra':'#c83808','--cream':'#fdf0e0','--sand':'#f0d0a0','--ink':'#1a0a00' } },
         vinter: { cls:'season-vinter', icon:'🌨️', text:'Vinter och stillhet — familjen håller värmen.',
-                  root:{ '--forest':'#3a5a72','--forest-dk':'#263d52','--forest-lt':'#5a7a92','--terra':'#7a5070','--cream':'#f0f2f8','--sand':'#dde4f0','--nav-bg':'rgba(42,62,82,0.97)' } },
+                  navBg:'rgba(40,65,95,0.97)',
+                  root:{ '--forest':'#385878','--forest-dk':'#1e3a58','--forest-lt':'#5878a8','--terra':'#806898','--cream':'#eef2f8','--sand':'#d0daf0','--ink':'#0a1020' } },
         jul:    { cls:'season-jul',    icon:'🎄', text:'God jul från hela familjen! 🎁❤️',
-                  root:{ '--forest':'#a01818','--forest-dk':'#6a0a0a','--forest-lt':'#c84040','--terra':'#d4a020','--cream':'#fff8e8','--sand':'#f5e8c0','--nav-bg':'rgba(100,10,10,0.97)' } },
+                  navBg:'rgba(90,8,8,0.97)',
+                  root:{ '--forest':'#a81010','--forest-dk':'#700808','--forest-lt':'#d03030','--terra':'#d4a010','--cream':'#fff8e8','--sand':'#ffe8a0','--ink':'#1a0000' } },
       };
 
       // Bestäm säsong
@@ -848,6 +853,13 @@
       // Sätt CSS-variabler
       const root = document.documentElement;
       Object.entries(s.root).forEach(([k,v]) => root.style.setProperty(k, v));
+
+      // Sätt nav-bakgrund direkt (CSS-variabel når ej backdrop-filter-nav)
+      const nav = document.querySelector('nav');
+      if (nav) nav.style.background = s.navBg;
+
+      // Sätt sidans bakgrundsfärg
+      document.body.style.background = getComputedStyle(root).getPropertyValue('--cream') || '#F5F0E8';
 
       // Visa banner
       const banner = document.getElementById('seasonBanner');
