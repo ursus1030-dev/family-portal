@@ -206,6 +206,38 @@
       color: var(--forest);
     }
 
+    /* ── SÄSONGSBANNER ── */
+    .season-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.65rem 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      transition: background 0.5s, color 0.5s;
+    }
+    .season-banner .s-icon { font-size: 1.3rem; font-style: normal; }
+
+    /* Säsongsspecifika banners */
+    .season-var    { background: linear-gradient(90deg,#e8f4e8,#f5eaf5,#e8f4e8); color: #5a3a6a; border-bottom: 1px solid rgba(160,100,180,0.15); }
+    .season-sommar { background: linear-gradient(90deg,#fff8e0,#fef3c0,#fff8e0); color: #7a5a10; border-bottom: 1px solid rgba(200,160,20,0.2); }
+    .season-host   { background: linear-gradient(90deg,#fdecd8,#f5e0c8,#fdecd8); color: #7a3a10; border-bottom: 1px solid rgba(180,80,20,0.2); }
+    .season-vinter { background: linear-gradient(90deg,#e8f0f8,#dce8f5,#e8f0f8); color: #2a4a6a; border-bottom: 1px solid rgba(60,100,160,0.15); }
+    .season-jul    { background: linear-gradient(90deg,#1a3a1a,#2a1a1a,#1a3a1a); color: #f5e0c0; border-bottom: 1px solid rgba(200,50,50,0.3); animation: julGlow 3s ease-in-out infinite; }
+    @keyframes julGlow { 0%,100%{opacity:1} 50%{opacity:0.85} }
+
+    /* ── SNÖFLINGOR (jul) ── */
+    #snow-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.7;
+    }
+
     /* ── SEKTIONSRUBRIK ── */
     .section-head {
       padding: 3rem 2rem 1.5rem;
@@ -552,6 +584,15 @@
     <span id="welcome-name">Välkommen hem</span>
   </div>
 
+  <!-- SÄSONGSBANNER -->
+  <div class="season-banner" id="seasonBanner" style="display:none">
+    <span class="s-icon" id="sIcon"></span>
+    <span id="sText"></span>
+  </div>
+
+  <!-- SNÖFLINGOR (visas bara i december) -->
+  <canvas id="snow-canvas" style="display:none"></canvas>
+
   <!-- FAMILJEENHETER -->
   <div class="section-head">
     <h2>Våra familjeenheter</h2>
@@ -776,6 +817,83 @@
       if (!data?.session) { window.location.href = 'login.html'; }
     });
   
+    // ── SÄSONG ──
+    (function() {
+      const m = new Date().getMonth() + 1; // 1–12
+      const d = new Date().getDate();
+
+      const SEASONS = {
+        var:    { cls:'season-var',    icon:'🌸', text:'Våren är här — välkommen in i värmen!',
+                  root:{ '--forest':'#4a7a3a','--forest-dk':'#2d5a28','--terra':'#a05090','--cream':'#f8f2f8','--sand':'#edd8ed' } },
+        sommar: { cls:'season-sommar', icon:'☀️', text:'Sommartid! Solen skiner över familjesajten.',
+                  root:{ '--forest':'#2d6e2a','--forest-dk':'#1a4a18','--terra':'#c4691a','--cream':'#faf5e4','--sand':'#f0e4c0' } },
+        host:   { cls:'season-host',   icon:'🍂', text:'Höstens färger lyser upp — kryp nära varandra!',
+                  root:{ '--forest':'#5a4a1a','--forest-dk':'#3a2e10','--terra':'#b8420e','--cream':'#f8eedd','--sand':'#ecdab8' } },
+        vinter: { cls:'season-vinter', icon:'🌨️', text:'Vinter och stillhet — familjen håller värmen.',
+                  root:{ '--forest':'#3a5a72','--forest-dk':'#263d52','--terra':'#7a5070','--cream':'#f0f2f8','--sand':'#dde4f0' } },
+        jul:    { cls:'season-jul',    icon:'🎄', text:'God jul från hela familjen! 🎁❤️',
+                  root:{ '--forest':'#c8282a','--forest-dk':'#8a1010','--terra':'#d4a020','--cream':'#fff8e8','--sand':'#f5e8c0' } },
+      };
+
+      // Bestäm säsong
+      let season;
+      if (m === 12) season = 'jul';
+      else if (m >= 3 && m <= 5) season = 'var';
+      else if (m >= 6 && m <= 8) season = 'sommar';
+      else if (m >= 9 && m <= 11) season = 'host';
+      else season = 'vinter'; // jan–feb
+
+      const s = SEASONS[season];
+
+      // Sätt CSS-variabler
+      const root = document.documentElement;
+      Object.entries(s.root).forEach(([k,v]) => root.style.setProperty(k, v));
+
+      // Visa banner
+      const banner = document.getElementById('seasonBanner');
+      banner.className = 'season-banner ' + s.cls;
+      banner.style.display = 'flex';
+      document.getElementById('sIcon').textContent = s.icon;
+      document.getElementById('sText').textContent = s.text;
+
+      // Snöflingor i december
+      if (season === 'jul') {
+        const canvas = document.getElementById('snow-canvas');
+        canvas.style.display = 'block';
+        const ctx = canvas.getContext('2d');
+        let flakes = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+        for (let i = 0; i < 120; i++) {
+          flakes.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 4 + 1,
+            speed: Math.random() * 1.2 + 0.4,
+            drift: (Math.random() - 0.5) * 0.5,
+            opacity: Math.random() * 0.6 + 0.3
+          });
+        }
+        function snowLoop() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          flakes.forEach(f => {
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,255,${f.opacity})`;
+            ctx.fill();
+            f.y += f.speed;
+            f.x += f.drift;
+            if (f.y > canvas.height) { f.y = -5; f.x = Math.random() * canvas.width; }
+            if (f.x > canvas.width) f.x = 0;
+            if (f.x < 0) f.x = canvas.width;
+          });
+          requestAnimationFrame(snowLoop);
+        }
+        snowLoop();
+      }
+    })();
+
     const PERSONS = {
       peter:   { name:'Peter Almström',           detail:'52 år · Admin · Stamhuset',       initials:'PA', bg:'linear-gradient(135deg,#3D5C3A,#6a9466)', bio:'Pappan som startade hela familjesajten. Gillar teknik, natur och en god kopp kaffe. Alltid på jakt efter nästa projekt att bygga.', emoji:'🏡', melody:'Lägg till favoritlåt…' },
       carina:  { name:'Carina Almström',           detail:'50 år · Stamhuset',               initials:'CA', bg:'linear-gradient(135deg,#A84C2A,#d4855e)', bio:'Familjehjärtat som håller ihop allt. Älskar trädgård, matlagning och långa promenader med Tyce.', emoji:'🌸', melody:'Lägg till favoritlåt…' },
