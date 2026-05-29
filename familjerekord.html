@@ -351,15 +351,18 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-icons">📚🎣🗑️😇</div>
+  <div class="hero-icons">🎬🌍🎣🗑️😇</div>
   <h1>Familjerekord</h1>
-  <p>Böcker · Fiske · Sophantering · Tålamod</p>
+  <p>Film · Resor · Fiske · Sophantering · Tålamod</p>
 </div>
 
 <!-- TAB BAR -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="showTab('bocker')" id="tab-bocker">
-    <span class="tab-emoji">📚</span> Bokklubben
+  <button class="tab-btn active" onclick="showTab('filmer')" id="tab-filmer">
+    <span class="tab-emoji">🎬</span> Filmklubben
+  </button>
+  <button class="tab-btn" onclick="showTab('resor')" id="tab-resor">
+    <span class="tab-emoji">🌍</span> Resor
   </button>
   <button class="tab-btn" onclick="showTab('fiske')" id="tab-fiske">
     <span class="tab-emoji">🎣</span> Fiske
@@ -372,17 +375,31 @@
   </button>
 </div>
 
-<!-- ══════════ BÖCKER ══════════ -->
-<section id="sec-bocker" class="section active">
+<!-- ══════════ FILMER ══════════ -->
+<section id="sec-filmer" class="section active">
   <div class="section-header">
     <div class="section-title">
-      <small>Dela med familjen</small>
-      Bokklubben
+      <small>Vad har familjen sett?</small>
+      Filmklubben
     </div>
-    <button class="btn-add" onclick="openModal('modal-bok')">+ Tipsa om bok</button>
+    <button class="btn-add" onclick="openModal('modal-film')">+ Tipsa om film</button>
   </div>
-  <div class="book-grid" id="book-grid">
-    <div class="empty"><div class="empty-icon">📖</div><p>Inga boktips ännu.<br>Var den första att tipsa!</p></div>
+  <div class="book-grid" id="film-grid">
+    <div class="empty"><div class="empty-icon">🎬</div><p>Inga filmtips ännu.<br>Var den första att tipsa!</p></div>
+  </div>
+</section>
+
+<!-- ══════════ RESOR ══════════ -->
+<section id="sec-resor" class="section">
+  <div class="section-header">
+    <div class="section-title">
+      <small>Familjeäventyr</small>
+      Resor
+    </div>
+    <button class="btn-add" onclick="openModal('modal-resa')">+ Lägg till resa</button>
+  </div>
+  <div class="book-grid" id="resor-grid">
+    <div class="empty"><div class="empty-icon">🌍</div><p>Inga resor registrerade ännu.<br>Var börjar äventyret?</p></div>
   </div>
 </section>
 
@@ -460,57 +477,99 @@
 
 <!-- ════════════════════════════ MODALS ════════════════════════════ -->
 
-<!-- Modal: Bok -->
-<div class="modal-overlay" id="modal-bok">
+<!-- Modal: Film -->
+<div class="modal-overlay" id="modal-film">
   <div class="modal">
-    <h2>📚 Tipsa om bok</h2>
+    <h2>🎬 Tipsa om film</h2>
     <div class="form-group">
-      <label>Boktitel</label>
-      <input type="text" id="bok-titel" placeholder="t.ex. Astrid Lindgrens värld" />
+      <label>Filmtitel</label>
+      <input type="text" id="film-titel" placeholder="t.ex. The Shawshank Redemption" />
     </div>
     <div class="form-group">
-      <label>Författare</label>
-      <input type="text" id="bok-forfattare" placeholder="t.ex. Astrid Lindgren" />
+      <label>Regissör (valfri)</label>
+      <input type="text" id="film-regissor" placeholder="t.ex. Frank Darabont" />
     </div>
     <div class="form-group">
-      <label>Kategori</label>
-      <select id="bok-kategori">
-        <option value="roman">Roman</option>
-        <option value="thriller">Thriller/Deckare</option>
-        <option value="fakta">Fakta</option>
-        <option value="barn">Barn & ungdom</option>
-        <option value="biografi">Biografi</option>
-        <option value="fantasy">Fantasy/Sci-fi</option>
+      <label>Genre</label>
+      <select id="film-genre">
+        <option value="drama">Drama</option>
+        <option value="komedi">Komedi</option>
+        <option value="thriller">Thriller/Skräck</option>
+        <option value="action">Action/Äventyr</option>
+        <option value="animation">Animation</option>
+        <option value="dokumentar">Dokumentär</option>
+        <option value="familj">Familj</option>
         <option value="ovrigt">Övrigt</option>
       </select>
     </div>
     <div class="form-group">
       <label>Betyg</label>
-      <div class="star-rating" id="bok-stjarnor">
-        <span onclick="setStar(1)">★</span>
-        <span onclick="setStar(2)">★</span>
-        <span onclick="setStar(3)">★</span>
-        <span onclick="setStar(4)">★</span>
-        <span onclick="setStar(5)">★</span>
+      <div class="star-rating" id="film-stjarnor">
+        <span onclick="setFilmStar(1)">★</span>
+        <span onclick="setFilmStar(2)">★</span>
+        <span onclick="setFilmStar(3)">★</span>
+        <span onclick="setFilmStar(4)">★</span>
+        <span onclick="setFilmStar(5)">★</span>
       </div>
     </div>
     <div class="form-group">
       <label>Din recension (valfri)</label>
-      <textarea id="bok-recension" placeholder="Vad tyckte du?"></textarea>
+      <textarea id="film-recension" placeholder="Vad tyckte du?"></textarea>
     </div>
     <div class="form-group">
       <label>Rekommenderas av</label>
-      <select id="bok-av">
+      <select id="film-av">
         <option value="">Välj person</option>
         <option>Peter</option><option>Carina</option><option>Elias</option>
         <option>Tora</option><option>Mattias</option><option>Alva</option>
         <option>Isak</option><option>Jenna</option><option>Svea</option>
-        <option>Sigrid</option><option>Benke</option>
+        <option>Signe</option><option>Benke</option>
       </select>
     </div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-bok')">Avbryt</button>
-      <button class="btn-save" onclick="saveBok()">Spara bok</button>
+      <button class="btn-cancel" onclick="closeModal('modal-film')">Avbryt</button>
+      <button class="btn-save" onclick="saveFilm()">Spara film</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Resa -->
+<div class="modal-overlay" id="modal-resa">
+  <div class="modal">
+    <h2>🌍 Lägg till resa</h2>
+    <div class="form-group">
+      <label>Destination</label>
+      <input type="text" id="resa-destination" placeholder="t.ex. Rom, Thailand, Dalarna" />
+    </div>
+    <div class="form-group">
+      <label>Land</label>
+      <input type="text" id="resa-land" placeholder="t.ex. Italien" />
+    </div>
+    <div class="form-group">
+      <label>År</label>
+      <input type="number" id="resa-ar" placeholder="t.ex. 2023" min="1900" max="2100" />
+    </div>
+    <div class="form-group">
+      <label>Betyg</label>
+      <div class="star-rating" id="resa-stjarnor">
+        <span onclick="setResaStar(1)">★</span>
+        <span onclick="setResaStar(2)">★</span>
+        <span onclick="setResaStar(3)">★</span>
+        <span onclick="setResaStar(4)">★</span>
+        <span onclick="setResaStar(5)">★</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Beskrivning (valfri)</label>
+      <textarea id="resa-beskrivning" placeholder="Berätta om resan..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Resenärer</label>
+      <input type="text" id="resa-resenarer" placeholder="t.ex. Peter, Carina, Elias" />
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('modal-resa')">Avbryt</button>
+      <button class="btn-save" onclick="saveResa()">Spara resa</button>
     </div>
   </div>
 </div>
@@ -698,62 +757,111 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('show'), 2800);
 }
 
-/* ── Star rating ── */
-let bokBetyg = 0;
-function setStar(n) {
-  bokBetyg = n;
-  document.querySelectorAll('#bok-stjarnor span').forEach((s, i) => {
-    s.classList.toggle('active', i < n);
-  });
+/* ── Star rating (fiske-modal har ingen, behålls tom) ── */
+
+/* ════ FILMER ════ */
+const EMOJI_MAP = { Peter:'👨', Carina:'👩', Elias:'🧑', Tora:'👧', Mattias:'🧔',
+  Alva:'💁', Isak:'🙋', Jenna:'🌸', Svea:'⭐', Signe:'🌟', Benke:'🐻' };
+const GENRE_MAP = { drama:'🎭 Drama', komedi:'😂 Komedi', thriller:'😱 Thriller',
+  action:'💥 Action', animation:'✨ Animation', dokumentar:'🎥 Dokumentär',
+  familj:'👨‍👩‍👧 Familj', ovrigt:'🎬 Övrigt' };
+
+let filmBetyg = 0, resaBetyg = 0;
+
+function setFilmStar(n) {
+  filmBetyg = n;
+  document.querySelectorAll('#film-stjarnor span').forEach((s,i) => s.classList.toggle('active', i < n));
+}
+function setResaStar(n) {
+  resaBetyg = n;
+  document.querySelectorAll('#resa-stjarnor span').forEach((s,i) => s.classList.toggle('active', i < n));
 }
 
-/* ════ BÖCKER ════ */
-const EMOJI_MAP = { Peter:'👨', Carina:'👩', Elias:'🧑', Tora:'👧', Mattias:'🧔',
-  Alva:'💁', Isak:'🙋', Jenna:'🌸', Svea:'⭐', Sigrid:'🌙', Benke:'🐻' };
-const KAT_MAP = { roman:'📖 Roman', thriller:'🔍 Thriller', fakta:'📊 Fakta',
-  barn:'🧸 Barn', biografi:'📝 Biografi', fantasy:'🚀 Fantasy', ovrigt:'📚 Övrigt' };
-
-async function loadBocker() {
-  const { data } = await sb.from('boktips').select('*').order('created_at', { ascending: false });
-  const grid = document.getElementById('book-grid');
+async function loadFilmer() {
+  const { data } = await sb.from('filmer').select('*').order('created_at', { ascending: false });
+  const grid = document.getElementById('film-grid');
   if (!data || !data.length) {
-    grid.innerHTML = '<div class="empty"><div class="empty-icon">📖</div><p>Inga boktips ännu.<br>Var den första att tipsa!</p></div>';
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">🎬</div><p>Inga filmtips ännu.<br>Var den första att tipsa!</p></div>';
     return;
   }
-  grid.innerHTML = data.map(b => `
+  grid.innerHTML = data.map(f => `
     <div class="book-card">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.4rem;">
-        <span style="font-size:0.7rem;background:var(--sand);padding:0.15rem 0.5rem;border-radius:20px;color:rgba(28,24,16,0.55);">${KAT_MAP[b.kategori] || '📚'}</span>
-        <span style="font-size:0.7rem;color:rgba(28,24,16,0.4);">${formatDate(b.created_at)}</span>
+        <span style="font-size:0.7rem;background:var(--sand);padding:0.15rem 0.5rem;border-radius:20px;color:rgba(28,24,16,0.55);">${GENRE_MAP[f.genre] || '🎬'}</span>
+        <span style="font-size:0.7rem;color:rgba(28,24,16,0.4);">${formatDate(f.created_at)}</span>
       </div>
-      <div class="book-title">${esc(b.titel)}</div>
-      <div class="book-author">av ${esc(b.forfattare)}</div>
-      <div class="book-stars">${'★'.repeat(b.betyg || 0)}${'☆'.repeat(5 - (b.betyg || 0))}</div>
-      ${b.recension ? `<div class="book-review">${esc(b.recension)}</div>` : ''}
-      <div class="book-by">${EMOJI_MAP[b.rekommenderas_av] || '👤'} ${esc(b.rekommenderas_av)}</div>
+      <div class="book-title">${esc(f.titel)}</div>
+      ${f.regissor ? `<div class="book-author">regi: ${esc(f.regissor)}</div>` : ''}
+      <div class="book-stars" style="color:var(--gold)">${'★'.repeat(f.betyg||0)}${'☆'.repeat(5-(f.betyg||0))}</div>
+      ${f.recension ? `<div class="book-review">${esc(f.recension)}</div>` : ''}
+      <div class="book-by">${EMOJI_MAP[f.rekommenderas_av]||'👤'} ${esc(f.rekommenderas_av||'')}</div>
     </div>
   `).join('');
 }
 
-async function saveBok() {
-  const titel = document.getElementById('bok-titel').value.trim();
-  const forfattare = document.getElementById('bok-forfattare').value.trim();
-  const kategori = document.getElementById('bok-kategori').value;
-  const rekommenderas_av = document.getElementById('bok-av').value;
-  if (!titel || !forfattare || !rekommenderas_av) { toast('Fyll i titel, författare och vem som tipsar!'); return; }
-  const { error } = await sb.from('boktips').insert({
-    titel, forfattare, kategori, betyg: bokBetyg,
-    recension: document.getElementById('bok-recension').value.trim(),
+async function saveFilm() {
+  const titel = document.getElementById('film-titel').value.trim();
+  const rekommenderas_av = document.getElementById('film-av').value;
+  if (!titel || !rekommenderas_av) { toast('Fyll i titel och vem som tipsar!'); return; }
+  const { error } = await sb.from('filmer').insert({
+    titel,
+    regissor: document.getElementById('film-regissor').value.trim(),
+    genre: document.getElementById('film-genre').value,
+    betyg: filmBetyg || null,
+    recension: document.getElementById('film-recension').value.trim(),
     rekommenderas_av
   });
   if (error) { toast('Fel: ' + error.message); return; }
-  closeModal('modal-bok');
-  toast('📚 Boken sparad!');
-  bokBetyg = 0;
-  document.querySelectorAll('#bok-stjarnor span').forEach(s => s.classList.remove('active'));
-  ['bok-titel','bok-forfattare','bok-recension'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('bok-av').value = '';
-  loadBocker();
+  closeModal('modal-film');
+  toast('🎬 Film sparad!');
+  filmBetyg = 0;
+  document.querySelectorAll('#film-stjarnor span').forEach(s => s.classList.remove('active'));
+  ['film-titel','film-regissor','film-recension'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('film-av').value = '';
+  loadFilmer();
+}
+
+/* ════ RESOR ════ */
+async function loadResor() {
+  const { data } = await sb.from('resor').select('*').order('ar', { ascending: false });
+  const grid = document.getElementById('resor-grid');
+  if (!data || !data.length) {
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">🌍</div><p>Inga resor registrerade ännu.<br>Var börjar äventyret?</p></div>';
+    return;
+  }
+  grid.innerHTML = data.map(r => `
+    <div class="book-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.4rem;">
+        ${r.land ? `<span style="font-size:0.7rem;background:var(--sand);padding:0.15rem 0.5rem;border-radius:20px;color:rgba(28,24,16,0.55);">📍 ${esc(r.land)}</span>` : '<span></span>'}
+        ${r.ar ? `<span style="font-size:0.7rem;color:rgba(28,24,16,0.4);">${r.ar}</span>` : ''}
+      </div>
+      <div class="book-title">${esc(r.destination)}</div>
+      ${r.resenarer ? `<div class="book-author">👥 ${esc(r.resenarer)}</div>` : ''}
+      <div class="book-stars" style="color:var(--gold)">${'★'.repeat(r.betyg||0)}${'☆'.repeat(5-(r.betyg||0))}</div>
+      ${r.beskrivning ? `<div class="book-review">${esc(r.beskrivning)}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+async function saveResa() {
+  const destination = document.getElementById('resa-destination').value.trim();
+  if (!destination) { toast('Ange en destination!'); return; }
+  const ar = document.getElementById('resa-ar').value ? parseInt(document.getElementById('resa-ar').value) : null;
+  const { error } = await sb.from('resor').insert({
+    destination,
+    land: document.getElementById('resa-land').value.trim(),
+    ar,
+    betyg: resaBetyg || null,
+    beskrivning: document.getElementById('resa-beskrivning').value.trim(),
+    resenarer: document.getElementById('resa-resenarer').value.trim()
+  });
+  if (error) { toast('Fel: ' + error.message); return; }
+  closeModal('modal-resa');
+  toast('🌍 Resa sparad!');
+  resaBetyg = 0;
+  document.querySelectorAll('#resa-stjarnor span').forEach(s => s.classList.remove('active'));
+  ['resa-destination','resa-land','resa-ar','resa-beskrivning','resa-resenarer'].forEach(id => document.getElementById(id).value = '');
+  loadResor();
 }
 
 /* ════ FISKE ════ */
@@ -937,7 +1045,8 @@ function formatDate(ts) {
 }
 
 function loadAll() {
-  loadBocker();
+  loadFilmer();
+  loadResor();
   loadFiske();
   loadSopor();
   loadTalamod();
