@@ -35,7 +35,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(61,92,58,0.96);
+      background: var(--nav-bg, rgba(61,92,58,0.96));
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: 0 2rem;
@@ -824,15 +824,15 @@
 
       const SEASONS = {
         var:    { cls:'season-var',    icon:'🌸', text:'Våren är här — välkommen in i värmen!',
-                  root:{ '--forest':'#4a7a3a','--forest-dk':'#2d5a28','--terra':'#a05090','--cream':'#f8f2f8','--sand':'#edd8ed' } },
+                  root:{ '--forest':'#4a7a3a','--forest-dk':'#2d5a28','--forest-lt':'#7aaa6a','--terra':'#a05090','--cream':'#f8f2f8','--sand':'#edd8ed','--nav-bg':'rgba(74,122,58,0.96)' } },
         sommar: { cls:'season-sommar', icon:'☀️', text:'Sommartid! Solen skiner över familjesajten.',
-                  root:{ '--forest':'#2d6e2a','--forest-dk':'#1a4a18','--terra':'#c4691a','--cream':'#faf5e4','--sand':'#f0e4c0' } },
+                  root:{ '--forest':'#2d6e2a','--forest-dk':'#1a4a18','--forest-lt':'#5aaa55','--terra':'#c4691a','--cream':'#faf5e4','--sand':'#f0e4c0','--nav-bg':'rgba(45,110,42,0.97)' } },
         host:   { cls:'season-host',   icon:'🍂', text:'Höstens färger lyser upp — kryp nära varandra!',
-                  root:{ '--forest':'#5a4a1a','--forest-dk':'#3a2e10','--terra':'#b8420e','--cream':'#f8eedd','--sand':'#ecdab8' } },
+                  root:{ '--forest':'#6a4a1a','--forest-dk':'#3a2a0a','--forest-lt':'#9a7a3a','--terra':'#b8420e','--cream':'#f8eedd','--sand':'#ecdab8','--nav-bg':'rgba(90,60,20,0.97)' } },
         vinter: { cls:'season-vinter', icon:'🌨️', text:'Vinter och stillhet — familjen håller värmen.',
-                  root:{ '--forest':'#3a5a72','--forest-dk':'#263d52','--terra':'#7a5070','--cream':'#f0f2f8','--sand':'#dde4f0' } },
+                  root:{ '--forest':'#3a5a72','--forest-dk':'#263d52','--forest-lt':'#5a7a92','--terra':'#7a5070','--cream':'#f0f2f8','--sand':'#dde4f0','--nav-bg':'rgba(42,62,82,0.97)' } },
         jul:    { cls:'season-jul',    icon:'🎄', text:'God jul från hela familjen! 🎁❤️',
-                  root:{ '--forest':'#c8282a','--forest-dk':'#8a1010','--terra':'#d4a020','--cream':'#fff8e8','--sand':'#f5e8c0' } },
+                  root:{ '--forest':'#a01818','--forest-dk':'#6a0a0a','--forest-lt':'#c84040','--terra':'#d4a020','--cream':'#fff8e8','--sand':'#f5e8c0','--nav-bg':'rgba(100,10,10,0.97)' } },
       };
 
       // Bestäm säsong
