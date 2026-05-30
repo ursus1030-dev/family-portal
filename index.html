@@ -837,7 +837,8 @@
       if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
       if (!links.length) return;
 
-      const nav = document.getElementById('navLinks');
+      // Lägg i nav-right så att overflow-x: auto inte klipper menyn
+      const nav = document.querySelector('.nav-right');
       if (!nav) return;
 
       // Skapa dropdown-knapp
