@@ -191,16 +191,17 @@
       grid.innerHTML = '';
       if (error || !data || data.length === 0) { empty.style.display = 'block'; return; }
       empty.style.display = 'none';
-      data.forEach(file => {
+      for (const file of data) {
         const path = `shared/${file.name}`;
-        const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
+        const { data: signed } = await sb.storage.from(BUCKET).createSignedUrl(path, 3600);
+        if (!signed) continue;
         const item = document.createElement('div');
         item.className = 'photo-item';
         const date = new Date(file.created_at).toLocaleDateString('sv-SE');
-        item.innerHTML = `<img src="${urlData.publicUrl}" alt="${file.name}" loading="lazy" /><div class="photo-date">${date}</div>`;
-        item.onclick = () => openLightbox(urlData.publicUrl, path);
+        item.innerHTML = `<img src="${signed.signedUrl}" alt="${file.name}" loading="lazy" /><div class="photo-date">${date}</div>`;
+        item.onclick = () => openLightbox(signed.signedUrl, path);
         grid.appendChild(item);
-      });
+      }
     }
 
     // UPLOAD MODAL
