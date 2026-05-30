@@ -146,6 +146,13 @@
     .empty-state .icon { font-size: 4rem; margin-bottom: 1rem; }
 
     footer { text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(28,24,16,0.3); border-top: 1px solid rgba(28,24,16,0.08); }
+      .private-dropdown { position: relative; display: inline-flex; align-items: center; }
+    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .private-btn:hover { background: rgba(245,220,180,0.15); }
+    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #2a3f28; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
+    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
+    .private-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
   </style>
 </head>
 <body>
@@ -265,19 +272,20 @@
     function addPrivateNavLinks(email) {
       const PETER = 'pealmab@hotmail.com';
       const links = [];
-      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Vår plats \u{1F332}' });
-      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Vår plats \u{1F33A}' });
-      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Vår plats \u{1F3AE}' });
-      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album \u{1F338}' });
-      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe \u{1F33C}' });
+      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Tora & Peter 🌲' });
+      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Alva & Peter 🌺' });
+      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
+      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
+      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
+      if (!links.length) return;
       const nav = document.getElementById('navLinks');
-      if (!nav || !links.length) return;
-      links.forEach(l => {
-        const a = document.createElement('a');
-        a.href = l.href; a.textContent = l.label;
-        a.style.color = 'rgba(245,220,180,0.9)';
-        nav.appendChild(a);
-      });
+      if (!nav) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'private-dropdown';
+      wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
+      nav.appendChild(wrap);
+      wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+      document.addEventListener('click', () => wrap.classList.remove('open'));
     }
   </script>
   <script>
