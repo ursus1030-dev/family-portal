@@ -261,7 +261,25 @@
 
   <footer><p>Familjen Almström &nbsp;·&nbsp; Minneslådan &nbsp;·&nbsp; 2025</p></footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    function addPrivateNavLinks(email) {
+      const PETER = 'pealmab@hotmail.com';
+      const links = [];
+      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Vår plats \u{1F332}' });
+      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Vår plats \u{1F33A}' });
+      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Vår plats \u{1F3AE}' });
+      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album \u{1F338}' });
+      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe \u{1F33C}' });
+      const nav = document.getElementById('navLinks');
+      if (!nav || !links.length) return;
+      links.forEach(l => {
+        const a = document.createElement('a');
+        a.href = l.href; a.textContent = l.label;
+        a.style.color = 'rgba(245,220,180,0.9)';
+        nav.appendChild(a);
+      });
+    }
+  </script>
   <script>
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
@@ -286,6 +304,7 @@
 
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html'; return; }
+      addPrivateNavLinks((data.session||data?.session).user.email.toLowerCase());
       init();
     });
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
@@ -513,8 +532,4 @@
     }
     document.addEventListener('DOMContentLoaded', function() {
       const nl = document.getElementById('navLinks');
-      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
-    });
-  </script>
-</body>
-</html>
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.re

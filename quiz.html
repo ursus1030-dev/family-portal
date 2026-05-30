@@ -192,7 +192,8 @@
       <div class="nav-mobile-footer">
         <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
-      </div>
+    <a href="aktiviteter.html">Flödet</a>
+  </div>
     </div>
     <div class="nav-right">
     <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
@@ -285,7 +286,25 @@
 
   <footer><p>Familjen Almström &nbsp;·&nbsp; Quiz &nbsp;·&nbsp; 2025</p></footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    function addPrivateNavLinks(email) {
+      const PETER = 'pealmab@hotmail.com';
+      const links = [];
+      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Vår plats \u{1F332}' });
+      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Vår plats \u{1F33A}' });
+      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Vår plats \u{1F3AE}' });
+      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album \u{1F338}' });
+      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe \u{1F33C}' });
+      const nav = document.getElementById('navLinks');
+      if (!nav || !links.length) return;
+      links.forEach(l => {
+        const a = document.createElement('a');
+        a.href = l.href; a.textContent = l.label;
+        a.style.color = 'rgba(245,220,180,0.9)';
+        nav.appendChild(a);
+      });
+    }
+  </script>
   <script>
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
@@ -315,6 +334,7 @@
     // ── AUTH ──
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html'; return; }
+      addPrivateNavLinks((data.session||data?.session).user.email.toLowerCase());
       init();
     });
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }

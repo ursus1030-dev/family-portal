@@ -165,6 +165,8 @@
       padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.2s;
     }
     .modal-delete:hover { background: var(--terra); color: white; }
+    .modal-edit { margin-top: 1.5rem; background: var(--forest); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .modal-edit:hover { background: var(--forest-lt); }
 
     /* ── ADD MODAL ── */
     .add-overlay {
@@ -236,7 +238,8 @@
       <div class="nav-mobile-footer">
         <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
-      </div>
+    <a href="aktiviteter.html">Flödet</a>
+  </div>
     </div>
     <div class="nav-right">
     <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
@@ -335,7 +338,25 @@
 
   <footer><p>Familjen Almström &nbsp;·&nbsp; Receptboken &nbsp;·&nbsp; 2025</p></footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    function addPrivateNavLinks(email) {
+      const PETER = 'pealmab@hotmail.com';
+      const links = [];
+      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Vår plats \u{1F332}' });
+      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Vår plats \u{1F33A}' });
+      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Vår plats \u{1F3AE}' });
+      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album \u{1F338}' });
+      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe \u{1F33C}' });
+      const nav = document.getElementById('navLinks');
+      if (!nav || !links.length) return;
+      links.forEach(l => {
+        const a = document.createElement('a');
+        a.href = l.href; a.textContent = l.label;
+        a.style.color = 'rgba(245,220,180,0.9)';
+        nav.appendChild(a);
+      });
+    }
+  </script>
   <script>
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
@@ -363,6 +384,7 @@
     // ── AUTH ──
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html'; return; }
+      addPrivateNavLinks((data.session||data?.session).user.email.toLowerCase());
       init();
     });
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
@@ -443,7 +465,10 @@
             <div class="recipe-section-title">Tillagnng</div>
             <div class="instructions-text">${r.instructions}</div>
           ` : ''}
-          <button class="modal-delete" onclick="deleteRecept('${r.id}')">Ta bort recept</button>
+          <div style="display:flex;gap:0.6rem;margin-top:1.5rem;flex-wrap:wrap;">
+            <button class="modal-edit" style="flex:1;" onclick="openEditModal('${r.id}')">✏️ Redigera</button>
+            <button class="modal-delete" style="flex:1;background:none;border:1px solid rgba(168,76,42,0.3);color:var(--terra);" onclick="deleteRecept('${r.id}')">Ta bort</button>
+          </div>
         </div>
       `;
       document.getElementById('detailOverlay').classList.add('open');
@@ -460,9 +485,57 @@
       renderGrid();
     }
 
-    // ── ADD MODAL ──
-    function openAddModal() { document.getElementById('addOverlay').classList.add('open'); }
-    function closeAddModal() { document.getElementById('addOverlay').classList.remove('open'); resetForm(); }
+    // ── ADD / EDIT MODAL ──
+    let editingId = null; // null = nytt recept, annars ID på det som redigeras
+
+    function openAddModal() {
+      editingId = null;
+      document.querySelector('#addOverlay h2') && (document.querySelector('#addOverlay h2').textContent = 'Nytt recept');
+      document.getElementById('addOverlay').classList.add('open');
+    }
+
+    function openEditModal(id) {
+      const r = allRecipes.find(x => x.id === id);
+      if (!r) return;
+      editingId = id;
+      closeDetail();
+
+      // Fyll i formuläret med befintlig data
+      document.getElementById('rTitle').value        = r.title || '';
+      document.getElementById('rCategory').value     = r.category || 'middag';
+      document.getElementById('rDesc').value         = r.description || '';
+      document.getElementById('rIngredients').value  = r.ingredients || '';
+      document.getElementById('rInstructions').value = r.instructions || '';
+      document.getElementById('rServings').value     = r.servings || '';
+      uploadedPhotoUrl = r.photo_url || null;
+      if (r.photo_url) {
+        document.getElementById('rPhotoPreview').src = r.photo_url;
+        document.getElementById('rPhotoPreview').style.display = 'block';
+        document.getElementById('rPhotoStatus').textContent = '✓ Befintligt foto';
+      }
+      // Markera rätt författare
+      if (r.author_name) {
+        const m = MEMBERS.find(x => x.name === r.author_name);
+        if (m) {
+          selectedAuthor = m;
+          document.querySelectorAll('#rAuthorChips .author-chip').forEach(chip => {
+            if (chip.textContent.includes(m.name)) chip.classList.add('selected');
+          });
+        }
+      }
+
+      // Byt rubrik i modalen
+      const h2 = document.querySelector('#addOverlay .modal-header h2, #addOverlay h2');
+      if (h2) h2.textContent = 'Redigera recept';
+
+      document.getElementById('addOverlay').classList.add('open');
+    }
+
+    function closeAddModal() {
+      editingId = null;
+      document.getElementById('addOverlay').classList.remove('open');
+      resetForm();
+    }
     function handleAddOverlay(e) { if (e.target === document.getElementById('addOverlay')) closeAddModal(); }
 
     function buildAuthorChips() {
@@ -489,60 +562,4 @@
       fd.append('upload_preset', CLOUDINARY_PRESET);
       fd.append('folder', 'recept');
       try {
-        const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: fd });
-        const data = await res.json();
-        uploadedPhotoUrl = data.secure_url;
-        document.getElementById('rPhotoPreview').src = uploadedPhotoUrl;
-        document.getElementById('rPhotoPreview').style.display = 'block';
-        document.getElementById('rPhotoStatus').textContent = '✓ Foto uppladdad';
-      } catch {
-        document.getElementById('rPhotoStatus').textContent = 'Kunde inte ladda upp foto.';
-      }
-    }
-
-    async function saveRecept() {
-      const title = document.getElementById('rTitle').value.trim();
-      if (!title) { alert('Ange ett receptnamn.'); return; }
-
-      const payload = {
-        title,
-        category:     document.getElementById('rCategory').value,
-        description:  document.getElementById('rDesc').value.trim() || null,
-        ingredients:  document.getElementById('rIngredients').value.trim() || null,
-        instructions: document.getElementById('rInstructions').value.trim() || null,
-        servings:     parseInt(document.getElementById('rServings').value) || null,
-        photo_url:    uploadedPhotoUrl,
-        author_name:  selectedAuthor ? selectedAuthor.name  : null,
-        author_emoji: selectedAuthor ? selectedAuthor.emoji : null,
-      };
-
-      const { error } = await sb.from('recept').insert(payload);
-      if (error) { alert('Kunde inte spara: ' + error.message); return; }
-
-      closeAddModal();
-      await loadRecipes();
-      renderGrid();
-    }
-
-    function resetForm() {
-      ['rTitle','rDesc','rIngredients','rInstructions','rServings'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('rCategory').value = 'middag';
-      document.getElementById('rPhotoPreview').style.display = 'none';
-      document.getElementById('rPhotoStatus').textContent = '';
-      document.getElementById('rPhotoInput').value = '';
-      document.querySelectorAll('#rAuthorChips .author-chip').forEach(c => c.classList.remove('selected'));
-      selectedAuthor = null;
-      uploadedPhotoUrl = null;
-    }
-  
-    function toggleNav() {
-      const nl = document.getElementById('navLinks');
-      nl.classList.toggle('open');
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      const nl = document.getElementById('navLinks');
-      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
-    });
-  </script>
-</body>
-</html>
+        const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload
