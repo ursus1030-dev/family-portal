@@ -837,22 +837,36 @@
       if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
       if (!links.length) return;
 
-      // Lägg i nav-right så att overflow-x: auto inte klipper menyn
-      const nav = document.querySelector('.nav-right');
-      if (!nav) return;
+      // Desktop: dropdown i nav-right
+      const navRight = document.querySelector('.nav-right');
+      if (navRight) {
+        const wrap = document.createElement('div');
+        wrap.className = 'private-dropdown';
+        wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
+        navRight.appendChild(wrap);
+        wrap.querySelector('.private-btn').addEventListener('click', e => {
+          e.stopPropagation();
+          wrap.classList.toggle('open');
+        });
+        document.addEventListener('click', () => wrap.classList.remove('open'));
+      }
 
-      // Skapa dropdown-knapp
-      const wrap = document.createElement('div');
-      wrap.className = 'private-dropdown';
-      wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-      nav.appendChild(wrap);
-
-      // Öppna/stäng vid klick
-      wrap.querySelector('.private-btn').addEventListener('click', e => {
-        e.stopPropagation();
-        wrap.classList.toggle('open');
-      });
-      document.addEventListener('click', () => wrap.classList.remove('open'));
+      // Mobil: lägg till länkarna direkt i hamburger-menyn (nav-links)
+      const navLinks = document.getElementById('navLinks');
+      if (navLinks) {
+        const divider = document.createElement('div');
+        divider.style.cssText = 'height:1px;background:rgba(255,255,255,0.1);margin:0.3rem 0.8rem;';
+        navLinks.insertBefore(divider, navLinks.querySelector('.nav-mobile-footer'));
+        links.forEach(l => {
+          const a = document.createElement('a');
+          a.href = l.href;
+          a.textContent = l.label;
+          a.style.cssText = 'color:rgba(245,220,180,0.9);font-size:0.85rem;padding:0.55rem 0.8rem;border-radius:8px;text-decoration:none;display:block;transition:background 0.15s;';
+          a.onmouseenter = () => a.style.background = 'rgba(255,255,255,0.1)';
+          a.onmouseleave = () => a.style.background = '';
+          navLinks.insertBefore(a, navLinks.querySelector('.nav-mobile-footer'));
+        });
+      }
     }
   
     // ── SÄSONG ──
