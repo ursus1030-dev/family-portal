@@ -255,8 +255,9 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    function addPrivateNavLinks(email) {
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+function addPrivateNavLinks(email) {
       const PETER = 'pealmab@hotmail.com';
       const links = [];
       if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Tora & Peter 🌲' });
@@ -265,16 +266,16 @@
       if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
       if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
       if (!links.length) return;
-      const nav = document.getElementById('navLinks');
-      if (!nav) return;
+      const navRight = document.querySelector('.nav-right');
+      if (!navRight) return;
       const wrap = document.createElement('div');
       wrap.className = 'private-dropdown';
       wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-      nav.appendChild(wrap);
+      navRight.insertBefore(wrap, navRight.firstChild);
       wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
       document.addEventListener('click', () => wrap.classList.remove('open'));
     }
-  </script>
+</script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
