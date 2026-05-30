@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peter & Tora — Familjen Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
+      --terra: #A84C2A; --terra-lt: #c4603a;
+      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
+      --ink: #1C1810; --bg: #F0EBE0;
+    }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+    .nav-back { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s; }
+    .nav-back:hover { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+
+    /* HERO */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, #7a5c8a 60%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    /* MAIN */
+    .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* UPLOAD BUTTON */
+    .toolbar { display: flex; justify-content: flex-end; margin-bottom: 1.5rem; }
+    .btn-upload { background: var(--forest); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.4rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+    .btn-upload:hover { background: var(--forest-lt); }
+
+    /* PHOTO GRID */
+    .photo-grid { columns: 4; gap: 0.8rem; }
+    @media (max-width: 900px) { .photo-grid { columns: 3; } }
+    @media (max-width: 600px) { .photo-grid { columns: 2; } }
+    .photo-item { break-inside: avoid; margin-bottom: 0.8rem; border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; }
+    .photo-item img { width: 100%; display: block; transition: transform 0.3s; }
+    .photo-item:hover img { transform: scale(1.03); }
+    .photo-date { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.5)); color: white; font-size: 0.7rem; padding: 1rem 0.6rem 0.4rem; opacity: 0; transition: opacity 0.2s; }
+    .photo-item:hover .photo-date { opacity: 1; }
+
+    /* EMPTY STATE */
+    .empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
+    .empty-state .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+
+    /* UPLOAD MODAL */
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 1rem 0; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: white; border-radius: 16px; padding: 2rem; width: min(520px, 92vw); box-shadow: 0 20px 60px rgba(0,0,0,0.2); margin: auto; }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.5rem; }
+    .form-row { margin-bottom: 1.1rem; }
+    .form-row label { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
+    .form-row input { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.95rem; }
+    .form-row input:focus { outline: none; border-color: var(--forest); }
+    .drop-zone { border: 2px dashed #ccc; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; color: #aaa; }
+    .drop-zone:hover { border-color: var(--forest); color: var(--forest); background: rgba(61,92,58,0.04); }
+    .previews { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+    .preview-thumb { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 2px solid rgba(61,92,58,0.15); }
+    .progress-bar-wrap { height: 4px; background: #eee; border-radius: 2px; margin-top: 0.8rem; display: none; }
+    .progress-bar { height: 100%; background: var(--forest); border-radius: 2px; width: 0%; transition: width 0.3s; }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+    .btn-cancel { background: none; border: 1px solid #ddd; color: #888; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; }
+    .btn-save { background: var(--forest); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; }
+    .btn-save:hover { background: var(--forest-lt); }
+
+    /* LIGHTBOX */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 500; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 8px; object-fit: contain; }
+    .lb-close { position: absolute; top: 1.2rem; right: 1.5rem; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; line-height: 1; }
+    .lb-delete { position: absolute; bottom: 1.5rem; right: 1.5rem; background: rgba(168,76,42,0.85); border: none; color: white; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+
+    /* ACCESS DENIED */
+    .access-denied { display: none; text-align: center; padding: 5rem 2rem; }
+    .access-denied .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .access-denied h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--ink); margin-bottom: 0.5rem; }
+    .access-denied p { color: #888; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">Familjen Almström</a>
+    <div class="nav-right">
+      <a class="nav-back" href="index.html">← Hem</a>
+      <button class="nav-logout" onclick="logOut()">Logga ut</button>
+    </div>
+  </nav>
+
+  <!-- ACCESS DENIED -->
+  <div class="access-denied" id="accessDenied">
+    <div class="icon">🔒</div>
+    <h2>Ingen åtkomst</h2>
+    <p>Den här sidan är privat.</p>
+  </div>
+
+  <!-- CONTENT (visas bara för Tora) -->
+  <div id="content" style="display:none">
+    <div class="hero">
+      <h1>Peter & Tora</h1>
+      <p>Vår delade plats 🌲</p>
+    </div>
+
+    <div class="main">
+      <div class="toolbar">
+        <button class="btn-upload" id="btnUpload">📷 Ladda upp foton</button>
+      </div>
+      <div class="photo-grid" id="photoGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <div class="icon">🌸</div>
+        <p>Inga foton ännu — lägg till det första!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPLOAD MODAL -->
+  <div class="modal-backdrop" id="uploadModal">
+    <div class="modal">
+      <h2>📷 Ladda upp foton</h2>
+      <div class="form-row">
+        <label>Bildtext (valfritt)</label>
+        <input type="text" id="fTitel" placeholder="T.ex. Jenna, 3 månader…" />
+      </div>
+      <div class="form-row">
+        <label>Bilder — tryck för att välja eller ta foto</label>
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div style="font-size:2rem;margin-bottom:0.4rem">🖼️</div>
+          <p>Tryck för att välja bilder eller ta foto</p>
+          <input type="file" id="fileInput" multiple accept="image/*" style="display:none;" />
+        </div>
+        <div class="previews" id="previews"></div>
+        <div class="progress-bar-wrap" id="progressWrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancel">Avbryt</button>
+        <button class="btn-save" id="btnSave">Ladda upp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <img id="lbImg" src="" alt="" />
+    <button class="lb-delete" id="lbDelete">🗑 Ta bort</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const ALLOWED_EMAILS = ['pealmab@hotmail.com', 'toraalmstrom96@hotmail.com'];
+    const BUCKET = 'peter-tora';
+
+    let currentUser = null;
+    let stagedFiles = [];
+    let currentPhotoPath = null;
+
+    // AUTH CHECK
+    sb.auth.getSession().then(({ data }) => {
+      const session = data.session;
+      if (!session) { window.location.href = 'login.html'; return; }
+      currentUser = session.user;
+      if (!ALLOWED_EMAILS.includes(currentUser.email.toLowerCase())) {
+        document.getElementById('accessDenied').style.display = 'block';
+      } else {
+        document.getElementById('content').style.display = 'block';
+        loadPhotos();
+      }
+    });
+
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+    // LOAD PHOTOS
+    async function loadPhotos() {
+      const { data, error } = await sb.storage.from(BUCKET).list('shared', { sortBy: { column: 'created_at', order: 'desc' } });
+      const grid = document.getElementById('photoGrid');
+      const empty = document.getElementById('emptyState');
+      grid.innerHTML = '';
+      if (error || !data || data.length === 0) { empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      data.forEach(file => {
+        const path = `shared/${file.name}`;
+        const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
+        const item = document.createElement('div');
+        item.className = 'photo-item';
+        const date = new Date(file.created_at).toLocaleDateString('sv-SE');
+        item.innerHTML = `<img src="${urlData.publicUrl}" alt="${file.name}" loading="lazy" /><div class="photo-date">${date}</div>`;
+        item.onclick = () => openLightbox(urlData.publicUrl, path);
+        grid.appendChild(item);
+      });
+    }
+
+    // UPLOAD MODAL
+    document.getElementById('btnUpload').onclick = () => {
+      stagedFiles = [];
+      document.getElementById('previews').innerHTML = '';
+      document.getElementById('fTitel').value = '';
+      document.getElementById('progressWrap').style.display = 'none';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('uploadModal').classList.add('open');
+    };
+    document.getElementById('btnCancel').onclick = () => document.getElementById('uploadModal').classList.remove('open');
+
+    document.getElementById('fileInput').addEventListener('change', e => {
+      stagedFiles = Array.from(e.target.files);
+      const prev = document.getElementById('previews');
+      prev.innerHTML = '';
+      stagedFiles.forEach(f => {
+        const img = document.createElement('img');
+        img.className = 'preview-thumb';
+        img.src = URL.createObjectURL(f);
+        prev.appendChild(img);
+      });
+    });
+
+    document.getElementById('btnSave').onclick = async () => {
+      if (!stagedFiles.length) { alert('Välj minst ett foto.'); return; }
+      const wrap = document.getElementById('progressWrap');
+      const bar = document.getElementById('progressBar');
+      wrap.style.display = 'block';
+      let done = 0;
+      for (const file of stagedFiles) {
+        const ext = file.name.split('.').pop();
+        const name = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+        const path = `shared/${name}`;
+        await sb.storage.from(BUCKET).upload(path, file, { contentType: file.type });
+        done++;
+        bar.style.width = `${Math.round((done / stagedFiles.length) * 100)}%`;
+      }
+      document.getElementById('uploadModal').classList.remove('open');
+      loadPhotos();
+    };
+
+    // LIGHTBOX
+    function openLightbox(url, path) {
+      currentPhotoPath = path;
+      document.getElementById('lbImg').src = url;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      currentPhotoPath = null;
+    }
+    document.getElementById('lbDelete').onclick = async () => {
+      if (!confirm('Ta bort bilden?')) return;
+      await sb.storage.from(BUCKET).remove([currentPhotoPath]);
+      closeLightbox();
+      loadPhotos();
+    };
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    });
+  </script>
+</body>
+</html>
