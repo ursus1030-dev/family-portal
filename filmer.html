@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filmklubben — Familjen Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
+      --terra: #A84C2A; --terra-lt: #c4603a;
+      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
+      --ink: #1C1810; --bg: #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 6px; }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    @media (max-width: 720px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow: visible; justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; }
+      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
+    .private-dropdown { position: relative; display: inline-flex; align-items: center; }
+    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .private-btn:hover { background: rgba(245,220,180,0.15); }
+    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #2a3f28; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
+    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
+    .private-menu a:hover { background: rgba(255,255,255,0.1); }
+
+    .hero { background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, var(--forest-dk) 100%); padding: 3rem 2rem 2.5rem; text-align: center; }
+    .hero-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .toolbar { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 2rem; }
+    .btn-primary { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.3rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--terra-lt); }
+
+    .films-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+
+    .film-card { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+    .film-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .film-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: #ddd; display: block; }
+    .film-poster-placeholder { width: 100%; aspect-ratio: 2/3; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .film-body { padding: 1rem; }
+    .film-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+    .film-review { font-size: 0.85rem; color: #555; line-height: 1.6; font-style: italic; margin-bottom: 0.6rem; }
+    .film-rec { font-size: 0.78rem; color: var(--forest); font-weight: 500; }
+    .film-meta { padding: 0.6rem 1rem; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.75rem; color: #aaa; display: flex; justify-content: space-between; }
+    .film-delete { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1rem; transition: color 0.2s; }
+    .film-delete:hover { color: var(--terra); }
+
+    .empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; align-items: center; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: white; border-radius: 16px; padding: 2rem; width: min(520px, 92vw); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.5rem; }
+    .form-row { margin-bottom: 1.1rem; }
+    .form-row label { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
+    .form-row input, .form-row textarea { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.95rem; transition: border-color 0.2s; }
+    .form-row input:focus, .form-row textarea:focus { outline: none; border-color: var(--forest); }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+    .poster-preview { width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px; margin-top: 0.5rem; display: none; }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+    .btn-cancel { background: none; border: 1px solid #ddd; color: #888; font-family: 'Jost', sans-serif; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; }
+    .btn-save { background: var(--forest); border: none; color: white; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.5); text-align: center; padding: 2rem; font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Familjen Almström</a>
+  <button class="nav-hamburger" onclick="toggleNav()">&#9776;</button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Hem</a>
+    <a href="aktiviteter.html">Flödet</a>
+    <a href="dagbok.html">Dagbok</a>
+    <a href="fotoalbum.html">Foto</a>
+    <a href="kalender.html">Kalender</a>
+    <a href="receptbok.html">Recept</a>
+    <a href="minnesladan.html">Minnen</a>
+    <a href="boktips.html">Böcker</a>
+    <a href="filmer.html" class="active">Filmer</a>
+    <a href="resor.html">Resor</a>
+    <a href="kartor.html">Kartor</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="tidskapseln.html">Kapsel</a>
+    <a href="familjedialekten.html">Dialekt</a>
+    <a href="familjerekord.html">Rekord</a>
+    <div class="nav-mobile-footer">
+      <button class="nav-logout" onclick="logOut()">Logga ut</button>
+    </div>
+  </div>
+  <div class="nav-right">
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-icon">🎬</div>
+  <h1>Familje<em>filmklubben</em></h1>
+  <p>Filmer vi sett och älskat</p>
+</header>
+
+<div class="main">
+  <div class="toolbar">
+    <button class="btn-primary" id="btnAdd">+ Lägg till film</button>
+  </div>
+  <div class="films-grid" id="filmsGrid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="icon">🎥</div>
+    <p>Inga filmer ännu — lägg till den första!</p>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>🎬 Lägg till film</h2>
+    <div class="form-row">
+      <label>Filmaffisch</label>
+      <input type="file" id="fBild" accept="image/*" />
+      <img class="poster-preview" id="posterPreview" />
+    </div>
+    <div class="form-row">
+      <label>Filmtitel *</label>
+      <input type="text" id="fTitel" placeholder="Filmens titel..." />
+    </div>
+    <div class="form-row">
+      <label>Vad tyckte du?</label>
+      <textarea id="fRecension" placeholder="Vad tyckte du om filmen?"></textarea>
+    </div>
+    <div class="form-row">
+      <label>Rekommenderas till</label>
+      <input type="text" id="fRek" placeholder="T.ex. Alla, Barn, Vuxna..." />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="btnCancel">Avbryt</button>
+      <button class="btn-save" id="btnSave">Spara</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Familjen Almström Demervik Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  function addPrivateNavLinks(email) {
+    const PETER = 'pealmab@hotmail.com';
+    const links = [];
+    if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Tora & Peter 🌲' });
+    if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Alva & Peter 🌺' });
+    if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
+    if (email === 'toraalmstrom96@hotmail.com') links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
+    if (email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
+    if (!links.length) return;
+    const navRight = document.querySelector('.nav-right');
+    if (!navRight) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'private-dropdown';
+    wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
+    navRight.insertBefore(wrap, navRight.firstChild);
+    wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+    document.addEventListener('click', () => wrap.classList.remove('open'));
+  }
+
+  const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+  const BUCKET = 'filmer-posters';
+
+  let currentUser = null;
+  let allFilms = [];
+
+  sb.auth.getSession().then(({ data }) => {
+    if (!data.session) { window.location.href = 'login.html'; return; }
+    currentUser = data.session.user;
+    addPrivateNavLinks(currentUser.email.toLowerCase());
+    loadFilms();
+  });
+
+  async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+  async function loadFilms() {
+    const { data } = await sb.from('filmer').select('*').order('created_at', { ascending: false });
+    allFilms = data || [];
+    renderFilms();
+  }
+
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function renderFilms() {
+    const grid = document.getElementById('filmsGrid');
+    const empty = document.getElementById('emptyState');
+    if (!allFilms.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    grid.innerHTML = allFilms.map(f => {
+      const date = new Date(f.created_at).toLocaleDateString('sv-SE', { year: 'numeric', month: 'short' });
+      const poster = f.bild_url
+        ? `<img class="film-poster" src="${esc(f.bild_url)}" alt="${esc(f.titel)}" loading="lazy" />`
+        : `<div class="film-poster-placeholder">🎬</div>`;
+      return `<div class="film-card">
+        ${poster}
+        <div class="film-body">
+          <div class="film-title">${esc(f.titel)}</div>
+          ${f.recension ? `<div class="film-review">"${esc(f.recension)}"</div>` : ''}
+          ${f.rekommenderas_till ? `<div class="film-rec">Rekommenderas: ${esc(f.rekommenderas_till)}</div>` : ''}
+        </div>
+        <div class="film-meta">
+          <span>${esc(f.tillagd_av||'?')} · ${date}</span>
+          <button class="film-delete" onclick="deleteFilm('${f.id}')">🗑</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  async function deleteFilm(id) {
+    if (!confirm('Ta bort filmen?')) return;
+    await sb.from('filmer').delete().eq('id', id);
+    allFilms = allFilms.filter(f => f.id !== id);
+    renderFilms();
+  }
+
+  // Modal
+  document.getElementById('btnAdd').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+  document.getElementById('btnCancel').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+  // Poster preview
+  document.getElementById('fBild').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const prev = document.getElementById('posterPreview');
+    prev.src = URL.createObjectURL(file);
+    prev.style.display = 'block';
+  });
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('fTitel').value = '';
+    document.getElementById('fRecension').value = '';
+    document.getElementById('fRek').value = '';
+    document.getElementById('fBild').value = '';
+    const prev = document.getElementById('posterPreview');
+    prev.src = ''; prev.style.display = 'none';
+  }
+
+  document.getElementById('btnSave').addEventListener('click', async () => {
+    const titel = document.getElementById('fTitel').value.trim();
+    if (!titel) { alert('Ange en filmtitel!'); return; }
+    const btn = document.getElementById('btnSave');
+    btn.disabled = true; btn.textContent = 'Sparar...';
+
+    let bild_url = null;
+    const file = document.getElementById('fBild').files[0];
+    if (file) {
+      const ext = file.name.split('.').pop();
+      const path = `${currentUser.id}/${Date.now()}.${ext}`;
+      const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file);
+      if (!upErr) {
+        const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
+        bild_url = pub.publicUrl;
+      }
+    }
+
+    const { error } = await sb.from('filmer').insert({
+      titel,
+      recension: document.getElementById('fRecension').value.trim() || null,
+      rekommenderas_till: document.getElementById('fRek').value.trim() || null,
+      bild_url,
+      tillagd_av: currentUser.email.split('@')[0]
+    });
+
+    btn.disabled = false; btn.textContent = 'Spara';
+    if (error) { alert('Kunde inte spara: ' + error.message); return; }
+    closeModal();
+    loadFilms();
+  });
+
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+</script>
+</body>
+</html>

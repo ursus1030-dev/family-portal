@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resor — Familjen Almström</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
+      --terra: #A84C2A; --terra-lt: #c4603a;
+      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
+      --ink: #1C1810; --bg: #F0EBE0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 6px; }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    @media (max-width: 720px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow: visible; justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; }
+      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
+    .private-dropdown { position: relative; display: inline-flex; align-items: center; }
+    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .private-btn:hover { background: rgba(245,220,180,0.15); }
+    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #2a3f28; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
+    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
+    .private-menu a:hover { background: rgba(255,255,255,0.1); }
+
+    .hero { background: linear-gradient(160deg, #1a3a2e 0%, #0d2b1f 50%, var(--forest-dk) 100%); padding: 3rem 2rem 2.5rem; text-align: center; }
+    .hero-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero h1 em { font-style: italic; color: var(--sand); }
+    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+
+    .main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; }
+    .map-link { color: var(--forest); text-decoration: none; font-size: 0.82rem; font-weight: 500; border: 1px solid var(--forest); padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s; }
+    .map-link:hover { background: var(--forest); color: white; }
+    .btn-primary { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.3rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--terra-lt); }
+
+    .trips-list { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .trip-card { background: white; border-radius: 14px; padding: 1.6rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; }
+    .trip-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .trip-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .trip-place { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--ink); }
+    .trip-delete { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1.1rem; transition: color 0.2s; flex-shrink: 0; }
+    .trip-delete:hover { color: var(--terra); }
+    .trip-section { margin-bottom: 0.8rem; }
+    .trip-section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.3rem; }
+    .trip-section-text { font-size: 0.9rem; color: #444; line-height: 1.7; }
+    .trip-tips { background: #f9f6f0; border-left: 3px solid var(--terra); padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; }
+    .trip-tips .trip-section-text { color: #555; font-style: italic; }
+    .trip-footer { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.75rem; color: #aaa; display: flex; justify-content: space-between; align-items: center; }
+    .trip-map-hint { font-size: 0.78rem; color: var(--forest); }
+    .trip-map-hint a { color: var(--forest); text-decoration: underline; }
+
+    .empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; align-items: center; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: white; border-radius: 16px; padding: 2rem; width: min(560px, 92vw); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.5rem; }
+    .form-row { margin-bottom: 1.1rem; }
+    .form-row label { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
+    .form-row input, .form-row textarea { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.95rem; transition: border-color 0.2s; }
+    .form-row input:focus, .form-row textarea:focus { outline: none; border-color: var(--forest); }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+    .map-note { font-size: 0.8rem; color: #888; margin-top: 0.5rem; }
+    .map-note a { color: var(--forest); }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+    .btn-cancel { background: none; border: 1px solid #ddd; color: #888; font-family: 'Jost', sans-serif; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; }
+    .btn-save { background: var(--forest); border: none; color: white; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; }
+    .btn-save:hover { background: var(--forest-lt); }
+
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.5); text-align: center; padding: 2rem; font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Familjen Almström</a>
+  <button class="nav-hamburger" onclick="toggleNav()">&#9776;</button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Hem</a>
+    <a href="aktiviteter.html">Flödet</a>
+    <a href="dagbok.html">Dagbok</a>
+    <a href="fotoalbum.html">Foto</a>
+    <a href="kalender.html">Kalender</a>
+    <a href="receptbok.html">Recept</a>
+    <a href="minnesladan.html">Minnen</a>
+    <a href="boktips.html">Böcker</a>
+    <a href="filmer.html">Filmer</a>
+    <a href="resor.html" class="active">Resor</a>
+    <a href="kartor.html">Kartor</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="tidskapseln.html">Kapsel</a>
+    <a href="familjedialekten.html">Dialekt</a>
+    <a href="familjerekord.html">Rekord</a>
+    <div class="nav-mobile-footer">
+      <button class="nav-logout" onclick="logOut()">Logga ut</button>
+    </div>
+  </div>
+  <div class="nav-right">
+    <button class="nav-logout" onclick="logOut()">Logga ut</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-icon">✈️</div>
+  <h1>Familje<em>resor</em></h1>
+  <p>Platser vi besökt och minnen vi bär med oss</p>
+</header>
+
+<div class="main">
+  <div class="toolbar">
+    <a class="map-link" href="kartor.html">📍 Öppna kartan</a>
+    <button class="btn-primary" id="btnAdd">+ Lägg till resa</button>
+  </div>
+  <div class="trips-list" id="tripsList"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="icon">🗺️</div>
+    <p>Inga resor ännu — lägg till den första!</p>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>✈️ Lägg till resa</h2>
+    <div class="form-row">
+      <label>Plats / Destination *</label>
+      <input type="text" id="fPlats" placeholder="T.ex. Tokyo, Japan eller Lofoten, Norge..." />
+    </div>
+    <div class="form-row">
+      <label>Om resan</label>
+      <textarea id="fBeskrivning" placeholder="Berätta om resan — när, hur, vad ni upplevde..."></textarea>
+    </div>
+    <div class="form-row">
+      <label>Tips & råd</label>
+      <textarea id="fTips" placeholder="Bra hotell, restauranger, vad man bör tänka på..."></textarea>
+    </div>
+    <p class="map-note">Kom ihåg att <a href="kartor.html" target="_blank">pinna platsen på kartan</a> så syns den där också!</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="btnCancel">Avbryt</button>
+      <button class="btn-save" id="btnSave">Spara</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Familjen Almström Demervik Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  function addPrivateNavLinks(email) {
+    const PETER = 'pealmab@hotmail.com';
+    const links = [];
+    if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Tora & Peter 🌲' });
+    if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Alva & Peter 🌺' });
+    if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
+    if (email === 'toraalmstrom96@hotmail.com') links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
+    if (email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
+    if (!links.length) return;
+    const navRight = document.querySelector('.nav-right');
+    if (!navRight) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'private-dropdown';
+    wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
+    navRight.insertBefore(wrap, navRight.firstChild);
+    wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+    document.addEventListener('click', () => wrap.classList.remove('open'));
+  }
+
+  const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+
+  let currentUser = null;
+  let allTrips = [];
+
+  sb.auth.getSession().then(({ data }) => {
+    if (!data.session) { window.location.href = 'login.html'; return; }
+    currentUser = data.session.user;
+    addPrivateNavLinks(currentUser.email.toLowerCase());
+    loadTrips();
+  });
+
+  async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
+  async function loadTrips() {
+    const { data } = await sb.from('resor').select('*').order('created_at', { ascending: false });
+    allTrips = data || [];
+    renderTrips();
+  }
+
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function renderTrips() {
+    const list = document.getElementById('tripsList');
+    const empty = document.getElementById('emptyState');
+    if (!allTrips.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    list.innerHTML = allTrips.map(t => {
+      const date = new Date(t.created_at).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long' });
+      return `<div class="trip-card">
+        <div class="trip-header">
+          <div class="trip-place">📍 ${esc(t.plats)}</div>
+          <button class="trip-delete" onclick="deleteTrip('${t.id}')">🗑</button>
+        </div>
+        ${t.beskrivning ? `<div class="trip-section">
+          <div class="trip-section-label">Om resan</div>
+          <div class="trip-section-text">${esc(t.beskrivning).replace(/\n/g,'<br>')}</div>
+        </div>` : ''}
+        ${t.tips ? `<div class="trip-section trip-tips">
+          <div class="trip-section-label">Tips & råd</div>
+          <div class="trip-section-text">${esc(t.tips).replace(/\n/g,'<br>')}</div>
+        </div>` : ''}
+        <div class="trip-footer">
+          <span>${esc(t.tillagd_av||'?')} · ${date}</span>
+          <span class="trip-map-hint">Pinna på <a href="kartor.html">kartan</a></span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  async function deleteTrip(id) {
+    if (!confirm('Ta bort resan?')) return;
+    await sb.from('resor').delete().eq('id', id);
+    allTrips = allTrips.filter(t => t.id !== id);
+    renderTrips();
+  }
+
+  document.getElementById('btnAdd').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+  document.getElementById('btnCancel').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    ['fPlats','fBeskrivning','fTips'].forEach(id => document.getElementById(id).value = '');
+  }
+
+  document.getElementById('btnSave').addEventListener('click', async () => {
+    const plats = document.getElementById('fPlats').value.trim();
+    if (!plats) { alert('Ange en plats!'); return; }
+    const { error } = await sb.from('resor').insert({
+      plats,
+      beskrivning: document.getElementById('fBeskrivning').value.trim() || null,
+      tips: document.getElementById('fTips').value.trim() || null,
+      tillagd_av: currentUser.email.split('@')[0]
+    });
+    if (error) { alert('Kunde inte spara: ' + error.message); return; }
+    closeModal();
+    loadTrips();
+  });
+
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+</script>
+</body>
+</html>
