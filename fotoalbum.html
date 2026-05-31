@@ -148,11 +148,11 @@
       <a href="familjerekord.html">Rekord</a>
       <a href="boktips.html">Böcker</a>
       <a href="kartor.html">Kartor</a>
+      <a href="aktiviteter.html">Flödet</a>
       <div class="nav-mobile-footer">
         <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
-    <a href="aktiviteter.html">Flödet</a>
-  </div>
+      </div>
     </div>
     <div class="nav-right">
     <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
@@ -470,4 +470,8 @@ function addPrivateNavLinks(email) {
     }
     document.addEventListener('DOMContentLoaded', function() {
       const nl = document.getElementById('navLinks');
-      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () =>
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>
