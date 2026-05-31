@@ -1087,4 +1087,8 @@ function loadAll() {
     }
     document.addEventListener('DOMContentLoaded', function() {
       const nl = document.getElementById('navLinks');
-      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>

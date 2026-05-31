@@ -571,4 +571,60 @@ function addPrivateNavLinks(email) {
       fd.append('upload_preset', CLOUDINARY_PRESET);
       fd.append('folder', 'recept');
       try {
-        const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload
+        const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: fd });
+        const data = await res.json();
+        uploadedPhotoUrl = data.secure_url;
+        document.getElementById('rPhotoPreview').src = uploadedPhotoUrl;
+        document.getElementById('rPhotoPreview').style.display = 'block';
+        document.getElementById('rPhotoStatus').textContent = '✓ Foto uppladdat!';
+      } catch (err) {
+        document.getElementById('rPhotoStatus').textContent = '⚠️ Uppladdning misslyckades';
+      }
+    }
+
+    async function saveRecept() {
+      const title = document.getElementById('rTitle').value.trim();
+      if (!title) { alert('Ange receptnamn'); return; }
+      if (!selectedAuthor) { alert('Välj vems recept det är'); return; }
+      const payload = {
+        title,
+        category: document.getElementById('rCategory').value,
+        description: document.getElementById('rDesc').value.trim(),
+        ingredients: document.getElementById('rIngredients').value.trim(),
+        instructions: document.getElementById('rInstructions').value.trim(),
+        servings: parseInt(document.getElementById('rServings').value) || null,
+        photo_url: uploadedPhotoUrl,
+        author_name: selectedAuthor.name,
+        author_emoji: selectedAuthor.emoji,
+      };
+      if (editingId) {
+        await sb.from('recept').update(payload).eq('id', editingId);
+      } else {
+        await sb.from('recept').insert(payload);
+      }
+      closeAddModal();
+      await loadRecipes();
+      renderGrid();
+    }
+
+    function resetForm() {
+      ['rTitle','rDesc','rIngredients','rInstructions','rServings'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('rCategory').value = 'middag';
+      document.getElementById('rPhotoPreview').style.display = 'none';
+      document.getElementById('rPhotoStatus').textContent = '';
+      document.querySelectorAll('#rAuthorChips .author-chip').forEach(c => c.classList.remove('selected'));
+      uploadedPhotoUrl = null;
+      selectedAuthor = null;
+    }
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+  </script>
+</body>
+</html>
