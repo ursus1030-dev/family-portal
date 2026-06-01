@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Familjen Almström – Födelsedagar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --cream:     #F5F0E8;
+      --cream-dim: rgba(245,240,232,0.65);
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: #F0EBE0; color: var(--ink); min-height: 100vh; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(61,92,58,0.96); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-brand { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:400; color:var(--cream); letter-spacing:0.04em; text-decoration:none; }
+    .nav-links { display:flex; gap:0.1rem; overflow-x:auto; scrollbar-width:none; flex:1; justify-content:flex-start; padding:0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display:none; }
+    .nav-links a { color:rgba(245,240,232,0.75); text-decoration:none; font-size:0.72rem; font-weight:400; letter-spacing:0.08em; text-transform:uppercase; padding:0.35rem 0.55rem; border-radius:6px; transition:background 0.2s,color 0.2s; white-space:nowrap; }
+    .nav-links a:hover, .nav-links a.active { background:rgba(255,255,255,0.12); color:var(--cream); }
+    .nav-right { display:flex; align-items:center; gap:0.5rem; flex-shrink:0; }
+    .nav-logout { background:none; border:1px solid rgba(245,240,232,0.25); color:rgba(245,240,232,0.6); font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.35rem 0.8rem; border-radius:6px; cursor:pointer; transition:all 0.2s; }
+    .nav-logout:hover { border-color:rgba(245,240,232,0.5); color:var(--cream); }
+    .nav-hamburger { display:none; background:none; border:none; color:var(--cream); font-size:1.5rem; cursor:pointer; padding:0.3rem 0.6rem; line-height:1; border-radius:6px; }
+    .nav-mobile-footer { display:none !important; }
+    @media (max-width:720px) {
+      nav { flex-wrap:wrap; height:auto; min-height:56px; padding:0 1rem; position:relative; }
+      .nav-brand { flex:1; }
+      .nav-hamburger { display:flex; align-items:center; }
+      .nav-right { display:none; }
+      .nav-links { display:none; width:100%; flex-direction:column; gap:0; padding:0.5rem 0 0.8rem; overflow-y:auto; max-height:calc(100svh - 60px); justify-content:flex-start; order:3; border-top:1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display:flex; }
+      .nav-links a { font-size:0.85rem; padding:0.55rem 0.8rem; white-space:normal; border-radius:8px; }
+      .nav-mobile-footer { display:flex !important; gap:0.5rem; padding:0.6rem 0.8rem 0.2rem; border-top:1px solid rgba(255,255,255,0.1); margin-top:0.2rem; }
+    }
+
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 60%, #7a5a10 100%);
+      padding: 3.5rem 2rem 3rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .page-hero::before { content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(200,160,20,0.2) 0%, transparent 60%); }
+    .page-hero-content { position:relative; z-index:1; }
+    .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3rem); font-weight:300; color:var(--cream); letter-spacing:0.04em; margin-bottom:0.5rem; }
+    .page-hero p { font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(245,240,232,0.5); }
+
+    /* CONTENT */
+    .content { max-width: 760px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+
+    /* NÄRMAST-SEKTION */
+    .next-section { margin-bottom: 2.5rem; }
+    .section-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--forest); margin-bottom: 1rem;
+    }
+
+    /* KORT */
+    .bday-card {
+      background: var(--cream); border-radius: 16px; overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(61,92,58,0.08);
+      margin-bottom: 1rem; display: flex; align-items: stretch;
+      transition: box-shadow 0.3s;
+    }
+
+    /* Nivå 1: 8–30 dagar (normal, grön) */
+    .bday-card .bday-countdown { background: var(--forest); }
+
+    /* Nivå 2: 4–7 dagar – orange glöd */
+    .bday-card.warm {
+      box-shadow: 0 4px 20px rgba(180,100,20,0.2), 0 0 0 1px rgba(200,130,20,0.3);
+      animation: warmPulse 3s ease-in-out infinite;
+    }
+    .bday-card.warm .bday-countdown { background: linear-gradient(135deg, #c87820, #e09030); }
+    @keyframes warmPulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(180,100,20,0.2), 0 0 0 1px rgba(200,130,20,0.3); }
+      50%      { box-shadow: 0 8px 32px rgba(180,100,20,0.4), 0 0 0 2px rgba(200,130,20,0.5); }
+    }
+
+    /* Nivå 3: 1–3 dagar – röd/eldeffekt */
+    .bday-card.fire {
+      box-shadow: 0 6px 28px rgba(200,40,10,0.3), 0 0 0 2px rgba(220,60,10,0.4);
+      animation: firePulse 1.5s ease-in-out infinite;
+    }
+    .bday-card.fire .bday-countdown {
+      background: linear-gradient(135deg, #c02010, #e04020);
+      animation: fireGlow 1.5s ease-in-out infinite;
+    }
+    @keyframes firePulse {
+      0%,100% { box-shadow: 0 6px 28px rgba(200,40,10,0.3), 0 0 0 2px rgba(220,60,10,0.4); transform: scale(1); }
+      50%      { box-shadow: 0 10px 40px rgba(200,40,10,0.5), 0 0 0 3px rgba(220,60,10,0.6); transform: scale(1.01); }
+    }
+    @keyframes fireGlow {
+      0%,100% { filter: brightness(1); }
+      50%      { filter: brightness(1.2); }
+    }
+
+    /* Nivå 4: Idag! – guld + konfetti-glitter */
+    .bday-card.today {
+      box-shadow: 0 8px 40px rgba(200,160,20,0.4), 0 0 0 3px rgba(220,180,20,0.5);
+      animation: todayPop 0.8s ease-in-out infinite alternate;
+    }
+    .bday-card.today .bday-countdown {
+      background: linear-gradient(135deg, #b8900a, #d4a820, #f0c030);
+      background-size: 200% 200%;
+      animation: goldShimmer 2s ease infinite;
+    }
+    @keyframes todayPop {
+      0%   { transform: scale(1);    box-shadow: 0 8px 40px rgba(200,160,20,0.4), 0 0 0 3px rgba(220,180,20,0.5); }
+      100% { transform: scale(1.02); box-shadow: 0 12px 50px rgba(200,160,20,0.6), 0 0 0 4px rgba(220,180,20,0.7); }
+    }
+    @keyframes goldShimmer {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .countdown-num { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:400; line-height:1; color: var(--cream); }
+    .countdown-lbl { font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.75; margin-top:0.1rem; color: var(--cream); }
+
+    /* Konfetti canvas */
+    #confetti-canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
+
+    .bday-info { padding: 1.2rem 1.5rem; flex: 1; }
+    .bday-names { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-weight:400; color:var(--forest-dk); margin-bottom:0.25rem; }
+    .bday-date  { font-size:0.78rem; color:rgba(28,24,16,0.5); margin-bottom:0.4rem; }
+    .bday-ages  { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .age-chip {
+      display:inline-flex; align-items:center; gap:0.3rem;
+      background:rgba(61,92,58,0.08); border-radius:20px;
+      padding:0.15rem 0.55rem; font-size:0.72rem; color:var(--forest);
+    }
+
+    /* LISTA ALLA */
+    .all-section { margin-top: 2.5rem; }
+    .bday-list-item {
+      display:flex; align-items:center; gap:1rem;
+      padding:0.7rem 0; border-bottom:1px solid rgba(61,92,58,0.07);
+    }
+    .bday-list-item:last-child { border-bottom:none; }
+    .list-date { min-width:80px; font-size:0.82rem; color:rgba(28,24,16,0.5); }
+    .list-name { flex:1; font-size:0.92rem; font-weight:500; }
+    .list-days { font-size:0.78rem; color:var(--forest); font-weight:500; text-align:right; }
+
+    footer { background:var(--forest-dk); color:rgba(245,240,232,0.4); text-align:center; padding:2rem; font-size:0.75rem; letter-spacing:0.1em; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Hem</a>
+      <a href="dagbok.html">Dagbok</a>
+      <a href="fotoalbum.html">Foto</a>
+      <a href="stamtavla.html">Stamtavla</a>
+      <a href="familjetrad.html">Trädet</a>
+      <a href="visdomsbanken.html">Visdom</a>
+      <a href="kalender.html">Kalender</a>
+      <a href="receptbok.html">Recept</a>
+      <a href="minnesladan.html">Minnen</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="tidskapseln.html">Kapsel</a>
+      <a href="familjedialekten.html">Dialekt</a>
+      <a href="familjerekord.html">Rekord</a>
+      <a href="boktips.html">Böcker</a>
+      <a href="kartor.html">Kartor</a>
+      <a href="fodelsedagar.html" class="active">Födelsedagar</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-logout" onclick="logOut()">Logga ut</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-logout" onclick="logOut()">Logga ut</button>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="page-hero-content">
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;">🎂</div>
+      <h1>Familjens Födelsedagar</h1>
+      <p>Kommande och årets alla kalas</p>
+    </div>
+  </header>
+
+  <canvas id="confetti-canvas" style="display:none"></canvas>
+  <div class="content" id="mainContent">
+    <p style="text-align:center;color:rgba(28,24,16,0.4);font-size:0.85rem;">Laddar…</p>
+  </div>
+
+  <footer>
+    <p>Familjen Almström &nbsp;·&nbsp; Privat familjesajt</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html'; return; }
+      renderBirthdays();
+    });
+
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+
+    // Födelsedagdata — samkör Peter & Isak (samma dag)
+    const GROUPS = [
+      { persons: [{ name:'Peter',   birth:'1974-06-22', emoji:'🏡' }, { name:'Isak', birth:'1998-06-22', emoji:'⚡' }] },
+      { persons: [{ name:'Carina',  birth:'1976-04-16', emoji:'🌸' }] },
+      { persons: [{ name:'Elias',   birth:'2006-06-07', emoji:'🎮' }] },
+      { persons: [{ name:'Mattias', birth:'1989-06-26', emoji:'🎷' }] },
+      { persons: [{ name:'Tora',    birth:'1996-10-21', emoji:'☀️' }] },
+      { persons: [{ name:'Jenna',   birth:'2026-02-06', emoji:'🍼' }] },
+      { persons: [{ name:'Alva',    birth:'1999-12-03', emoji:'🌺' }] },
+      { persons: [{ name:'Svea',    birth:'2023-12-04', emoji:'🌼' }] },
+      { persons: [{ name:'Signe',   birth:'2026-05-04', emoji:'🌟' }] },
+      { persons: [{ name:'Benke',   birth:'1963-11-24', emoji:'🦌' }] },
+    ];
+
+    const MONTHS_SV = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+
+    function nextBirthday(dateStr) {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const [y, m, d] = dateStr.split('-').map(Number);
+      let next = new Date(today.getFullYear(), m-1, d);
+      if (next < today) next = new Date(today.getFullYear()+1, m-1, d);
+      return { date: next, days: Math.round((next - today) / 86400000) };
+    }
+
+    function age(birthStr, refYear) {
+      const [y] = birthStr.split('-').map(Number);
+      return refYear - y;
+    }
+
+    function formatDate(dateStr) {
+      const [, m, d] = dateStr.split('-').map(Number);
+      return `${d} ${MONTHS_SV[m-1]}`;
+    }
+
+    function renderBirthdays() {
+      const today = new Date(); today.setHours(0,0,0,0);
+
+      // Beräkna nästa födelsedag per grupp
+      const computed = GROUPS.map(g => {
+        const nb = nextBirthday(g.persons[0].birth); // alla i gruppen har samma datum
+        return { ...g, next: nb.date, days: nb.days };
+      });
+
+      // Sortera efter närmast
+      computed.sort((a, b) => a.days - b.days);
+
+      // Dela upp: kommande 30 dagar + resten
+      const upcoming = computed.filter(g => g.days <= 30);
+      const rest = computed.filter(g => g.days > 30);
+
+      let html = '';
+
+      // Kommande
+      if (upcoming.length) {
+        html += `<div class="next-section"><div class="section-label">Inom 30 dagar</div>`;
+        upcoming.forEach(g => {
+          let cls = '';
+          if (g.days === 0)       cls = 'today';
+          else if (g.days <= 3)   cls = 'fire';
+          else if (g.days <= 7)   cls = 'warm';
+          const num = g.days === 0 ? '🎉' : g.days;
+          const lbl = g.days === 0 ? 'Idag!' : g.days === 1 ? 'dag' : 'dagar';
+          const names = g.persons.map(p => p.emoji + ' ' + p.name).join(' & ');
+          const ages = g.persons.map(p => {
+            const yr = g.next.getFullYear();
+            return `<span class="age-chip">${p.name} fyller ${age(p.birth, yr)}</span>`;
+          }).join('');
+          const dateLabel = formatDate(g.persons[0].birth);
+          html += `
+          <div class="bday-card ${cls}">
+            <div class="bday-countdown">
+              <div class="countdown-num">${num}</div>
+              ${g.days > 0 ? `<div class="countdown-lbl">${lbl}</div>` : ''}
+            </div>
+            <div class="bday-info">
+              <div class="bday-names">${names}</div>
+              <div class="bday-date">${dateLabel}</div>
+              <div class="bday-ages">${ages}</div>
+            </div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      // Alla övriga (lista)
+      html += `<div class="all-section"><div class="section-label">Resten av året</div>`;
+      if (rest.length === 0) {
+        html += `<p style="color:rgba(28,24,16,0.4);font-size:0.85rem;">Alla är inom 30 dagar!</p>`;
+      } else {
+        rest.forEach(g => {
+          const names = g.persons.map(p => p.emoji + ' ' + p.name).join(' & ');
+          const dateLabel = formatDate(g.persons[0].birth);
+          const ages = g.persons.map(p => `${p.name} fyller ${age(p.birth, g.next.getFullYear())}`).join(' · ');
+          html += `
+          <div class="bday-list-item">
+            <div class="list-date">${dateLabel}</div>
+            <div class="list-name">${names}<br><span style="font-size:0.72rem;color:rgba(28,24,16,0.45);font-weight:400;">${ages}</span></div>
+            <div class="list-days">om ${g.days} dagar</div>
+          </div>`;
+        });
+      }
+      html += `</div>`;
+
+      document.getElementById('mainContent').innerHTML = html;
+
+      // Starta konfetti om någon fyller år idag
+      if (upcoming.some(g => g.days === 0)) startConfetti();
+    }
+
+    function startConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      canvas.style.display = 'block';
+      const ctx = canvas.getContext('2d');
+      const colors = ['#f0c030','#e04020','#3D5C3A','#A84C2A','#60a0d0','#e080c0','#80d080'];
+      let pieces = [];
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      for (let i = 0; i < 180; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: Math.random() * 2 + 1,
+          drift: (Math.random() - 0.5) * 1.5,
+          rot: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 4,
+          opacity: Math.random() * 0.5 + 0.5
+        });
+      }
+      function loop() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pieces.forEach(p => {
+          ctx.save();
+          ctx.translate(p.x + p.w/2, p.y + p.h/2);
+          ctx.rotate(p.rot * Math.PI / 180);
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+          ctx.restore();
+          p.y += p.speed; p.x += p.drift; p.rot += p.rotSpeed;
+          if (p.y > canvas.height) { p.y = -20; p.x = Math.random() * canvas.width; }
+        });
+        requestAnimationFrame(loop);
+      }
+      loop();
+    }
+  </script>
+</body>
+</html>

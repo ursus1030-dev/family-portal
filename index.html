@@ -517,6 +517,27 @@
       background: linear-gradient(135deg, #f0e8d5, #e8dcc8);
     }
 
+    /* ── FÖDELSEDAG-NOTIS ── */
+    .bday-bar {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      padding: 0.6rem 2rem;
+      background: linear-gradient(90deg, #fff8e0, #fef3d0, #fff8e0);
+      border-bottom: 1px solid rgba(200,160,20,0.2);
+      font-size: 0.88rem;
+      color: #7a5a10;
+    }
+    .bday-bar a { color: #a07010; font-weight: 500; text-decoration: underline; text-decoration-style: dotted; }
+    .bday-chip {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: rgba(200,160,20,0.12); border: 1px solid rgba(200,160,20,0.25);
+      border-radius: 20px; padding: 0.2rem 0.65rem;
+      font-weight: 500;
+    }
+
     /* ── SIDFOT ── */
     footer {
       background: var(--forest-dk);
@@ -595,6 +616,9 @@
   <div class="welcome-bar">
     <span id="welcome-name">Välkommen hem</span>
   </div>
+
+  <!-- FÖDELSEDAG-NOTIS -->
+  <div class="bday-bar" id="bdayBar"></div>
 
   <!-- SÄSONGSBANNER -->
   <div class="season-banner" id="seasonBanner" style="display:none">
@@ -999,6 +1023,41 @@
       if (e.target === document.getElementById('personModal')) closeCard();
     }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+
+    // ── FÖDELSEDAG-NOTIS ──
+    (function() {
+      const BDAYS = [
+        { names:['Peter','Isak'], date:'06-22', emoji:'🎂' },
+        { names:['Carina'],       date:'04-16', emoji:'🎂' },
+        { names:['Elias'],        date:'06-07', emoji:'🎂' },
+        { names:['Mattias'],      date:'06-26', emoji:'🎂' },
+        { names:['Tora'],         date:'10-21', emoji:'🎂' },
+        { names:['Jenna'],        date:'02-06', emoji:'🎂' },
+        { names:['Alva'],         date:'12-03', emoji:'🎂' },
+        { names:['Svea'],         date:'12-04', emoji:'🎂' },
+        { names:['Signe'],        date:'05-04', emoji:'🎂' },
+        { names:['Benke'],        date:'11-24', emoji:'🎂' },
+      ];
+      const today = new Date();
+      const yr = today.getFullYear();
+      const upcoming = [];
+      BDAYS.forEach(b => {
+        let next = new Date(yr + '-' + b.date);
+        if (next < today) next = new Date((yr+1) + '-' + b.date);
+        const days = Math.ceil((next - today) / 86400000);
+        if (days <= 30) upcoming.push({ ...b, days });
+      });
+      if (!upcoming.length) return;
+      upcoming.sort((a,b) => a.days - b.days);
+      const bar = document.getElementById('bdayBar');
+      const chips = upcoming.map(u => {
+        const label = u.names.join(' & ');
+        const when = u.days === 0 ? 'Idag!' : u.days === 1 ? 'imorgon' : `om ${u.days} dagar`;
+        return `<span class="bday-chip">${u.emoji} ${label} fyller år ${when}</span>`;
+      }).join('');
+      bar.innerHTML = chips + ` &nbsp;— <a href="fodelsedagar.html">Se alla födelsedagar →</a>`;
+      bar.style.display = 'flex';
+    })();
 
     function toggleNav() {
       const nl = document.getElementById('navLinks');
