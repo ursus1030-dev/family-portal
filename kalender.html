@@ -498,7 +498,7 @@ function addPrivateNavLinks(email) {
       cell.appendChild(numEl);
 
       // Events for this day
-      const dayStr = date.toISOString().split('T')[0];
+      const dayStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
       const dayEvents = allEvents.filter(e => e.event_date === dayStr);
       if (dayEvents.length) cell.classList.add('has-events');
       dayEvents.slice(0,3).forEach(ev => {
