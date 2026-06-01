@@ -239,6 +239,27 @@
       letter-spacing: 0.05em;
     }
 
+    .pass-wrap {
+      position: relative;
+    }
+    .pass-wrap input {
+      padding-right: 2.8rem;
+    }
+    .pass-toggle {
+      position: absolute;
+      right: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      padding: 0;
+      line-height: 1;
+    }
+    .pass-toggle:hover { color: var(--gold); }
+
     .footer-note {
       margin-top: 2rem;
       font-size: 0.72rem;
@@ -292,7 +313,10 @@
       </div>
       <div class="form-group">
         <label for="password">Lösenord</label>
-        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+        <div class="pass-wrap">
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" class="pass-toggle" onclick="togglePass('password',this)" aria-label="Visa/dölj lösenord">👁</button>
+        </div>
       </div>
       <button class="btn-login" id="loginBtn" onclick="doLogin()">Logga in</button>
       <div id="msg"></div>
@@ -331,11 +355,17 @@
       <h2>Välj nytt lösenord</h2>
       <div class="form-group">
         <label for="newpass">Nytt lösenord</label>
-        <input type="password" id="newpass" placeholder="Minst 6 tecken" />
+        <div class="pass-wrap">
+          <input type="password" id="newpass" placeholder="Minst 6 tecken" />
+          <button type="button" class="pass-toggle" onclick="togglePass('newpass',this)" aria-label="Visa/dölj lösenord">👁</button>
+        </div>
       </div>
       <div class="form-group">
         <label for="newpass2">Upprepa lösenord</label>
-        <input type="password" id="newpass2" placeholder="Samma igen" />
+        <div class="pass-wrap">
+          <input type="password" id="newpass2" placeholder="Samma igen" />
+          <button type="button" class="pass-toggle" onclick="togglePass('newpass2',this)" aria-label="Visa/dölj lösenord">👁</button>
+        </div>
       </div>
       <button class="btn-login" id="resetBtn" onclick="doReset()">Spara lösenord</button>
       <div id="resetMsg"></div>
@@ -476,6 +506,12 @@
       msg.textContent = 'Lösenordet sparat! Loggar in…';
       msg.className = 'success';
       setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    }
+
+    function togglePass(id, btn) {
+      const el = document.getElementById(id);
+      el.type = el.type === 'password' ? 'text' : 'password';
+      btn.textContent = el.type === 'password' ? '👁' : '🙈';
     }
 
     function showForgot() {
