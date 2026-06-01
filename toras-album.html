@@ -174,7 +174,7 @@
       if (!session) { window.location.href = 'login.html'; return; }
       currentUser = session.user;
       if (currentUser.email.toLowerCase() !== ALLOWED_EMAIL) {
-        document.getElementById('accessDenied').style.display = 'block';
+        window.location.href = 'index.html';
       } else {
         document.getElementById('content').style.display = 'block';
         loadPhotos();
