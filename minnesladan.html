@@ -51,7 +51,7 @@
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
       .nav-right { display: none; }
-      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow: visible; justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
       .nav-links.open { display: flex; }
       .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
       .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
@@ -163,7 +163,9 @@
     <div class="nav-links" id="navLinks">
       <a href="index.html">Hem</a>
       <a href="dagbok.html">Dagbok</a>
+      <a href="fotoalbum.html">Foto</a>
       <a href="stamtavla.html">Stamtavla</a>
+      <a href="familjetrad.html">Trädet</a>
       <a href="visdomsbanken.html">Visdom</a>
       <a href="kalender.html">Kalender</a>
       <a href="receptbok.html">Recept</a>
@@ -172,16 +174,16 @@
       <a href="tidskapseln.html">Kapsel</a>
       <a href="familjedialekten.html">Dialekt</a>
       <a href="familjerekord.html">Rekord</a>
-    
-      <a href="fotoalbum.html">Foto</a>
-      <a href="familjetrad.html">Trädet</a>
       <a href="boktips.html">Böcker</a>
       <a href="kartor.html">Kartor</a>
       <a href="aktiviteter.html">Flödet</a>
-      <div class="nav-mobile-footer">
+      <a href="filmer.html">Filmer</a>
+      <a href="resor.html">Resor</a>
+    <div class="nav-mobile-footer">
         <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
-  </div>
+      <a href="fodelsedagar.html">Födelsedagar</a>
+    </div>
     </div>
     <div class="nav-right">
     <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>

@@ -133,8 +133,8 @@
     .countdown-num { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:400; line-height:1; color: var(--cream); }
     .countdown-lbl { font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.75; margin-top:0.1rem; color: var(--cream); }
 
-    /* Konfetti canvas */
-    #confetti-canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
+    /* Effekt-canvas */
+    #fx-canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
 
     .bday-info { padding: 1.2rem 1.5rem; flex: 1; }
     .bday-names { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-weight:400; color:var(--forest-dk); margin-bottom:0.25rem; }
@@ -199,7 +199,7 @@
     </div>
   </header>
 
-  <canvas id="confetti-canvas" style="display:none"></canvas>
+  <canvas id="fx-canvas"></canvas>
   <div class="content" id="mainContent">
     <p style="text-align:center;color:rgba(28,24,16,0.4);font-size:0.85rem;">Laddar…</p>
   </div>
@@ -213,6 +213,22 @@
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // Starta effekter direkt — ingen väntan på auth
+    const _minDays = (function() {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const dates = ['06-22','04-16','06-07','06-26','10-21','02-06','12-03','12-04','05-04','11-24'];
+      let min = 999;
+      dates.forEach(d => {
+        const [m, dd] = d.split('-').map(Number);
+        let next = new Date(today.getFullYear(), m-1, dd);
+        if (next < today) next = new Date(today.getFullYear()+1, m-1, dd);
+        const days = Math.round((next - today) / 86400000);
+        if (days < min) min = days;
+      });
+      return min;
+    })();
+    startFX(_minDays);
 
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html'; return; }
@@ -328,48 +344,167 @@
 
       document.getElementById('mainContent').innerHTML = html;
 
-      // Starta konfetti om någon fyller år idag
-      if (upcoming.some(g => g.days === 0)) startConfetti();
+      // Bestäm intensitet utifrån närmaste födelsedag
+      const minDays = upcoming.length ? upcoming[0].days : (rest.length ? rest[0].days : 99);
+      startFX(minDays);
     }
 
-    function startConfetti() {
-      const canvas = document.getElementById('confetti-canvas');
-      canvas.style.display = 'block';
+    function startFX(minDays) {
+      const canvas = document.getElementById('fx-canvas');
       const ctx = canvas.getContext('2d');
-      const colors = ['#f0c030','#e04020','#3D5C3A','#A84C2A','#60a0d0','#e080c0','#80d080'];
-      let pieces = [];
       function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       resize(); window.addEventListener('resize', resize);
-      for (let i = 0; i < 180; i++) {
-        pieces.push({
+
+      const COLORS = ['#f0c030','#ff4040','#40d0ff','#ff80c0','#80ff80','#ffaa20','#c080ff','#ff6020','#40ffaa'];
+
+      // ── BALLONGER ──
+      const balloons = [];
+      const balloonCount = minDays === 0 ? 18 : minDays <= 3 ? 12 : minDays <= 7 ? 7 : 4;
+      for (let i = 0; i < balloonCount; i++) {
+        balloons.push({
           x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height - canvas.height,
-          w: Math.random() * 10 + 5,
-          h: Math.random() * 6 + 3,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 2 + 1,
-          drift: (Math.random() - 0.5) * 1.5,
-          rot: Math.random() * 360,
-          rotSpeed: (Math.random() - 0.5) * 4,
-          opacity: Math.random() * 0.5 + 0.5
+          y: canvas.height + Math.random() * 400,
+          r: 22 + Math.random() * 18,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          speed: 0.5 + Math.random() * 1.2,
+          drift: (Math.random() - 0.5) * 0.6,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.03 + Math.random() * 0.02
         });
       }
-      function loop() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        pieces.forEach(p => {
-          ctx.save();
-          ctx.translate(p.x + p.w/2, p.y + p.h/2);
-          ctx.rotate(p.rot * Math.PI / 180);
-          ctx.globalAlpha = p.opacity;
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-          ctx.restore();
-          p.y += p.speed; p.x += p.drift; p.rot += p.rotSpeed;
-          if (p.y > canvas.height) { p.y = -20; p.x = Math.random() * canvas.width; }
+
+      // ── FYRVERK ──
+      const rockets = [];
+      const particles = [];
+
+      // Hur ofta fyrverk skjuts upp (ms)
+      const fwInterval = minDays === 0 ? 600 : minDays <= 3 ? 1200 : minDays <= 7 ? 2500 : 5000;
+
+      function launchRocket() {
+        rockets.push({
+          x: 80 + Math.random() * (canvas.width - 160),
+          y: canvas.height,
+          vy: -(8 + Math.random() * 7),
+          vx: (Math.random() - 0.5) * 2,
+          targetY: canvas.height * (0.1 + Math.random() * 0.45),
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          trail: []
         });
+      }
+
+      function explode(x, y, color) {
+        const count = minDays === 0 ? 120 : minDays <= 3 ? 90 : 60;
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 / count) * i + Math.random() * 0.3;
+          const speed = 1.5 + Math.random() * 4.5;
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            color: Math.random() > 0.3 ? color : COLORS[Math.floor(Math.random() * COLORS.length)],
+            life: 1,
+            decay: 0.012 + Math.random() * 0.018,
+            r: 1.5 + Math.random() * 3,
+            gravity: 0.06 + Math.random() * 0.04,
+            sparkle: Math.random() > 0.5
+          });
+        }
+      }
+
+      let lastRocket = 0;
+
+      function loop(ts) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Ballonger
+        balloons.forEach(b => {
+          b.y -= b.speed;
+          b.x += b.drift + Math.sin(b.wobble) * 0.5;
+          b.wobble += b.wobbleSpeed;
+          if (b.y < -b.r * 3) {
+            b.y = canvas.height + b.r;
+            b.x = Math.random() * canvas.width;
+          }
+          // Ballong-kropp
+          ctx.save();
+          ctx.globalAlpha = 0.88;
+          const grad = ctx.createRadialGradient(b.x - b.r*0.3, b.y - b.r*0.3, b.r*0.1, b.x, b.y, b.r);
+          grad.addColorStop(0, 'rgba(255,255,255,0.6)');
+          grad.addColorStop(0.4, b.color);
+          grad.addColorStop(1, b.color + 'aa');
+          ctx.beginPath();
+          ctx.ellipse(b.x, b.y, b.r, b.r * 1.15, 0, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+          // Knuten
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y + b.r * 1.15);
+          ctx.lineTo(b.x - 3, b.y + b.r * 1.25);
+          ctx.lineTo(b.x + 3, b.y + b.r * 1.25);
+          ctx.closePath();
+          ctx.fillStyle = b.color;
+          ctx.fill();
+          // Snöre
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y + b.r * 1.25);
+          for (let s = 0; s < 30; s++) {
+            ctx.lineTo(b.x + Math.sin(s * 0.4 + b.wobble) * 4, b.y + b.r * 1.25 + s * 2.5);
+          }
+          ctx.strokeStyle = 'rgba(150,150,150,0.5)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        // Raketer
+        if (ts - lastRocket > fwInterval) {
+          launchRocket();
+          lastRocket = ts;
+        }
+
+        for (let i = rockets.length - 1; i >= 0; i--) {
+          const r = rockets[i];
+          r.trail.push({ x: r.x, y: r.y });
+          if (r.trail.length > 12) r.trail.shift();
+          // Raketstjärna
+          r.trail.forEach((pt, idx) => {
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, (idx / r.trail.length) * 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,220,80,${idx / r.trail.length * 0.6})`;
+            ctx.fill();
+          });
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff';
+          ctx.fill();
+          r.x += r.vx; r.y += r.vy;
+          if (r.y <= r.targetY) {
+            explode(r.x, r.y, r.color);
+            rockets.splice(i, 1);
+          }
+        }
+
+        // Partiklar
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          p.vx *= 0.97; p.vy *= 0.97;
+          p.vy += p.gravity;
+          p.life -= p.decay;
+          if (p.life <= 0) { particles.splice(i, 1); continue; }
+          ctx.save();
+          ctx.globalAlpha = p.life * (p.sparkle ? (Math.random() > 0.4 ? 1 : 0.2) : 1);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+          ctx.restore();
+        }
+
         requestAnimationFrame(loop);
       }
-      loop();
+
+      requestAnimationFrame(loop);
     }
   </script>
 </body>

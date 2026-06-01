@@ -577,7 +577,8 @@
     <div class="nav-mobile-footer">
         <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
-      </div>
+      <a href="fodelsedagar.html">Födelsedagar</a>
+    </div>
     </div>
     <div class="nav-right">
       <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
@@ -1041,53 +1042,4 @@
       const today = new Date();
       const yr = today.getFullYear();
       const upcoming = [];
-      BDAYS.forEach(b => {
-        let next = new Date(yr + '-' + b.date);
-        if (next < today) next = new Date((yr+1) + '-' + b.date);
-        const days = Math.ceil((next - today) / 86400000);
-        if (days <= 30) upcoming.push({ ...b, days });
-      });
-      if (!upcoming.length) return;
-      upcoming.sort((a,b) => a.days - b.days);
-      const bar = document.getElementById('bdayBar');
-      const chips = upcoming.map(u => {
-        const label = u.names.join(' & ');
-        const when = u.days === 0 ? 'Idag!' : u.days === 1 ? 'imorgon' : `om ${u.days} dagar`;
-        return `<span class="bday-chip">${u.emoji} ${label} fyller år ${when}</span>`;
-      }).join('');
-      bar.innerHTML = chips + ` &nbsp;— <a href="fodelsedagar.html">Se alla födelsedagar →</a>`;
-      bar.style.display = 'flex';
-    })();
-
-    function toggleNav() {
-      const nl = document.getElementById('navLinks');
-      nl.classList.toggle('open');
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      const nl = document.getElementById('navLinks');
-      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
-    });
-  </script>
-  <script>
-    (function(){
-      var VERS_URL = "version.json?t=" + Date.now();
-      var stored;
-      fetch(VERS_URL).then(function(r){return r.json();}).then(function(d){
-        stored = d.version;
-      }).catch(function(){});
-      setInterval(function(){
-        if(!stored) return;
-        fetch("version.json?t=" + Date.now()).then(function(r){return r.json();}).then(function(d){
-          if(d.version !== stored </body></body> !document.getElementById("update-banner")){
-            var b = document.createElement("div");
-            b.id = "update-banner";
-            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
-            b.innerHTML = "✨ Sajten har uppdaterats! <button onclick="location.reload(true)" style="background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;">Ladda om</button>";
-            document.body.appendChild(b);
-          }
-        }).catch(function(){});
-      }, 300000);
-    })();
-  </script>
-</body>
-</html>
+      BDAYS.forEach(b
