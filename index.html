@@ -831,7 +831,7 @@
     // MÅSTE vara innan createClient — Supabase rensar hash/search vid initiering!
     const _initHash   = window.location.hash;
     const _initSearch = window.location.search;
-    if ((_initHash   && _initHash.includes('type=recovery')) ||
+    if ((_initHash   && (_initHash.includes('type=recovery') || _initHash.includes('type=invite'))) ||
         (_initSearch && _initSearch.includes('code='))) {
       window.location.replace('login.html' + _initSearch + _initHash);
     }
