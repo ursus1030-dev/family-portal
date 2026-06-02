@@ -433,8 +433,8 @@
       const hash   = _savedHash;   // Sparad innan createClient rensade hash
       const search = _savedSearch; // Sparad för PKCE-flöde (?code=)
 
-      // Implicit flöde: hash innehåller access_token direkt
-      if (hash && hash.includes('type=recovery')) {
+      // Implicit flöde: hash innehåller access_token direkt (recovery eller invite)
+      if (hash && (hash.includes('type=recovery') || hash.includes('type=invite'))) {
         document.getElementById('loginCard').style.display = 'none';
         document.getElementById('resetCard').style.display = 'block';
         const params = new URLSearchParams(hash.substring(1));
