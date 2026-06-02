@@ -369,10 +369,7 @@
 
 <!-- TAB BAR -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="showTab('filmer')" id="tab-filmer">
-    <span class="tab-emoji">🎬</span> Filmklubben
-  </button>
-  <button class="tab-btn" onclick="showTab('resor')" id="tab-resor">
+  <button class="tab-btn" onclick="showTab('resor')" id="tab-resor" class="tab-btn active">
     <span class="tab-emoji">🌍</span> Resor
   </button>
   <button class="tab-btn" onclick="showTab('fiske')" id="tab-fiske">
@@ -386,22 +383,9 @@
   </button>
 </div>
 
-<!-- ══════════ FILMER ══════════ -->
-<section id="sec-filmer" class="section active">
-  <div class="section-header">
-    <div class="section-title">
-      <small>Vad har familjen sett?</small>
-      Filmklubben
-    </div>
-    <button class="btn-add" onclick="openModal('modal-film')">+ Tipsa om film</button>
-  </div>
-  <div class="book-grid" id="film-grid">
-    <div class="empty"><div class="empty-icon">🎬</div><p>Inga filmtips ännu.<br>Var den första att tipsa!</p></div>
-  </div>
-</section>
 
 <!-- ══════════ RESOR ══════════ -->
-<section id="sec-resor" class="section">
+<section id="sec-resor" class="section active">
   <div class="section-header">
     <div class="section-title">
       <small>Familjeäventyr</small>
@@ -488,61 +472,6 @@
 
 <!-- ════════════════════════════ MODALS ════════════════════════════ -->
 
-<!-- Modal: Film -->
-<div class="modal-overlay" id="modal-film">
-  <div class="modal">
-    <h2>🎬 Tipsa om film</h2>
-    <div class="form-group">
-      <label>Filmtitel</label>
-      <input type="text" id="film-titel" placeholder="t.ex. The Shawshank Redemption" />
-    </div>
-    <div class="form-group">
-      <label>Regissör (valfri)</label>
-      <input type="text" id="film-regissor" placeholder="t.ex. Frank Darabont" />
-    </div>
-    <div class="form-group">
-      <label>Genre</label>
-      <select id="film-genre">
-        <option value="drama">Drama</option>
-        <option value="komedi">Komedi</option>
-        <option value="thriller">Thriller/Skräck</option>
-        <option value="action">Action/Äventyr</option>
-        <option value="animation">Animation</option>
-        <option value="dokumentar">Dokumentär</option>
-        <option value="familj">Familj</option>
-        <option value="ovrigt">Övrigt</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Betyg</label>
-      <div class="star-rating" id="film-stjarnor">
-        <span onclick="setFilmStar(1)">★</span>
-        <span onclick="setFilmStar(2)">★</span>
-        <span onclick="setFilmStar(3)">★</span>
-        <span onclick="setFilmStar(4)">★</span>
-        <span onclick="setFilmStar(5)">★</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Din recension (valfri)</label>
-      <textarea id="film-recension" placeholder="Vad tyckte du?"></textarea>
-    </div>
-    <div class="form-group">
-      <label>Rekommenderas av</label>
-      <select id="film-av">
-        <option value="">Välj person</option>
-        <option>Peter</option><option>Carina</option><option>Elias</option>
-        <option>Tora</option><option>Mattias</option><option>Alva</option>
-        <option>Isak</option><option>Jenna</option><option>Svea</option>
-        <option>Signe</option><option>Benke</option>
-      </select>
-    </div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-film')">Avbryt</button>
-      <button class="btn-save" onclick="saveFilm()">Spara film</button>
-    </div>
-  </div>
-</div>
 
 <!-- Modal: Resa -->
 <div class="modal-overlay" id="modal-resa">
@@ -798,60 +727,14 @@ const GENRE_MAP = { drama:'🎭 Drama', komedi:'😂 Komedi', thriller:'😱 Thr
   action:'💥 Action', animation:'✨ Animation', dokumentar:'🎥 Dokumentär',
   familj:'👨‍👩‍👧 Familj', ovrigt:'🎬 Övrigt' };
 
-let filmBetyg = 0, resaBetyg = 0;
+let resaBetyg = 0;
 
-function setFilmStar(n) {
-  filmBetyg = n;
-  document.querySelectorAll('#film-stjarnor span').forEach((s,i) => s.classList.toggle('active', i < n));
-}
 function setResaStar(n) {
   resaBetyg = n;
   document.querySelectorAll('#resa-stjarnor span').forEach((s,i) => s.classList.toggle('active', i < n));
 }
 
-async function loadFilmer() {
-  const { data } = await sb.from('filmer').select('*').order('created_at', { ascending: false });
-  const grid = document.getElementById('film-grid');
-  if (!data || !data.length) {
-    grid.innerHTML = '<div class="empty"><div class="empty-icon">🎬</div><p>Inga filmtips ännu.<br>Var den första att tipsa!</p></div>';
-    return;
-  }
-  grid.innerHTML = data.map(f => `
-    <div class="book-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.4rem;">
-        <span style="font-size:0.7rem;background:var(--sand);padding:0.15rem 0.5rem;border-radius:20px;color:rgba(28,24,16,0.55);">${GENRE_MAP[f.genre] || '🎬'}</span>
-        <span style="font-size:0.7rem;color:rgba(28,24,16,0.4);">${formatDate(f.created_at)}</span>
-      </div>
-      <div class="book-title">${esc(f.titel)}</div>
-      ${f.regissor ? `<div class="book-author">regi: ${esc(f.regissor)}</div>` : ''}
-      <div class="book-stars" style="color:var(--gold)">${'★'.repeat(f.betyg||0)}${'☆'.repeat(5-(f.betyg||0))}</div>
-      ${f.recension ? `<div class="book-review">${esc(f.recension)}</div>` : ''}
-      <div class="book-by">${EMOJI_MAP[f.rekommenderas_av]||'👤'} ${esc(f.rekommenderas_av||'')}</div>
-    </div>
-  `).join('');
-}
 
-async function saveFilm() {
-  const titel = document.getElementById('film-titel').value.trim();
-  const rekommenderas_av = document.getElementById('film-av').value;
-  if (!titel || !rekommenderas_av) { toast('Fyll i titel och vem som tipsar!'); return; }
-  const { error } = await sb.from('filmer').insert({
-    titel,
-    regissor: document.getElementById('film-regissor').value.trim(),
-    genre: document.getElementById('film-genre').value,
-    betyg: filmBetyg || null,
-    recension: document.getElementById('film-recension').value.trim(),
-    rekommenderas_av
-  });
-  if (error) { toast('Fel: ' + error.message); return; }
-  closeModal('modal-film');
-  toast('🎬 Film sparad!');
-  filmBetyg = 0;
-  document.querySelectorAll('#film-stjarnor span').forEach(s => s.classList.remove('active'));
-  ['film-titel','film-regissor','film-recension'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('film-av').value = '';
-  loadFilmer();
-}
 
 /* ════ RESOR ════ */
 async function loadResor() {
@@ -1077,7 +960,6 @@ function formatDate(ts) {
 }
 
 function loadAll() {
-  loadFilmer();
   loadResor();
   loadFiske();
   loadSopor();
