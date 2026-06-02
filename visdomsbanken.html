@@ -168,13 +168,11 @@
       <a href="filmer.html">Filmer</a>
       <a href="resor.html">Resor</a>
     <div class="nav-mobile-footer">
-        <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.55rem;border-radius:6px;">Admin</a>
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
       <a href="fodelsedagar.html">Födelsedagar</a>
     </div>
     </div>
     <div class="nav-right">
-    <a href="admin.html" style="color:rgba(245,240,232,0.75);text-decoration:none;font-size:0.8rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border-radius:6px;transition:background 0.2s,color 0.2s;">Admin</a>
     <button class="nav-logout" onclick="logOut()">Logga ut</button>
     </div>
   </nav>
@@ -216,6 +214,7 @@ function addPrivateNavLinks(email) {
       if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
       if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
       if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
+      if (email === PETER) links.push({ href: 'admin.html', label: 'Adminpanel ⚙️' });
       if (!links.length) return;
       const navRight = document.querySelector('.nav-right');
       if (!navRight) return;

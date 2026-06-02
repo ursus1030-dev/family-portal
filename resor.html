@@ -187,7 +187,8 @@
     if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
     if (email === 'toraalmstrom96@hotmail.com') links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
     if (email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
-    if (!links.length) return;
+    if (email === PETER) links.push({ href: 'admin.html', label: 'Adminpanel ⚙️' });
+      if (!links.length) return;
     const navRight = document.querySelector('.nav-right');
     if (!navRight) return;
     const wrap = document.createElement('div');
