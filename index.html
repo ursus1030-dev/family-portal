@@ -1082,4 +1082,62 @@
       const today = new Date();
       const yr = today.getFullYear();
       const upcoming = [];
-      BDAYS.forEach(b
+      BDAYS.forEach(b => {
+        const [bM, bD] = b.date.split('-').map(Number);
+        const thisYr  = new Date(yr, bM - 1, bD);
+        const nextYr  = new Date(yr + 1, bM - 1, bD);
+        const target  = thisYr >= today ? thisYr : nextYr;
+        const diff    = Math.round((target - today) / 86400000);
+        if (diff <= 7) upcoming.push({ names: b.names, diff, emoji: b.emoji });
+      });
+      if (upcoming.length) {
+        const bar = document.getElementById('bdayBar');
+        bar.style.display = 'flex';
+        upcoming.sort((a, b) => a.diff - b.diff).forEach(u => {
+          const chip = document.createElement('span');
+          chip.className = 'bday-chip';
+          chip.innerHTML = u.emoji + ' ' + u.names.join(' & ') + (u.diff === 0 ? ' — <strong>idag! 🎉</strong>' : ' — om ' + u.diff + ' dag' + (u.diff === 1 ? '' : 'ar'));
+          bar.appendChild(chip);
+        });
+        const link = document.createElement('a');
+        link.href = 'fodelsedagar.html';
+        link.textContent = '→ Alla födelsedagar';
+        bar.appendChild(link);
+      }
+    })();
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    async function logOut() {
+      await sb.auth.signOut();
+      window.location.href = 'login.html';
+    }
+
+    // Visa välkomstnamn
+    sb.auth.getSession().then(({ data }) => {
+      if (data?.session) {
+        const e = data.session.user.email.toLowerCase();
+        const nameMap = {
+          'pealmab@hotmail.com': 'Peter',
+          'toraalmstrom96@hotmail.com': 'Tora',
+          'alvaalmstrom@hotmail.com': 'Alva',
+          'carina_almstrom@hotmail.com': 'Carina',
+          'elias.almstrom@hotmail.com': 'Elias',
+          'mattias.rutkowski@ahoo.se': 'Mattias',
+          'isakdemervik@outlook.com': 'Isak',
+        };
+        const name = nameMap[e] || e;
+        const el = document.getElementById('welcome-name');
+        if (el) el.textContent = 'Välkommen hem, ' + name + ' 🌲';
+      }
+    });
+  </script>
+</body>
+</html>
