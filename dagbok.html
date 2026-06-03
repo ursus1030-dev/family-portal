@@ -793,10 +793,10 @@ function addPrivateNavLinks(email) {
         ${e.text ? `<div class="entry-text">${escHtml(e.text)}</div>` : ''}
         ${photosHtml}
         <div class="entry-reactions">
-          <button class="reaction-btn" onclick="react(${e.id}, 'heart', this)">
+          <button class="reaction-btn" onclick="react('${e.id}', 'heart', this)">
             ❤️ <span class="count">${e.reactions_heart || 0}</span>
           </button>
-          <button class="reaction-btn" onclick="react(${e.id}, 'smile', this)">
+          <button class="reaction-btn" onclick="react('${e.id}', 'smile', this)">
             😄 <span class="count">${e.reactions_smile || 0}</span>
           </button>
         </div>
