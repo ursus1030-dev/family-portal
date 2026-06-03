@@ -904,6 +904,15 @@
       addPrivateNavLinks(data.session.user.email.toLowerCase());
     });
 
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
     function addPrivateNavLinks(email) {
       const PETER = 'pealmab@hotmail.com';
       const links = [];
