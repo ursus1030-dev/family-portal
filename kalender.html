@@ -674,11 +674,11 @@ function addPrivateNavLinks(email) {
       setInterval(function(){
         if(!stored) return;
         fetch("version.json?t=" + Date.now()).then(function(r){return r.json();}).then(function(d){
-          if(d.version !== stored </body></body> !document.getElementById("update-banner")){
+          if(d.version !== stored && !document.getElementById("update-banner")){
             var b = document.createElement("div");
             b.id = "update-banner";
             b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
-            b.innerHTML = "✨ Sajten har uppdaterats! <button onclick="location.reload(true)" style="background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;">Ladda om</button>";
+            b.innerHTML = "✨ Sajten har uppdaterats! <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>Ladda om</button>";
             document.body.appendChild(b);
           }
-        }
+        }            
