@@ -414,11 +414,13 @@
     }
     .modal-photo {
       aspect-ratio: 1; border-radius: 10px;
-      background: rgba(61,92,58,0.08);
-      border: 1.5px dashed rgba(61,92,58,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; color: rgba(61,92,58,0.3);
+      background: rgba(61,92,58,0.05);
+      border: 1.5px dashed rgba(61,92,58,0.18);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.3rem; color: rgba(61,92,58,0.35);
     }
+    .modal-photo i { font-size: 1.3rem; }
+    .modal-photo span { font-size: 0.62rem; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
     .modal-melody {
       display: flex; align-items: center; gap: 0.6rem;
       background: rgba(61,92,58,0.06); border-radius: 10px;
@@ -807,9 +809,9 @@
       <div class="modal-bio" id="mBio"></div>
       <div class="modal-section-title">Foton</div>
       <div class="modal-photos">
-        <div class="modal-photo">📷</div>
-        <div class="modal-photo">📷</div>
-        <div class="modal-photo">📷</div>
+        <div class="modal-photo"><i class="fa-regular fa-image"></i><span>Foto kommer</span></div>
+        <div class="modal-photo"><i class="fa-regular fa-image"></i><span>Foto kommer</span></div>
+        <div class="modal-photo"><i class="fa-regular fa-image"></i><span>Foto kommer</span></div>
       </div>
       <div class="modal-section-title">Favoritlåt</div>
       <div class="modal-melody">
