@@ -303,7 +303,9 @@ function addPrivateNavLinks(email) {
       allPhotos = data || [];
       // Extract unique albums
       const unique = [...new Set(allPhotos.map(p => p.album).filter(Boolean))];
-      albums = ['Övrigt', ...unique.filter(a => a !== 'Övrigt')];
+      const extraAlbums = JSON.parse(localStorage.getItem('extra_albums') || '[]');
+      const all = [...new Set([...unique, ...extraAlbums])];
+      albums = ['Övrigt', ...all.filter(a => a !== 'Övrigt')];
       renderAlbumTabs();
       renderPhotos();
     }
@@ -462,7 +464,12 @@ function addPrivateNavLinks(email) {
     document.getElementById('btnSaveAlbum').onclick = () => {
       const name = document.getElementById('fAlbumName').value.trim();
       if (!name) { alert('Ange ett albumnamn!'); return; }
-      if (!albums.includes(name)) { albums.push(name); renderAlbumTabs(); }
+      if (!albums.includes(name)) {
+        albums.push(name);
+        const saved = JSON.parse(localStorage.getItem('extra_albums') || '[]');
+        if (!saved.includes(name)) { saved.push(name); localStorage.setItem('extra_albums', JSON.stringify(saved)); }
+        renderAlbumTabs();
+      }
       document.getElementById('albumModal').classList.remove('open');
       document.getElementById('fAlbumName').value = '';
     };

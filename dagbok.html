@@ -799,9 +799,31 @@ function addPrivateNavLinks(email) {
           <button class="reaction-btn" onclick="react('${e.id}', 'smile', this)">
             😄 <span class="count">${e.reactions_smile || 0}</span>
           </button>
+          <button class="reaction-btn" onclick="deleteEntry('${e.id}', this)" style="margin-left:auto;color:#b83030;" title="Ta bort">🗑️</button>
+          <button class="reaction-btn" onclick="editEntry('${e.id}', this)" style="color:#3D5C3A;" title="Redigera">✏️</button>
         </div>
       `;
       return card;
+    }
+
+    async function deleteEntry(id, btn) {
+      if (!confirm('Ta bort det här inlägget?')) return;
+      btn.disabled = true;
+      const { error } = await sb.from('memories').delete().eq('id', id);
+      if (error) { alert('Kunde inte ta bort: ' + error.message); btn.disabled = false; return; }
+      const card = document.querySelector(`.entry-card[data-id="${id}"]`);
+      if (card) card.remove();
+    }
+
+    async function editEntry(id, btn) {
+      const card = document.querySelector(`.entry-card[data-id="${id}"]`);
+      const textEl = card.querySelector('.entry-text');
+      const currentText = textEl ? textEl.textContent : '';
+      const newText = prompt('Redigera inlägg:', currentText);
+      if (newText === null) return;
+      const { error } = await sb.from('memories').update({ text: newText }).eq('id', id);
+      if (error) { alert('Kunde inte spara: ' + error.message); return; }
+      if (textEl) textEl.textContent = newText;
     }
 
     function escHtml(str) {
@@ -848,6 +870,9 @@ function addPrivateNavLinks(email) {
         .subscribe();
     }
 
+    let CURRENT_USER_EMAIL = '';
+    const ADMIN_EMAIL = 'pealmab@hotmail.com';
+
     /* ─── INIT ─── */
     async function init() {
       const { data } = await sb.auth.getSession();
@@ -855,7 +880,8 @@ function addPrivateNavLinks(email) {
         window.location.href = 'login.html';
         return;
       }
-      addPrivateNavLinks(data.session.user.email.toLowerCase());
+      CURRENT_USER_EMAIL = data.session.user.email.toLowerCase();
+      addPrivateNavLinks(CURRENT_USER_EMAIL);
       buildAuthorRow();
       await loadEntries();
       subscribeRealtime();

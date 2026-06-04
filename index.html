@@ -905,6 +905,8 @@
     });
 
 
+    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
+
     function toggleNav() {
       const nl = document.getElementById('navLinks');
       nl.classList.toggle('open');
@@ -1057,4 +1059,102 @@
       svea:    { name:'Svea Almström Demervik',    detail:'2,5 år · Storasyster',             initials:'Sv', bg:'linear-gradient(135deg,#b8d4b0,#8ab88a)', bio:'Storasyster extraordinaire. Håller ett vakande öga på Signe och älskar att springa i trädgården.', emoji:'🌼', melody:'Imse vimse spindel 🎵' },
       signe:   { name:'Signe Almström Demervik',   detail:'Nyfödd 2026 · Nyaste familjemedlemmen', initials:'👶', bg:'linear-gradient(135deg,#e8b4c0,#d4899a)', bio:'Välkommen till familjen, Signe! Allt väntar på att bli utforskat.', emoji:'🌟', melody:'Trollmors vaggsång 🎵' },
       benke:   { name:'Benke Hirvonen',            detail:'62 år · Allas farbror',           initials:'BH', bg:'linear-gradient(135deg,#8B6914,#C9A030)', bio:'Farbror Benke — en fast punkt i familjen sedan alltid. Hemmastadda på alla familjemiddagar och alltid med en god historia.', emoji:'🦌', melody:'Lägg till favoritlåt…' },
-      tyce:    { name:'Tyce',                      detail:'Leonberger · 3 år · Peters & Carinas hund', initials:'🐕', bg:'linear-gradient(135deg,#6B4C35,#a07850)', bio:'Stamhusets store lugne vakt. Tyce är en äkta Leonberger — lika mjuk som ett lejon, lika lojal som en vän. Älskar långa promenader med Carina och att sitta i vägen för alla.', emoji:
+      tyce:    { name:'Tyce',    detail:'Leonberger · 3 år · Peters & Carinas hund',       initials:'🐕', bg:'linear-gradient(135deg,#6B4C35,#a07850)', bio:'Stamhusets store lugne vakt. Tyce är en äkta Leonberger — lika mjuk som ett lejon, lika lojal som en vän. Älskar långa promenader med Carina och att sitta i vägen för alla.', emoji:'🐕', melody:'Hundarnas vals 🎵' },
+      trulls:  { name:'Trulls', detail:'Springer spaniel · 5 år · Alvas & Isaks hund',    initials:'🐾', bg:'linear-gradient(135deg,#4a6741,#7aaa75)', bio:'Familjen Almötm Demerviks energiknippa. Trulls springer snabbare än alla och är alltid först till dörren. Bästa kompisen till Svea på alla utflykter.', emoji:'🐾', melody:'Lägg till favoritlåt…' },
+      darcy:   { name:'Darcy',  detail:'Fransk bulldog · 5 år · Toras & Mattias hund',    initials:'🐶', bg:'linear-gradient(135deg,#A84C2A,#c47050)', bio:'Familjen Rutkowskis lille snarkboll. Darcy är övertygad om att han är mycket större än han ser ut, och tar sin roll som husvakt på fullt allvar.', emoji:'🐶', melody:'Lägg till favoritlåt…' },
+    };
+
+    function openCard(id) {
+      const p = PERSONS[id]; if (!p) return;
+      document.getElementById('mAvatar').innerHTML     = p.initials;
+      document.getElementById('mAvatar').style.background = p.bg;
+      document.getElementById('mName').textContent     = p.name;
+      document.getElementById('mDetail').textContent   = p.detail;
+      document.getElementById('mBio').textContent      = p.bio;
+      document.getElementById('mEmoji').textContent    = p.emoji;
+      document.getElementById('mMelody').textContent   = p.melody;
+      document.getElementById('personModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCard() {
+      document.getElementById('personModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeCardOutside(e) {
+      if (e.target === document.getElementById('personModal')) closeCard();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+
+    // FODELSEDAG-NOTIS
+    (function() {
+      const BDAYS = [
+        { names:['Peter','Isak'], date:'06-22', emoji:'🎂' },
+        { names:['Carina'],       date:'04-16', emoji:'🎂' },
+        { names:['Elias'],        date:'06-07', emoji:'🎂' },
+        { names:['Mattias'],      date:'06-26', emoji:'🎂' },
+        { names:['Tora'],         date:'10-21', emoji:'🎂' },
+        { names:['Jenna'],        date:'02-06', emoji:'🎂' },
+        { names:['Alva'],         date:'12-03', emoji:'🎂' },
+        { names:['Svea'],         date:'12-04', emoji:'🎂' },
+        { names:['Signe'],        date:'05-04', emoji:'🎂' },
+        { names:['Benke'],        date:'11-24', emoji:'🎂' },
+      ];
+      const today = new Date();
+      const yr = today.getFullYear();
+      const upcoming = [];
+      BDAYS.forEach(b => {
+        const [bm, bd] = b.date.split('-').map(Number);
+        let bDate = new Date(yr, bm - 1, bd);
+        if (bDate < today) bDate = new Date(yr + 1, bm - 1, bd);
+        const diff = Math.ceil((bDate - today) / (1000 * 60 * 60 * 24));
+        if (diff <= 7) upcoming.push({ names: b.names, diff, emoji: b.emoji });
+      });
+      if (upcoming.length) {
+        const bar = document.getElementById('bdayBar');
+        bar.style.display = 'flex';
+        upcoming.forEach(u => {
+          const chip = document.createElement('span');
+          chip.className = 'bday-chip';
+          const who = u.names.join(' & ');
+          const when = u.diff === 0 ? 'idag!' : 'om ' + u.diff + ' dag' + (u.diff > 1 ? 'ar' : '') + '!';
+          chip.innerHTML = u.emoji + ' ' + who + ' fyller år ' + when + ' <a href="fodelsedagar.html">Se mer</a>';
+          bar.appendChild(chip);
+        });
+      }
+    })();
+
+    // VALKOMSTNAMN
+    sb.auth.getSession().then(({ data }) => {
+      if (data?.session?.user) {
+        const nameMap = {
+          'pealmab@hotmail.com':           'Peter',
+          'toraalmstrom96@hotmail.com':    'Tora',
+          'alvaalmstrom@hotmail.com':      'Alva',
+          'carina_almstrom@hotmail.com':   'Carina',
+          'elias.almstrom@hotmail.com':    'Elias',
+          'mattias.rutkowski@ahoo.se':     'Mattias',
+          'bengthirvonen@hotmail.com':     'Benke',
+          'isakdemervik@outlook.com':      'Isak',
+        };
+        const email = data.session.user.email.toLowerCase();
+        const name = nameMap[email] || email.split('@')[0];
+        document.getElementById('welcome-name').textContent = 'Välkommen hem, ' + name + ' 🌲';
+      }
+    });
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    async function logOut() {
+      await sb.auth.signOut();
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
