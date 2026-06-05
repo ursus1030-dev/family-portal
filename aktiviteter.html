@@ -120,7 +120,7 @@
     .icon-dagbok { background: rgba(61,92,58,0.1); }
     .icon-recept { background: rgba(168,76,42,0.1); }
     .icon-minne { background: rgba(107,76,53,0.1); }
-    .icon-tidskapsel { background: rgba(13,27,42,0.08); }
+
 
     .feed-body { flex: 1; min-width: 0; }
     .feed-meta { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
@@ -209,7 +209,7 @@
     <button class="filter-btn" onclick="setFilter('dagbok', this)">📖 Dagbok</button>
     <button class="filter-btn" onclick="setFilter('recept', this)">🍽️ Recept</button>
     <button class="filter-btn" onclick="setFilter('minne', this)">🪴 Minnen</button>
-    <button class="filter-btn" onclick="setFilter('tidskapsel', this)">⏳ Tidskapslar</button>
+
   </div>
 
   <!-- Flöde -->
@@ -285,12 +285,11 @@
   }
 
   async function loadFeed() {
-    const [foton, dagbok, recept, minnen, kapslar] = await Promise.all([
+    const [foton, dagbok, recept, minnen] = await Promise.all([
       sb.from('foton').select('id, title, url, created_at').order('created_at', { ascending: false }).limit(50),
       sb.from('memories').select('id, title, body, created_at').order('created_at', { ascending: false }).limit(50),
       sb.from('recept').select('id, title, category, created_at').order('created_at', { ascending: false }).limit(50),
       sb.from('minnesladan').select('id, title, description, year, created_at').order('created_at', { ascending: false }).limit(50),
-      sb.from('tidskapslar').select('id, title, message, created_at').order('created_at', { ascending: false }).limit(30),
     ]);
 
     allItems = [
@@ -298,7 +297,6 @@
       ...(dagbok.data || []).map(r => ({ ...r, _type: 'dagbok' })),
       ...(recept.data || []).map(r => ({ ...r, _type: 'recept' })),
       ...(minnen.data || []).map(r => ({ ...r, _type: 'minne' })),
-      ...(kapslar.data || []).map(r => ({ ...r, _type: 'tidskapsel' })),
     ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     // Räkna nya sedan senaste besök
@@ -365,7 +363,6 @@
       case 'dagbok':     return { emoji: '📖', label: 'Dagbok', iconClass: 'icon-dagbok',   link: 'dagbok.html',      sub: i => i.body?.substring(0, 80) || '' };
       case 'recept':     return { emoji: '🍽️', label: 'Recept', iconClass: 'icon-recept',   link: 'receptbok.html',   sub: i => i.category || '' };
       case 'minne':      return { emoji: '🪴', label: 'Minne', iconClass: 'icon-minne',     link: 'minnesladan.html', sub: i => i.year ? `År ${i.year}` : (i.description?.substring(0, 60) || '') };
-      case 'tidskapsel': return { emoji: '⏳', label: 'Tidskapsel', iconClass: 'icon-tidskapsel', link: 'tidskapseln.html', sub: i => i.message?.substring(0, 60) || '' };
       default:           return { emoji: '📌', label: '', iconClass: '', link: '#', sub: () => '' };
     }
   }
