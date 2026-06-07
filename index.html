@@ -576,9 +576,9 @@
       <a href="aktiviteter.html">Flödet</a>
       <a href="filmer.html">Filmer</a>
       <a href="resor.html">Resor</a>
+      <a href="fodelsedagar.html">Födelsedagar</a>
     <div class="nav-mobile-footer">
         <button class="nav-logout" onclick="logOut()">Logga ut</button>
-      <a href="fodelsedagar.html">Födelsedagar</a>
     </div>
     </div>
     <div class="nav-right">
@@ -830,6 +830,36 @@
     <div style="border-left:2px solid var(--gold,#C9A96E);padding-left:1.2rem;display:flex;flex-direction:column;gap:1.1rem">
 
       <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">7 juni 2026 (kväll)</div>
+        <div style="color:#2a2a2a">Systemöversyn: 15+ redundanta filer arkiverade, memory-mappen städad (4 obsoleta filer raderade), growth-tracker automatiseras nu varje söndag, CLAUDE.md uppdaterad med regel #9 och förbättrade handover-regler. Lomakka-pilot 90%.</div>
+      </div>
+
+      <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">7 juni 2026</div>
+        <div style="color:#2a2a2a">CLAUDE.md-instruktion fixad: fallback för growth-tracker nu rätt placerad i SESSIONSTART. Lärande &amp; Progress kopplad till projektet. Pilot-checklista uppdaterad.</div>
+      </div>
+
+      <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">6 juni 2026 (kväll)</div>
+        <div style="color:#2a2a2a">Lomakka-pilot 80% klar: GitHub-repo skapat, 28 filer uppladdade, GitHub Pages aktiverat, Supabase URL-konfiguration + 16 tabeller skapade. Gibbs rensad på Svea/Jenna, delete-funktion i visdomsbanken tillagd.</div>
+      </div>
+
+      <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">6 juni 2026</div>
+        <div style="color:#2a2a2a">B-23 löst: filmer-postrar fungerar nu i Hägg-piloten (storage-policy saknades). Supabase-inventering skapad som mall för framtida piloter.</div>
+      </div>
+
+      <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">5 juni 2026 (natt)</div>
+        <div style="color:#2a2a2a">Hägg-piloten städad på djupet: 13 filer rensade från familjedata, stamtavla + familjeträd + kalender fixade. GRANT-bugg åtgärdad. Buffertkloner för Gibbs och Lomakka skapade.</div>
+      </div>
+
+      <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">5 juni 2026 (kväll)</div>
+        <div style="color:#2a2a2a">Hägg-pilotsajt live och testad. OTP-expiry förlängd. Inloggning fixad via SQL. Supabase Chrome-rutin dokumenterad.</div>
+      </div>
+
+      <div>
         <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">3 juni 2026 (kväll)</div>
         <div style="color:#2a2a2a">Filmklubben lanserad — lägg till filmer med bild, recension och rekommendation. Global JS-bugg fixad i 12 sidor. Dagbok-reaktioner (❤️ 😄) fixade och live.</div>
       </div>
@@ -842,6 +872,13 @@
       <div>
         <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">3 juni 2026 (morgon)</div>
         <div style="color:#2a2a2a">Familjenamnet uppdaterat till Almström Demervik. Inloggningsproblem löst — alla medlemmar kan nu sätta lösenord. Tidslinje tillagd på startsidan. Pilot 1 (Familjen Hägg) påbörjad.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:flex-start;margin-bottom:1rem">
+      <div style="font-size:1.1rem;margin-top:0.1rem">🛠️</div>
+      <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">5 juni 2026</div>
+        <div style="color:#2a2a2a">Resor-sidan fixad. Profilfoton förberedda. Pilotmaterial klart — e-post och onboarding för tre testfamiljer (Hägg, Gibbs, Lomakka).</div>
       </div>
 
       <div>
@@ -1102,6 +1139,7 @@
         { names:['Benke'],        date:'11-24', emoji:'🎂' },
       ];
       const today = new Date();
+      today.setHours(0, 0, 0, 0);
       const yr = today.getFullYear();
       const upcoming = [];
       BDAYS.forEach(b => {
