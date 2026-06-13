@@ -77,8 +77,8 @@
     /* LIGHTBOX */
     .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 500; align-items: center; justify-content: center; }
     .lightbox.open { display: flex; }
-    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; text-align: center; }
-    .lightbox-inner img { max-width: 90vw; max-height: 78vh; border-radius: 8px; object-fit: contain; display: block; margin: 0 auto; }
+    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; text-align: center; overflow-y: auto; padding: 0 0.5rem; }
+    .lightbox-inner img { max-width: 90vw; max-height: 60vh; border-radius: 8px; object-fit: contain; display: block; margin: 0 auto; }
     .lightbox-close { position: fixed; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.15); border: none; color: white; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: background 0.2s; }
     .lightbox-close:hover { background: rgba(255,255,255,0.28); }
     .lightbox-caption { color: rgba(255,255,255,0.85); margin-top: 1rem; font-size: 0.9rem; }
@@ -88,6 +88,21 @@
     #lbPrev { left: 1.5rem; } #lbNext { right: 1.5rem; }
     .lb-delete { margin-top: 0.6rem; background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.45); font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
     .lb-delete:hover { border-color: rgba(255,80,80,0.5); color: rgba(255,80,80,0.8); }
+
+    /* PHOTO COMMENTS */
+    .lb-comments { margin: 1rem auto 0; max-width: 520px; text-align: left; }
+    .lb-comment { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 0.55rem 0.75rem; margin-bottom: 0.5rem; position: relative; }
+    .lb-comment .c-author { color: var(--sand); font-size: 0.75rem; font-weight: 500; }
+    .lb-comment .c-date { color: rgba(255,255,255,0.4); font-size: 0.7rem; margin-left: 0.4rem; }
+    .lb-comment .c-text { color: rgba(255,255,255,0.9); font-size: 0.88rem; line-height: 1.45; margin-top: 0.2rem; white-space: pre-wrap; word-break: break-word; padding-right: 1.2rem; }
+    .lb-comment .c-del { position: absolute; top: 0.4rem; right: 0.5rem; background: none; border: none; color: rgba(255,255,255,0.35); cursor: pointer; font-size: 0.9rem; line-height: 1; transition: color 0.2s; }
+    .lb-comment .c-del:hover { color: rgba(255,80,80,0.85); }
+    .lb-comments-empty { color: rgba(255,255,255,0.4); font-size: 0.82rem; text-align: center; padding: 0.5rem; }
+    .lb-comment-form { display: flex; gap: 0.5rem; margin: 0.6rem auto 0.4rem; max-width: 520px; }
+    .lb-comment-form textarea { flex: 1; resize: none; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-family: 'Jost', sans-serif; font-size: 0.88rem; padding: 0.5rem 0.7rem; }
+    .lb-comment-form textarea:focus { outline: none; border-color: var(--sand); }
+    .lb-comment-form button { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0 1rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .lb-comment-form button:hover { background: var(--terra-lt); }
 
     .empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
     .empty-state .icon { font-size: 3.5rem; margin-bottom: 1rem; }
@@ -200,6 +215,11 @@
         <small id="lbMeta"></small>
       </div>
       <button class="lb-delete" id="lbDelete">🗑 Ta bort</button>
+      <div class="lb-comments" id="lbComments"></div>
+      <form class="lb-comment-form" id="lbCommentForm">
+        <textarea id="lbCommentInput" rows="1" placeholder="Skriv en kommentar..." maxlength="500"></textarea>
+        <button type="submit">Kommentera</button>
+      </form>
     </div>
     <button class="lb-nav" id="lbNext">›</button>
   </div>
@@ -253,7 +273,7 @@
   </div>
 
   <footer>
-    <p>Familjen Almström Demervik Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2025</p>
+    <p>Familjen Almström Demervik Rutkowski Hirvonen &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2026</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -289,6 +309,8 @@ function addPrivateNavLinks(email) {
     let activeAlbum = 'alla';
     let lbIndex = 0;
     let selectedFiles = [];
+    let currentPhotoId = null;
+    const ADMIN_EMAIL = 'pealmab@hotmail.com';
 
     sb.auth.getSession().then(({ data }) => {
       if (!data.session) { window.location.href = 'login.html'; return; }
@@ -366,8 +388,60 @@ function addPrivateNavLinks(email) {
       document.getElementById('lbTitle').textContent = p.titel || p.album || '';
       document.getElementById('lbMeta').textContent = ` · ${p.skapad_av || ''} · ${new Date(p.created_at).toLocaleDateString('sv-SE')}`;
       document.getElementById('lbDelete').dataset.id = p.id;
+      currentPhotoId = p.id;
+      document.getElementById('lbCommentInput').value = '';
+      loadComments(p.id);
       document.getElementById('lightbox').classList.add('open');
     }
+
+    async function loadComments(photoId) {
+      const box = document.getElementById('lbComments');
+      box.innerHTML = '<div class="lb-comments-empty">Laddar...</div>';
+      const { data, error } = await sb.from('photo_comments')
+        .select('*').eq('photo_id', photoId).order('created_at', { ascending: true });
+      if (photoId !== currentPhotoId) return; // user navigated away
+      if (error) { box.innerHTML = '<div class="lb-comments-empty">Kunde inte ladda kommentarer.</div>'; return; }
+      renderComments(data || []);
+    }
+
+    function renderComments(list) {
+      const box = document.getElementById('lbComments');
+      const myEmail = (currentUser?.email || '').toLowerCase();
+      const isAdmin = myEmail === ADMIN_EMAIL;
+      if (!list.length) { box.innerHTML = '<div class="lb-comments-empty">Inga kommentarer än — skriv den första!</div>'; return; }
+      box.innerHTML = list.map(c => {
+        const canDelete = isAdmin || (c.user_email || '').toLowerCase() === myEmail;
+        const who = esc((c.user_email || '').split('@')[0]);
+        const when = new Date(c.created_at).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+        const del = canDelete ? `<button class="c-del" data-id="${esc(c.id)}" title="Ta bort">✕</button>` : '';
+        return `<div class="lb-comment"><span class="c-author">${who}</span><span class="c-date">${when}</span>${del}<div class="c-text">${esc(c.comment)}</div></div>`;
+      }).join('');
+    }
+
+    document.getElementById('lbCommentForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const input = document.getElementById('lbCommentInput');
+      const text = input.value.trim();
+      if (!text || !currentPhotoId || !currentUser) return;
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      const { error } = await sb.from('photo_comments').insert({
+        photo_id: currentPhotoId, user_email: currentUser.email, comment: text
+      });
+      btn.disabled = false;
+      if (error) { alert('Kunde inte spara kommentaren: ' + error.message); return; }
+      input.value = '';
+      loadComments(currentPhotoId);
+    });
+
+    document.getElementById('lbComments').addEventListener('click', async e => {
+      const del = e.target.closest('.c-del');
+      if (!del) return;
+      if (!confirm('Ta bort denna kommentar?')) return;
+      const { error } = await sb.from('photo_comments').delete().eq('id', del.dataset.id);
+      if (error) { alert('Kunde inte ta bort: ' + error.message); return; }
+      loadComments(currentPhotoId);
+    });
 
     document.getElementById('lbClose').onclick = () => document.getElementById('lightbox').classList.remove('open');
     document.getElementById('lbPrev').onclick = () => {
@@ -389,6 +463,10 @@ function addPrivateNavLinks(email) {
     };
     document.addEventListener('keydown', e => {
       if (!document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.target && e.target.id === 'lbCommentInput') {
+        if (e.key === 'Escape') e.target.blur();
+        return; // don't navigate photos while typing
+      }
       if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
       if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
       if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
