@@ -254,6 +254,9 @@
     .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
     .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
     .private-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
+    .btn-toggle-past { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0.25rem 0 1.5rem; padding: 0.55rem 1.1rem; background: transparent; color: #3d5c3a; border: 1px solid rgba(61,92,58,0.35); border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; }
+    .btn-toggle-past:hover { background: rgba(61,92,58,0.08); border-color: rgba(61,92,58,0.6); }
+    .past-list .event-card { opacity: 0.75; }
   </style>
 </head>
 <body>
@@ -322,6 +325,9 @@
     <div class="upcoming-list" id="upcomingList">
       <div class="empty-state"><div class="icon">📅</div><p>Inga kommande händelser</p></div>
     </div>
+
+    <button class="btn-toggle-past" id="togglePastBtn" onclick="togglePast()">Visa tidigare ▾</button>
+    <div class="upcoming-list past-list" id="pastList" style="display:none"></div>
   </div>
 
   <!-- Add event modal -->
@@ -524,6 +530,39 @@ function addPrivateNavLinks(email) {
       return cell;
     }
 
+    // ── EVENT CARD (delad mall) ──
+    const catColors = {
+      födelsedag: 'rgba(201,100,42,0.15)',
+      semester:   'rgba(61,92,58,0.15)',
+      träff:      'rgba(90,100,180,0.15)',
+      milstolpe:  'rgba(180,140,40,0.15)',
+      övrigt:     'rgba(100,100,100,0.12)'
+    };
+    const catLabels = { födelsedag:'🎂 Födelsedag', semester:'🌴 Resa/Semester', träff:'👨‍👩‍👧‍👦 Familjeträff', milstolpe:'⭐ Milstolpe', övrigt:'📌 Övrigt' };
+
+    function eventCardHTML(ev) {
+      const d = new Date(ev.event_date);
+      const day = d.getDate();
+      const mon = SV_MONTHS[d.getMonth()].substring(0,3);
+      const timeStr = ev.event_time ? ` kl. ${ev.event_time.substring(0,5)}` : '';
+      const authorStr = ev.author_emoji && ev.author_name ? `${ev.author_emoji} ${ev.author_name} lade till` : '';
+      return `
+        <div class="event-card">
+          <div class="event-date-badge">
+            <div class="day">${day}</div>
+            <div class="mon">${mon}</div>
+          </div>
+          <div class="event-info">
+            <h4>${ev.title}</h4>
+            ${ev.description ? `<p>${ev.description}</p>` : ''}
+            <div class="event-meta">${timeStr}${authorStr ? (timeStr ? ' · ' : '') + authorStr : ''}</div>
+            <span class="event-category" style="background:${catColors[ev.category]||catColors.övrigt}">${catLabels[ev.category]||'📌 Övrigt'}</span>
+          </div>
+          <button class="event-delete" onclick="deleteEvent('${ev.id}', event)" title="Ta bort">✕</button>
+        </div>
+      `;
+    }
+
     // ── RENDER UPCOMING ──
     function renderUpcoming() {
       const container = document.getElementById('upcomingList');
@@ -534,38 +573,31 @@ function addPrivateNavLinks(email) {
         container.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>Inga kommande händelser — lägg till era viktiga datum!</p></div>';
         return;
       }
+      container.innerHTML = upcoming.map(eventCardHTML).join('');
+    }
 
-      const catColors = {
-        födelsedag: 'rgba(201,100,42,0.15)',
-        semester:   'rgba(61,92,58,0.15)',
-        träff:      'rgba(90,100,180,0.15)',
-        milstolpe:  'rgba(180,140,40,0.15)',
-        övrigt:     'rgba(100,100,100,0.12)'
-      };
-      const catLabels = { födelsedag:'🎂 Födelsedag', semester:'🌴 Resa/Semester', träff:'👨‍👩‍👧‍👦 Familjeträff', milstolpe:'⭐ Milstolpe', övrigt:'📌 Övrigt' };
+    // ── RENDER PAST (gångna händelser, nyast först) ──
+    function renderPast() {
+      const container = document.getElementById('pastList');
+      const today = new Date(); today.setHours(0,0,0,0);
+      const past = allEvents.filter(e => new Date(e.event_date) < today).reverse();
 
-      container.innerHTML = upcoming.map(ev => {
-        const d = new Date(ev.event_date);
-        const day = d.getDate();
-        const mon = SV_MONTHS[d.getMonth()].substring(0,3);
-        const timeStr = ev.event_time ? ` kl. ${ev.event_time.substring(0,5)}` : '';
-        const authorStr = ev.author_emoji && ev.author_name ? `${ev.author_emoji} ${ev.author_name} lade till` : '';
-        return `
-          <div class="event-card">
-            <div class="event-date-badge">
-              <div class="day">${day}</div>
-              <div class="mon">${mon}</div>
-            </div>
-            <div class="event-info">
-              <h4>${ev.title}</h4>
-              ${ev.description ? `<p>${ev.description}</p>` : ''}
-              <div class="event-meta">${timeStr}${authorStr ? (timeStr ? ' · ' : '') + authorStr : ''}</div>
-              <span class="event-category" style="background:${catColors[ev.category]||catColors.övrigt}">${catLabels[ev.category]||'📌 Övrigt'}</span>
-            </div>
-            <button class="event-delete" onclick="deleteEvent('${ev.id}', event)" title="Ta bort">✕</button>
-          </div>
-        `;
-      }).join('');
+      if (!past.length) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">🗓️</div><p>Inga tidigare händelser.</p></div>';
+        return;
+      }
+      container.innerHTML = past.map(eventCardHTML).join('');
+    }
+
+    // ── TOGGLE PAST ──
+    let showPast = false;
+    function togglePast() {
+      showPast = !showPast;
+      const list = document.getElementById('pastList');
+      const btn  = document.getElementById('togglePastBtn');
+      list.style.display = showPast ? '' : 'none';
+      btn.textContent = showPast ? 'Dölj tidigare ▴' : 'Visa tidigare ▾';
+      if (showPast) renderPast();
     }
 
     // ── MODAL ──
@@ -630,6 +662,7 @@ function addPrivateNavLinks(email) {
       await loadEvents();
       renderCalendar();
       renderUpcoming();
+      if (showPast) renderPast();
     }
 
     // ── DELETE EVENT ──
@@ -640,6 +673,7 @@ function addPrivateNavLinks(email) {
       await loadEvents();
       renderCalendar();
       renderUpcoming();
+      if (showPast) renderPast();
     }
 
     // ── NAV MONTH ──
@@ -682,4 +716,9 @@ function addPrivateNavLinks(email) {
             b.innerHTML = "✨ Sajten har uppdaterats! <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>Ladda om</button>";
             document.body.appendChild(b);
           }
-        }            
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+</body>
+</html>            
