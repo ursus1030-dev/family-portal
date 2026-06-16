@@ -219,6 +219,7 @@
       margin-bottom: 2rem;
     }
     .fish-card {
+      position: relative;
       background: white;
       border-radius: 14px;
       padding: 1.2rem 1.4rem;
@@ -226,6 +227,15 @@
       transition: transform 0.15s;
     }
     .fish-card:hover { transform: translateY(-2px); }
+    .del-btn {
+      position: absolute; top: 0.6rem; right: 0.6rem;
+      width: 26px; height: 26px; border: none; border-radius: 50%;
+      background: rgba(28,24,16,0.06); color: rgba(28,24,16,0.45);
+      font-size: 0.9rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: 0.2s ease; z-index: 2;
+    }
+    .del-btn:hover { background: #c0392b; color: #fff; }
     .fish-card.rekord { border: 2px solid var(--gold); }
     .fish-rekord-badge { display: inline-block; background: var(--gold); color: white; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 20px; margin-bottom: 0.5rem; }
     .fish-art { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; }
@@ -840,6 +850,7 @@ async function loadFiske() {
   const topId = data[0].id;
   grid.innerHTML = data.map(f => `
     <div class="fish-card ${f.id === topId ? 'rekord' : ''}">
+      <button class="del-btn" title="Ta bort" onclick="deleteRekord('fiskerekord','${f.id}')">✕</button>
       ${f.id === topId ? '<div class="fish-rekord-badge">🏆 Rekord</div>' : ''}
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div class="fish-art">${esc(f.fisk_art)}</div>
@@ -923,6 +934,7 @@ async function loadSvamp() {
     const isIppon = r.svamp_typ === 'Spikklubba';
     return `
     <div class="fish-card ${isIppon ? 'rekord' : ''}">
+      <button class="del-btn" title="Ta bort" onclick="deleteRekord('svamp','${r.id}')">✕</button>
       ${isIppon ? '<div class="fish-rekord-badge">🥋 Ippon</div>' : ''}
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div class="fish-art">${esc(r.svamp_typ || 'Svamp')}</div>
@@ -996,6 +1008,7 @@ async function loadBakverk() {
   const topId = data[0].id;
   grid.innerHTML = data.map(b => `
     <div class="fish-card ${b.id === topId ? 'rekord' : ''}">
+      <button class="del-btn" title="Ta bort" onclick="deleteRekord('bakverk','${b.id}')">✕</button>
       ${b.id === topId ? '<div class="fish-rekord-badge">🏆 Rekord</div>' : ''}
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div class="fish-art">${esc(b.namn || 'Bakverk')}</div>
@@ -1031,6 +1044,16 @@ async function saveBakverk() {
   ['bakverk-namn','bakverk-vikt','bakverk-hojd','bakverk-notering','bakverk-foto'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('bakverk-person').value = '';
   loadBakverk();
+}
+
+async function deleteRekord(tabell, id) {
+  if (!confirm('Ta bort detta inlägg? Det går inte att ångra.')) return;
+  const { error } = await sb.from(tabell).delete().eq('id', id);
+  if (error) { toast('Kunde inte ta bort: ' + error.message); return; }
+  toast('🗑️ Borttaget');
+  if (tabell === 'fiskerekord') loadFiske();
+  else if (tabell === 'svamp') loadSvamp();
+  else if (tabell === 'bakverk') loadBakverk();
 }
 
 /* ── Utilities ── */
