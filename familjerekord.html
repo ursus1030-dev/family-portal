@@ -371,17 +371,14 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-icons">🌍🎣🍄🧁</div>
+  <div class="hero-icons">🎣🍄🧁</div>
   <h1>Familjerekord</h1>
-  <p>Resor · Fiske · Svamp · Bakverk</p>
+  <p>Fiske · Svamp · Bakverk</p>
 </div>
 
 <!-- TAB BAR -->
 <div class="tab-bar">
-  <button class="tab-btn" onclick="showTab('resor')" id="tab-resor" class="tab-btn active">
-    <span class="tab-emoji">🌍</span> Resor
-  </button>
-  <button class="tab-btn" onclick="showTab('fiske')" id="tab-fiske">
+  <button class="tab-btn active" onclick="showTab('fiske')" id="tab-fiske">
     <span class="tab-emoji">🎣</span> Fiske
   </button>
   <button class="tab-btn" onclick="showTab('svamp')" id="tab-svamp">
@@ -393,22 +390,8 @@
 </div>
 
 
-<!-- ══════════ RESOR ══════════ -->
-<section id="sec-resor" class="section active">
-  <div class="section-header">
-    <div class="section-title">
-      <small>Familjeäventyr</small>
-      Resor
-    </div>
-    <button class="btn-add" onclick="openModal('modal-resa')">+ Lägg till resa</button>
-  </div>
-  <div class="book-grid" id="resor-grid">
-    <div class="empty"><div class="empty-icon">🌍</div><p>Inga resor registrerade ännu.<br>Var börjar äventyret?</p></div>
-  </div>
-</section>
-
 <!-- ══════════ FISKE ══════════ -->
-<section id="sec-fiske" class="section">
+<section id="sec-fiske" class="section active">
   <div class="section-header">
     <div class="section-title">
       <small>Bästa fångsten</small>
@@ -479,46 +462,6 @@
 <!-- ════════════════════════════ MODALS ════════════════════════════ -->
 
 
-<!-- Modal: Resa -->
-<div class="modal-overlay" id="modal-resa">
-  <div class="modal">
-    <h2>🌍 Lägg till resa</h2>
-    <div class="form-group">
-      <label>Destination</label>
-      <input type="text" id="resa-destination" placeholder="t.ex. Rom, Thailand, Dalarna" />
-    </div>
-    <div class="form-group">
-      <label>Land</label>
-      <input type="text" id="resa-land" placeholder="t.ex. Italien" />
-    </div>
-    <div class="form-group">
-      <label>År</label>
-      <input type="number" id="resa-ar" placeholder="t.ex. 2023" min="1900" max="2100" />
-    </div>
-    <div class="form-group">
-      <label>Betyg</label>
-      <div class="star-rating" id="resa-stjarnor">
-        <span onclick="setResaStar(1)">★</span>
-        <span onclick="setResaStar(2)">★</span>
-        <span onclick="setResaStar(3)">★</span>
-        <span onclick="setResaStar(4)">★</span>
-        <span onclick="setResaStar(5)">★</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Beskrivning (valfri)</label>
-      <textarea id="resa-beskrivning" placeholder="Berätta om resan..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>Resenärer</label>
-      <input type="text" id="resa-resenarer" placeholder="t.ex. Peter, Carina, Elias" />
-    </div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-resa')">Avbryt</button>
-      <button class="btn-save" onclick="saveResa()">Spara resa</button>
-    </div>
-  </div>
-</div>
 
 <!-- Modal: Fisk -->
 <div class="modal-overlay" id="modal-fisk">
@@ -747,58 +690,6 @@ const EMOJI_MAP = { Peter:'👨', Carina:'👩', Elias:'🧑', Tora:'👧', Matt
 const GENRE_MAP = { drama:'🎭 Drama', komedi:'😂 Komedi', thriller:'😱 Thriller',
   action:'💥 Action', animation:'✨ Animation', dokumentar:'🎥 Dokumentär',
   familj:'👨‍👩‍👧 Familj', ovrigt:'🎬 Övrigt' };
-
-let resaBetyg = 0;
-
-function setResaStar(n) {
-  resaBetyg = n;
-  document.querySelectorAll('#resa-stjarnor span').forEach((s,i) => s.classList.toggle('active', i < n));
-}
-
-
-
-/* ════ RESOR ════ */
-async function loadResor() {
-  const { data } = await sb.from('resor').select('*').order('ar', { ascending: false });
-  const grid = document.getElementById('resor-grid');
-  if (!data || !data.length) {
-    grid.innerHTML = '<div class="empty"><div class="empty-icon">🌍</div><p>Inga resor registrerade ännu.<br>Var börjar äventyret?</p></div>';
-    return;
-  }
-  grid.innerHTML = data.map(r => `
-    <div class="book-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.4rem;">
-        ${r.land ? `<span style="font-size:0.7rem;background:var(--sand);padding:0.15rem 0.5rem;border-radius:20px;color:rgba(28,24,16,0.55);">📍 ${esc(r.land)}</span>` : '<span></span>'}
-        ${r.ar ? `<span style="font-size:0.7rem;color:rgba(28,24,16,0.4);">${r.ar}</span>` : ''}
-      </div>
-      <div class="book-title">${esc(r.destination)}</div>
-      ${r.resenarer ? `<div class="book-author">👥 ${esc(r.resenarer)}</div>` : ''}
-      <div class="book-stars" style="color:var(--gold)">${'★'.repeat(r.betyg||0)}${'☆'.repeat(5-(r.betyg||0))}</div>
-      ${r.beskrivning ? `<div class="book-review">${esc(r.beskrivning)}</div>` : ''}
-    </div>
-  `).join('');
-}
-
-async function saveResa() {
-  const destination = document.getElementById('resa-destination').value.trim();
-  if (!destination) { toast('Ange en destination!'); return; }
-  const ar = document.getElementById('resa-ar').value ? parseInt(document.getElementById('resa-ar').value) : null;
-  const { error } = await sb.from('resor').insert({
-    destination,
-    land: document.getElementById('resa-land').value.trim(),
-    ar,
-    betyg: resaBetyg || null,
-    beskrivning: document.getElementById('resa-beskrivning').value.trim(),
-    resenarer: document.getElementById('resa-resenarer').value.trim()
-  });
-  if (error) { toast('Fel: ' + error.message); return; }
-  closeModal('modal-resa');
-  toast('🌍 Resa sparad!');
-  resaBetyg = 0;
-  document.querySelectorAll('#resa-stjarnor span').forEach(s => s.classList.remove('active'));
-  ['resa-destination','resa-land','resa-ar','resa-beskrivning','resa-resenarer'].forEach(id => document.getElementById(id).value = '');
-  loadResor();
-}
 
 /* ── Cloudinary foto-uppladdning (delas av fiske/svamp/bakverk) ── */
 const CLOUDINARY_CLOUD = 'dnl6r7axn';
@@ -1065,7 +956,6 @@ function formatDate(ts) {
 }
 
 function loadAll() {
-  loadResor();
   loadFiske();
   loadSvamp();
   loadBakverk();
