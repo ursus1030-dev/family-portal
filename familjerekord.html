@@ -361,9 +361,9 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-icons">🎬🌍🎣🗑️😇</div>
+  <div class="hero-icons">🌍🎣🍄🧁</div>
   <h1>Familjerekord</h1>
-  <p>Film · Resor · Fiske · Sophantering · Tålamod</p>
+  <p>Resor · Fiske · Svamp · Bakverk</p>
 </div>
 
 <!-- TAB BAR -->
@@ -374,11 +374,11 @@
   <button class="tab-btn" onclick="showTab('fiske')" id="tab-fiske">
     <span class="tab-emoji">🎣</span> Fiske
   </button>
-  <button class="tab-btn" onclick="showTab('sopor')" id="tab-sopor">
-    <span class="tab-emoji">🗑️</span> Sopor
+  <button class="tab-btn" onclick="showTab('svamp')" id="tab-svamp">
+    <span class="tab-emoji">🍄</span> Svamp
   </button>
-  <button class="tab-btn" onclick="showTab('talamod')" id="tab-talamod">
-    <span class="tab-emoji">😇</span> Tålamod
+  <button class="tab-btn" onclick="showTab('bakverk')" id="tab-bakverk">
+    <span class="tab-emoji">🧁</span> Bakverk
   </button>
 </div>
 
@@ -420,52 +420,49 @@
   </div>
 </section>
 
-<!-- ══════════ SOPOR ══════════ -->
-<section id="sec-sopor" class="section">
+<!-- ══════════ SVAMP ══════════ -->
+<section id="sec-svamp" class="section">
   <div class="section-header">
     <div class="section-title">
-      <small>Vem är städmästaren?</small>
-      Sophanteraren
+      <small>Skogens skatter</small>
+      Svampplockning
     </div>
-    <button class="btn-add" onclick="openModal('modal-sopor')">+ Tömt soptunnan</button>
+    <button class="btn-add" onclick="openModal('modal-svamp')">+ Ny plockning</button>
   </div>
 
-  <div class="leaderboard" id="sopor-leaderboard">
-    <div class="empty"><div class="empty-icon">🗑️</div><p>Ingen har tömt soporna än...</p></div>
+  <!-- Topplista efter poäng (liter × värde) -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(28,24,16,0.4);margin-bottom:0.8rem;">🏆 Topplista — Poäng (liter × värde)</div>
+    <div class="leaderboard" id="svamp-leaderboard">
+      <div class="empty"><div class="empty-icon">🍄</div><p>Inga plockningar ännu!</p></div>
+    </div>
+  </div>
+
+  <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(28,24,16,0.4);margin-bottom:0.8rem;">Alla plockningar</div>
+  <div class="fish-grid" id="svamp-grid">
   </div>
 </section>
 
-<!-- ══════════ TÅLAMOD ══════════ -->
-<section id="sec-talamod" class="section">
+<!-- ══════════ BAKVERK ══════════ -->
+<section id="sec-bakverk" class="section">
   <div class="section-header">
     <div class="section-title">
-      <small>Familjesensationen</small>
-      Tålamodsmätaren
+      <small>Familjens bagare</small>
+      Bakverk
     </div>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
-      <button class="btn-add" onclick="openModal('modal-talamod-vunnit')" style="background:#4a7c59;">😇 Tålmodigt</button>
-      <button class="btn-add" onclick="openModal('modal-talamod-forlorat')" style="background:var(--terra);">😤 Tappat det</button>
+    <button class="btn-add" onclick="openModal('modal-bakverk')">+ Nytt bakverk</button>
+  </div>
+
+  <!-- Topplista efter totalvikt -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(28,24,16,0.4);margin-bottom:0.8rem;">🏆 Topplista — Totalvikt</div>
+    <div class="leaderboard" id="bakverk-leaderboard">
+      <div class="empty"><div class="empty-icon">🧁</div><p>Inga bakverk ännu!</p></div>
     </div>
   </div>
 
-  <div class="patience-split">
-    <div class="patience-panel good">
-      <div class="patience-panel-title">😇 Mest tålamod</div>
-      <div class="leaderboard" id="talamod-good-lb">
-        <div class="empty" style="padding:1.5rem 0.5rem;"><p style="font-size:0.85rem;">Inga registrerade ännu</p></div>
-      </div>
-    </div>
-    <div class="patience-panel bad">
-      <div class="patience-panel-title">😤 Tappat tålamodet</div>
-      <div class="leaderboard" id="talamod-bad-lb">
-        <div class="empty" style="padding:1.5rem 0.5rem;"><p style="font-size:0.85rem;">Ingen har tappat det...</p></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Senaste händelser -->
-  <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(28,24,16,0.4);margin-bottom:0.8rem;">Senaste</div>
-  <div class="leaderboard" id="talamod-feed">
+  <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(28,24,16,0.4);margin-bottom:0.8rem;">Alla bakverk</div>
+  <div class="fish-grid" id="bakverk-grid">
   </div>
 </section>
 
@@ -551,6 +548,10 @@
       <label>Notering (valfri)</label>
       <textarea id="fisk-notering" placeholder="Hur gick det till?" style="min-height:60px;"></textarea>
     </div>
+    <div class="form-group">
+      <label>Foto (valfritt)</label>
+      <input type="file" id="fisk-foto" accept="image/*" />
+    </div>
     <div class="form-actions">
       <button class="btn-cancel" onclick="closeModal('modal-fisk')">Avbryt</button>
       <button class="btn-save" onclick="saveFisk()">Spara fångst</button>
@@ -558,13 +559,13 @@
   </div>
 </div>
 
-<!-- Modal: Sopor -->
-<div class="modal-overlay" id="modal-sopor">
+<!-- Modal: Svamp -->
+<div class="modal-overlay" id="modal-svamp">
   <div class="modal">
-    <h2>🗑️ Tömt soptunnan</h2>
+    <h2>🍄 Ny plockning</h2>
     <div class="form-group">
-      <label>Vem tömde?</label>
-      <select id="sopor-person">
+      <label>Plockad av</label>
+      <select id="svamp-person">
         <option value="">Välj person</option>
         <option>Peter</option><option>Carina</option><option>Elias</option>
         <option>Tora</option><option>Mattias</option><option>Alva</option>
@@ -573,27 +574,50 @@
       </select>
     </div>
     <div class="form-group">
-      <label>Datum</label>
-      <input type="date" id="sopor-datum" />
+      <label>Svamptyp</label>
+      <select id="svamp-typ">
+        <option value="">Välj typ</option>
+        <option value="Kantarell">Kantarell (×3)</option>
+        <option value="Trattkantarell">Trattkantarell (×2)</option>
+        <option value="Höstkantarell">Höstkantarell (×1)</option>
+        <option value="Annan">Annan svamp (×1)</option>
+        <option value="Spikklubba">🥋 Spikklubban — IPPON!</option>
+      </select>
     </div>
     <div class="form-group">
-      <label>Kommentar (valfri)</label>
-      <input type="text" id="sopor-kommentar" placeholder="t.ex. 'Det var tungt idag!'" />
+      <label>Volym (liter)</label>
+      <input type="number" id="svamp-liter" placeholder="t.ex. 3" min="0" step="0.1" />
+    </div>
+    <div class="form-group">
+      <label>Plats</label>
+      <input type="text" id="svamp-plats" placeholder="t.ex. Skogen bakom stugan" />
+    </div>
+    <div class="form-group">
+      <label>Datum</label>
+      <input type="date" id="svamp-datum" />
+    </div>
+    <div class="form-group">
+      <label>Notering (valfri)</label>
+      <textarea id="svamp-notering" placeholder="Hur gick det till?" style="min-height:60px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Foto (valfritt)</label>
+      <input type="file" id="svamp-foto" accept="image/*" />
     </div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-sopor')">Avbryt</button>
-      <button class="btn-save" onclick="saveSopor()">Spara</button>
+      <button class="btn-cancel" onclick="closeModal('modal-svamp')">Avbryt</button>
+      <button class="btn-save" onclick="saveSvamp()">Spara plockning</button>
     </div>
   </div>
 </div>
 
-<!-- Modal: Tålamod vunnit -->
-<div class="modal-overlay" id="modal-talamod-vunnit">
+<!-- Modal: Bakverk -->
+<div class="modal-overlay" id="modal-bakverk">
   <div class="modal">
-    <h2>😇 Tålmodigt ögonblick</h2>
+    <h2>🧁 Nytt bakverk</h2>
     <div class="form-group">
-      <label>Vem visade tålamod?</label>
-      <select id="tal-vunnit-person">
+      <label>Bakat av</label>
+      <select id="bakverk-person">
         <option value="">Välj person</option>
         <option>Peter</option><option>Carina</option><option>Elias</option>
         <option>Tora</option><option>Mattias</option><option>Alva</option>
@@ -602,45 +626,32 @@
       </select>
     </div>
     <div class="form-group">
-      <label>Datum</label>
-      <input type="date" id="tal-vunnit-datum" />
+      <label>Vad bakades?</label>
+      <input type="text" id="bakverk-namn" placeholder="t.ex. Prinsesstårta, Surdegslimpa..." />
     </div>
     <div class="form-group">
-      <label>Vad hände?</label>
-      <textarea id="tal-vunnit-berattelse" placeholder="Berätta om situationen..."></textarea>
+      <label>Vikt (gram)</label>
+      <input type="number" id="bakverk-vikt" placeholder="t.ex. 1200" min="1" />
     </div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-talamod-vunnit')">Avbryt</button>
-      <button class="btn-save" onclick="saveTalamod('vunnit')" style="background:#4a7c59;">Spara</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal: Tålamod förlorat -->
-<div class="modal-overlay" id="modal-talamod-forlorat">
-  <div class="modal">
-    <h2>😤 Tappade tålamodet</h2>
     <div class="form-group">
-      <label>Vem tappade det?</label>
-      <select id="tal-forlorat-person">
-        <option value="">Välj person</option>
-        <option>Peter</option><option>Carina</option><option>Elias</option>
-        <option>Tora</option><option>Mattias</option><option>Alva</option>
-        <option>Isak</option><option>Jenna</option><option>Svea</option>
-        <option>Sigrid</option><option>Benke</option>
-      </select>
+      <label>Höjd (cm, valfri)</label>
+      <input type="number" id="bakverk-hojd" placeholder="t.ex. 15" min="1" />
     </div>
     <div class="form-group">
       <label>Datum</label>
-      <input type="date" id="tal-forlorat-datum" />
+      <input type="date" id="bakverk-datum" />
     </div>
     <div class="form-group">
-      <label>Vad hände?</label>
-      <textarea id="tal-forlorat-berattelse" placeholder="Berätta om situationen..."></textarea>
+      <label>Notering (valfri)</label>
+      <textarea id="bakverk-notering" placeholder="Recept, tillfälle, hur det smakade..." style="min-height:60px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Foto (valfritt)</label>
+      <input type="file" id="bakverk-foto" accept="image/*" />
     </div>
     <div class="form-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-talamod-forlorat')">Avbryt</button>
-      <button class="btn-save" onclick="saveTalamod('forlorat')" style="background:var(--terra);">Spara</button>
+      <button class="btn-cancel" onclick="closeModal('modal-bakverk')">Avbryt</button>
+      <button class="btn-save" onclick="saveBakverk()">Spara bakverk</button>
     </div>
   </div>
 </div>
@@ -779,6 +790,21 @@ async function saveResa() {
   loadResor();
 }
 
+/* ── Cloudinary foto-uppladdning (delas av fiske/svamp/bakverk) ── */
+const CLOUDINARY_CLOUD = 'dnl6r7axn';
+const CLOUDINARY_PRESET = 'family_porta';
+async function uploadFoto(fileInput) {
+  const file = fileInput && fileInput.files && fileInput.files[0];
+  if (!file) return null;
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: fd });
+  const data = await res.json();
+  if (!res.ok || !data.secure_url) throw new Error((data.error && data.error.message) || 'Uppladdning misslyckades');
+  return data.secure_url;
+}
+
 /* ════ FISKE ════ */
 async function loadFiske() {
   const { data } = await sb.from('fiskerekord').select('*').order('vikt_gram', { ascending: false });
@@ -827,6 +853,7 @@ async function loadFiske() {
         ${f.datum ? `<span>📅 ${f.datum}</span>` : ''}
       </div>
       ${f.notering ? `<div style="margin-top:0.6rem;font-size:0.82rem;font-style:italic;color:rgba(28,24,16,0.55);">"${esc(f.notering)}"</div>` : ''}
+      ${f.bild_url ? `<img src="${esc(f.bild_url)}" alt="${esc(f.fisk_art)}" loading="lazy" style="width:100%;border-radius:10px;margin-top:0.7rem;object-fit:cover;max-height:220px;" />` : ''}
     </div>
   `).join('');
 }
@@ -840,115 +867,170 @@ async function saveFisk() {
   const datum = document.getElementById('fisk-datum').value;
   const notering = document.getElementById('fisk-notering').value.trim();
   if (!person || !fisk_art || !vikt_gram) { toast('Fyll i person, art och vikt!'); return; }
-  const { error } = await sb.from('fiskerekord').insert({ person, fisk_art, vikt_gram, langd_cm, plats, datum, notering });
+  let bild_url = null;
+  try { bild_url = await uploadFoto(document.getElementById('fisk-foto')); }
+  catch (e) { toast('Foto-fel: ' + e.message); return; }
+  const { error } = await sb.from('fiskerekord').insert({ person, fisk_art, vikt_gram, langd_cm, plats, datum, notering, bild_url });
   if (error) { toast('Fel: ' + error.message); return; }
   closeModal('modal-fisk');
   toast('🎣 Fångst sparad!');
-  ['fisk-art','fisk-vikt','fisk-langd','fisk-plats','fisk-notering'].forEach(id => document.getElementById(id).value = '');
+  ['fisk-art','fisk-vikt','fisk-langd','fisk-plats','fisk-notering','fisk-foto'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fisk-person').value = '';
   loadFiske();
 }
 
-/* ════ SOPOR ════ */
-async function loadSopor() {
-  const { data } = await sb.from('sopor').select('*').order('created_at', { ascending: false });
-  const lb = document.getElementById('sopor-leaderboard');
+/* ════ SVAMP ════ */
+const SVAMP_FAKTOR = { 'Kantarell': 3, 'Trattkantarell': 2, 'Höstkantarell': 1, 'Annan': 1, 'Spikklubba': 0 };
+function svampPoang(r) { return (parseFloat(r.volym_liter) || 0) * (SVAMP_FAKTOR[r.svamp_typ] != null ? SVAMP_FAKTOR[r.svamp_typ] : 1); }
+
+async function loadSvamp() {
+  const { data } = await sb.from('svamp').select('*').order('created_at', { ascending: false });
+  const grid = document.getElementById('svamp-grid');
+  const lb = document.getElementById('svamp-leaderboard');
+
   if (!data || !data.length) {
-    lb.innerHTML = '<div class="empty"><div class="empty-icon">🗑️</div><p>Ingen har tömt soporna än...</p></div>';
+    grid.innerHTML = '';
+    lb.innerHTML = '<div class="empty"><div class="empty-icon">🍄</div><p>Inga plockningar ännu!</p></div>';
     return;
   }
-  const counts = {};
-  data.forEach(r => { counts[r.person] = (counts[r.person] || 0) + 1; });
-  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-  const maxCount = sorted[0][1];
+
+  // Vilka personer har en ippon (spikklubba)?
+  const ippon = new Set(data.filter(r => r.svamp_typ === 'Spikklubba').map(r => r.person));
+
+  // Poäng per person
+  const totals = {};
+  data.forEach(r => { totals[r.person] = (totals[r.person] || 0) + svampPoang(r); });
+  const sorted = Object.entries(totals).sort((a, b) => {
+    const ai = ippon.has(a[0]) ? 1 : 0, bi = ippon.has(b[0]) ? 1 : 0;
+    if (ai !== bi) return bi - ai;          // ippon-hållare alltid överst
+    return b[1] - a[1];
+  });
   const medals = ['🥇','🥈','🥉'];
-  lb.innerHTML = sorted.map(([person, cnt], i) => `
+  lb.innerHTML = sorted.map(([person, tot], i) => `
+    <div class="lb-row" ${ippon.has(person) ? 'style="border:2px solid var(--gold);"' : ''}>
+      <div class="lb-rank">${ippon.has(person) ? '🥋' : (medals[i] || (i+1))}</div>
+      <div class="lb-avatar">${EMOJI_MAP[person] || '👤'}</div>
+      <div class="lb-info">
+        <div class="lb-name">${esc(person)}${ippon.has(person) ? ' <span style="font-size:0.6rem;background:var(--gold);color:white;padding:0.1rem 0.45rem;border-radius:20px;letter-spacing:0.12em;vertical-align:middle;">IPPON</span>' : ''}</div>
+        <div class="lb-detail">${data.filter(r=>r.person===person).length} plockning(ar)</div>
+      </div>
+      <div class="lb-score">${tot.toFixed(0)}<small> p</small></div>
+    </div>
+  `).join('');
+
+  // Alla plockningar som kort
+  grid.innerHTML = data.map(r => {
+    const isIppon = r.svamp_typ === 'Spikklubba';
+    return `
+    <div class="fish-card ${isIppon ? 'rekord' : ''}">
+      ${isIppon ? '<div class="fish-rekord-badge">🥋 Ippon</div>' : ''}
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="fish-art">${esc(r.svamp_typ || 'Svamp')}</div>
+        <div style="font-size:1.2rem;">${EMOJI_MAP[r.person] || '👤'}</div>
+      </div>
+      <div class="fish-vikt">${(parseFloat(r.volym_liter) || 0)} <span>liter</span></div>
+      <div class="fish-meta">
+        <span>👤 ${esc(r.person)}</span>
+        ${!isIppon ? `<span>⭐ ${svampPoang(r).toFixed(0)} p</span>` : ''}
+        ${r.plats ? `<span>📍 ${esc(r.plats)}</span>` : ''}
+        ${r.datum ? `<span>📅 ${r.datum}</span>` : ''}
+      </div>
+      ${r.notering ? `<div style="margin-top:0.6rem;font-size:0.82rem;font-style:italic;color:rgba(28,24,16,0.55);">"${esc(r.notering)}"</div>` : ''}
+      ${r.bild_url ? `<img src="${esc(r.bild_url)}" alt="${esc(r.svamp_typ)}" loading="lazy" style="width:100%;border-radius:10px;margin-top:0.7rem;object-fit:cover;max-height:220px;" />` : ''}
+    </div>`;
+  }).join('');
+}
+
+async function saveSvamp() {
+  const person = document.getElementById('svamp-person').value;
+  const svamp_typ = document.getElementById('svamp-typ').value;
+  const volym_liter = document.getElementById('svamp-liter').value ? parseFloat(document.getElementById('svamp-liter').value) : null;
+  const plats = document.getElementById('svamp-plats').value.trim();
+  const datum = document.getElementById('svamp-datum').value;
+  const notering = document.getElementById('svamp-notering').value.trim();
+  if (!person || !svamp_typ) { toast('Välj person och svamptyp!'); return; }
+  if (svamp_typ !== 'Spikklubba' && !volym_liter) { toast('Ange antal liter!'); return; }
+  let bild_url = null;
+  try { bild_url = await uploadFoto(document.getElementById('svamp-foto')); }
+  catch (e) { toast('Foto-fel: ' + e.message); return; }
+  const { error } = await sb.from('svamp').insert({ person, svamp_typ, volym_liter, plats, datum, notering, bild_url });
+  if (error) { toast('Fel: ' + error.message); return; }
+  closeModal('modal-svamp');
+  toast(svamp_typ === 'Spikklubba' ? '🥋 IPPON! Otroligt!' : '🍄 Plockning sparad!');
+  ['svamp-liter','svamp-plats','svamp-notering','svamp-foto'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('svamp-person').value = '';
+  document.getElementById('svamp-typ').value = '';
+  loadSvamp();
+}
+
+/* ════ BAKVERK ════ */
+async function loadBakverk() {
+  const { data } = await sb.from('bakverk').select('*').order('vikt_gram', { ascending: false });
+  const grid = document.getElementById('bakverk-grid');
+  const lb = document.getElementById('bakverk-leaderboard');
+
+  if (!data || !data.length) {
+    grid.innerHTML = '';
+    lb.innerHTML = '<div class="empty"><div class="empty-icon">🧁</div><p>Inga bakverk ännu!</p></div>';
+    return;
+  }
+
+  // Totalvikt per person
+  const totals = {};
+  data.forEach(b => { totals[b.person] = (totals[b.person] || 0) + (b.vikt_gram || 0); });
+  const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  const medals = ['🥇','🥈','🥉'];
+  lb.innerHTML = sorted.map(([person, tot], i) => `
     <div class="lb-row">
       <div class="lb-rank">${medals[i] || (i+1)}</div>
       <div class="lb-avatar">${EMOJI_MAP[person] || '👤'}</div>
       <div class="lb-info">
         <div class="lb-name">${esc(person)}</div>
-        <div class="trash-bar"><div class="trash-bar-fill" style="width:${Math.round(cnt/maxCount*100)}%"></div></div>
+        <div class="lb-detail">${data.filter(b=>b.person===person).length} bakverk</div>
       </div>
-      <div class="lb-score">${cnt}<small> ggr</small></div>
+      <div class="lb-score">${(tot/1000).toFixed(2)}<small> kg</small></div>
+    </div>
+  `).join('');
+
+  // Alla bakverk som kort (störst överst)
+  const topId = data[0].id;
+  grid.innerHTML = data.map(b => `
+    <div class="fish-card ${b.id === topId ? 'rekord' : ''}">
+      ${b.id === topId ? '<div class="fish-rekord-badge">🏆 Rekord</div>' : ''}
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="fish-art">${esc(b.namn || 'Bakverk')}</div>
+        <div style="font-size:1.2rem;">${EMOJI_MAP[b.person] || '👤'}</div>
+      </div>
+      <div class="fish-vikt">${b.vikt_gram >= 1000 ? (b.vikt_gram/1000).toFixed(2)+' <span>kg</span>' : b.vikt_gram+' <span>gram</span>'}</div>
+      <div class="fish-meta">
+        <span>👤 ${esc(b.person)}</span>
+        ${b.hojd_cm ? `<span>📏 ${b.hojd_cm} cm</span>` : ''}
+        ${b.datum ? `<span>📅 ${b.datum}</span>` : ''}
+      </div>
+      ${b.notering ? `<div style="margin-top:0.6rem;font-size:0.82rem;font-style:italic;color:rgba(28,24,16,0.55);">"${esc(b.notering)}"</div>` : ''}
+      ${b.bild_url ? `<img src="${esc(b.bild_url)}" alt="${esc(b.namn)}" loading="lazy" style="width:100%;border-radius:10px;margin-top:0.7rem;object-fit:cover;max-height:220px;" />` : ''}
     </div>
   `).join('');
 }
 
-async function saveSopor() {
-  const person = document.getElementById('sopor-person').value;
-  const datum = document.getElementById('sopor-datum').value;
-  const kommentar = document.getElementById('sopor-kommentar').value.trim();
-  if (!person) { toast('Välj vem som tömde!'); return; }
-  const { error } = await sb.from('sopor').insert({ person, datum, kommentar });
+async function saveBakverk() {
+  const person = document.getElementById('bakverk-person').value;
+  const namn = document.getElementById('bakverk-namn').value.trim();
+  const vikt_gram = parseInt(document.getElementById('bakverk-vikt').value);
+  const hojd_cm = document.getElementById('bakverk-hojd').value ? parseInt(document.getElementById('bakverk-hojd').value) : null;
+  const datum = document.getElementById('bakverk-datum').value;
+  const notering = document.getElementById('bakverk-notering').value.trim();
+  if (!person || !namn || !vikt_gram) { toast('Fyll i person, vad och vikt!'); return; }
+  let bild_url = null;
+  try { bild_url = await uploadFoto(document.getElementById('bakverk-foto')); }
+  catch (e) { toast('Foto-fel: ' + e.message); return; }
+  const { error } = await sb.from('bakverk').insert({ person, namn, vikt_gram, hojd_cm, datum, notering, bild_url });
   if (error) { toast('Fel: ' + error.message); return; }
-  closeModal('modal-sopor');
-  toast('🗑️ Tomt! Bra jobbat!');
-  document.getElementById('sopor-person').value = '';
-  document.getElementById('sopor-kommentar').value = '';
-  loadSopor();
-}
-
-/* ════ TÅLAMOD ════ */
-async function loadTalamod() {
-  const { data } = await sb.from('talamod').select('*').order('created_at', { ascending: false });
-  const goodLb = document.getElementById('talamod-good-lb');
-  const badLb  = document.getElementById('talamod-bad-lb');
-  const feed   = document.getElementById('talamod-feed');
-
-  if (!data || !data.length) { return; }
-
-  // Counts per person per type
-  const good = {}, bad = {};
-  data.forEach(r => {
-    if (r.typ === 'vunnit')   good[r.person] = (good[r.person] || 0) + 1;
-    if (r.typ === 'forlorat') bad[r.person]  = (bad[r.person] || 0) + 1;
-  });
-
-  const medals = ['🥇','🥈','🥉'];
-  const renderSmallLb = (counts) => {
-    const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-    return sorted.map(([person, cnt], i) => `
-      <div class="lb-row" style="padding:0.7rem 1rem;">
-        <div class="lb-rank" style="font-size:1.1rem;">${medals[i] || (i+1)}</div>
-        <div class="lb-avatar" style="width:34px;height:34px;font-size:1rem;">${EMOJI_MAP[person] || '👤'}</div>
-        <div class="lb-info"><div class="lb-name" style="font-size:0.9rem;">${esc(person)}</div></div>
-        <div class="lb-score" style="font-size:1.3rem;">${cnt}<small style="font-size:0.65rem;"> ggr</small></div>
-      </div>
-    `).join('');
-  };
-
-  goodLb.innerHTML = Object.keys(good).length ? renderSmallLb(good) : '<div class="empty" style="padding:1rem;"><p style="font-size:0.85rem;">Inga registrerade</p></div>';
-  badLb.innerHTML  = Object.keys(bad).length  ? renderSmallLb(bad)  : '<div class="empty" style="padding:1rem;"><p style="font-size:0.85rem;">Ingen har tappat det</p></div>';
-
-  // Feed — last 10 events
-  const last10 = data.slice(0, 10);
-  feed.innerHTML = last10.map(r => `
-    <div class="lb-row">
-      <div class="lb-rank">${r.typ === 'vunnit' ? '😇' : '😤'}</div>
-      <div class="lb-avatar">${EMOJI_MAP[r.person] || '👤'}</div>
-      <div class="lb-info">
-        <div class="lb-name">${esc(r.person)}</div>
-        ${r.berattelse ? `<div class="lb-detail">"${esc(r.berattelse)}"</div>` : ''}
-      </div>
-      <div style="font-size:0.75rem;color:rgba(28,24,16,0.4);flex-shrink:0;">${formatDate(r.created_at)}</div>
-    </div>
-  `).join('');
-}
-
-async function saveTalamod(typ) {
-  const modalId = 'modal-talamod-' + (typ === 'vunnit' ? 'vunnit' : 'forlorat');
-  const person = document.getElementById('tal-' + (typ==='vunnit'?'vunnit':'forlorat') + '-person').value;
-  const datum  = document.getElementById('tal-' + (typ==='vunnit'?'vunnit':'forlorat') + '-datum').value;
-  const berattelse = document.getElementById('tal-' + (typ==='vunnit'?'vunnit':'forlorat') + '-berattelse').value.trim();
-  if (!person) { toast('Välj en person!'); return; }
-  const { error } = await sb.from('talamod').insert({ person, typ, datum, berattelse });
-  if (error) { toast('Fel: ' + error.message); return; }
-  closeModal(modalId);
-  toast(typ === 'vunnit' ? '😇 Bra jobbat!' : '😤 Det händer alla...');
-  document.getElementById('tal-' + (typ==='vunnit'?'vunnit':'forlorat') + '-person').value = '';
-  document.getElementById('tal-' + (typ==='vunnit'?'vunnit':'forlorat') + '-berattelse').value = '';
-  loadTalamod();
+  closeModal('modal-bakverk');
+  toast('🧁 Bakverk sparat!');
+  ['bakverk-namn','bakverk-vikt','bakverk-hojd','bakverk-notering','bakverk-foto'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('bakverk-person').value = '';
+  loadBakverk();
 }
 
 /* ── Utilities ── */
@@ -962,8 +1044,8 @@ function formatDate(ts) {
 function loadAll() {
   loadResor();
   loadFiske();
-  loadSopor();
-  loadTalamod();
+  loadSvamp();
+  loadBakverk();
 }
 
     function toggleNav() {
