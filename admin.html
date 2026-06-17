@@ -25,7 +25,7 @@
       overflow-x: auto;
       scrollbar-width: none;
       flex: 1;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 0 0.5rem;
     }
     .nav-links::-webkit-scrollbar { display: none; }
@@ -45,6 +45,20 @@
     .nav-links a.active { background:rgba(201,169,110,0.15); color:var(--gold); }
     .nav-logout { background:none; border:1px solid rgba(245,240,232,0.2); color:rgba(245,240,232,0.5); font-family:'Jost',sans-serif; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.35rem 0.8rem; border-radius:6px; cursor:pointer; transition:all 0.2s; }
     .nav-logout:hover { border-color:rgba(245,240,232,0.4); color:var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-mobile-footer { display: none !important; }
+    @media (max-width: 1100px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
 
     .hero { background:linear-gradient(160deg,var(--navy) 0%,#112236 60%,#1a3250 100%); padding:3rem 2rem 2.5rem; text-align:center; position:relative; overflow:hidden; }
     .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 120%,rgba(201,169,110,0.1) 0%,transparent 60%); }
@@ -449,7 +463,7 @@
   </div>
 
   <footer style="background:#2a3f28;color:rgba(245,240,232,0.4);text-align:center;padding:2rem;font-size:0.75rem;letter-spacing:0.1em;">
-    <p>FAMILJEN ALMSTRÖM &nbsp;·&nbsp; ADMIN &nbsp;·&nbsp; 2025</p>
+    <p>FAMILJEN ALMSTRÖM &nbsp;·&nbsp; ADMIN &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

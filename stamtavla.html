@@ -47,7 +47,7 @@
       overflow-x: auto;
       scrollbar-width: none;
       flex: 1;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 0 0.5rem;
     }
     .nav-links::-webkit-scrollbar { display: none; }
@@ -70,7 +70,7 @@
     .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .nav-mobile-footer { display: none !important; }
-    @media (max-width: 720px) {
+    @media (max-width: 1100px) {
       nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
@@ -583,7 +583,7 @@
   </div>
 
   <footer>
-    <p>Familjen Almström &nbsp;·&nbsp; Stamtavla &nbsp;·&nbsp; 2025</p>
+    <p>Familjen Almström &nbsp;·&nbsp; Stamtavla &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

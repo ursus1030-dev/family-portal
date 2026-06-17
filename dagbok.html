@@ -51,7 +51,7 @@
       overflow-x: auto;
       scrollbar-width: none;
       flex: 1;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 0 0.5rem;
     }
     .nav-links::-webkit-scrollbar { display: none; }
@@ -74,7 +74,7 @@
     .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .nav-mobile-footer { display: none !important; }
-    @media (max-width: 720px) {
+    @media (max-width: 1100px) {
       nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
@@ -410,6 +410,21 @@
     .reaction-btn:hover { border-color: var(--terra); color: var(--terra); background: rgba(168,76,42,0.05); }
     .reaction-btn .count { font-weight: 500; }
 
+    /* Kommentarer */
+    .entry-comments { padding: 0 1.3rem; }
+    .entry-comment { background: rgba(61,92,58,0.05); border-radius: 10px; padding: 0.5rem 0.7rem; margin-bottom: 0.45rem; position: relative; }
+    .entry-comment .c-author { color: var(--forest); font-size: 0.78rem; font-weight: 600; }
+    .entry-comment .c-date { color: rgba(28,24,16,0.4); font-size: 0.72rem; margin-left: 0.4rem; }
+    .entry-comment .c-text { color: rgba(28,24,16,0.85); font-size: 0.88rem; line-height: 1.45; margin-top: 0.15rem; white-space: pre-wrap; word-break: break-word; padding-right: 1.2rem; }
+    .entry-comment .c-del { position: absolute; top: 0.35rem; right: 0.5rem; background: none; border: none; color: rgba(28,24,16,0.3); cursor: pointer; font-size: 0.85rem; line-height: 1; transition: color 0.2s; }
+    .entry-comment .c-del:hover { color: #b83030; }
+    .entry-comments-empty { color: rgba(28,24,16,0.35); font-size: 0.8rem; padding: 0 0 0.5rem; }
+    .comment-form { display: flex; gap: 0.5rem; padding: 0.2rem 1.3rem 1rem; }
+    .comment-form textarea { flex: 1; resize: none; border: 1.5px solid rgba(61,92,58,0.15); border-radius: 10px; font-family: inherit; font-size: 0.88rem; padding: 0.5rem 0.7rem; color: #1C1810; }
+    .comment-form textarea:focus { outline: none; border-color: var(--terra); }
+    .comment-form button { background: var(--terra); border: none; color: #fff; font-family: inherit; font-size: 0.8rem; font-weight: 500; padding: 0 1rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .comment-form button:hover { background: #c4603a; }
+
     /* Laddningsindikator */
     .loading-dots {
       text-align: center;
@@ -548,7 +563,7 @@
   </div>
 
   <footer>
-    <p>Familjen Almström &nbsp;·&nbsp; Dagbok &nbsp;·&nbsp; 2025</p>
+    <p>Familjen Almström &nbsp;·&nbsp; Dagbok &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -760,6 +775,7 @@ function addPrivateNavLinks(email) {
 
       list.innerHTML = '';
       data.forEach(entry => list.appendChild(renderEntry(entry)));
+      loadCommentsForEntries(data.map(e => e.id));
     }
 
     function renderEntry(e) {
@@ -803,6 +819,13 @@ function addPrivateNavLinks(email) {
           <button class="reaction-btn" onclick="deleteEntry('${e.id}', this)" style="margin-left:auto;color:#b83030;" title="Ta bort">🗑️</button>
           <button class="reaction-btn" onclick="editEntry('${e.id}', this)" style="color:#3D5C3A;" title="Redigera">✏️</button>
         </div>
+        <div class="entry-comments" id="comments-${e.id}">
+          <div class="entry-comments-empty">Laddar kommentarer…</div>
+        </div>
+        <form class="comment-form" data-entry="${e.id}">
+          <textarea rows="1" placeholder="Skriv en kommentar…" maxlength="500"></textarea>
+          <button type="submit">Kommentera</button>
+        </form>
       `;
       return card;
     }
@@ -844,6 +867,60 @@ function addPrivateNavLinks(email) {
         .eq('id', id);
     }
 
+    /* ─── KOMMENTARER ─── */
+    async function loadCommentsForEntries(ids) {
+      if (!ids || !ids.length) return;
+      const { data, error } = await sb.from('diary_comments')
+        .select('*').in('entry_id', ids).order('created_at', { ascending: true });
+      const byEntry = {};
+      if (!error) (data || []).forEach(c => { (byEntry[c.entry_id] = byEntry[c.entry_id] || []).push(c); });
+      ids.forEach(id => renderEntryComments(id, byEntry[id] || []));
+    }
+
+    function renderEntryComments(entryId, list) {
+      const box = document.getElementById('comments-' + entryId);
+      if (!box) return;
+      const isAdmin = CURRENT_USER_EMAIL === ADMIN_EMAIL;
+      if (!list.length) { box.innerHTML = '<div class="entry-comments-empty">Inga kommentarer än.</div>'; return; }
+      box.innerHTML = list.map(c => {
+        const canDelete = isAdmin || (c.user_email || '').toLowerCase() === CURRENT_USER_EMAIL;
+        const who = escHtml((c.user_email || '').split('@')[0]);
+        const when = new Date(c.created_at).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+        const del = canDelete ? `<button class="c-del" data-comment="${c.id}" title="Ta bort">✕</button>` : '';
+        return `<div class="entry-comment"><span class="c-author">${who}</span><span class="c-date">${when}</span>${del}<div class="c-text">${escHtml(c.comment)}</div></div>`;
+      }).join('');
+    }
+
+    function setupComments() {
+      const listEl = document.getElementById('entries-list');
+      listEl.addEventListener('submit', async e => {
+        const form = e.target.closest('.comment-form');
+        if (!form) return;
+        e.preventDefault();
+        const entryId = form.dataset.entry;
+        const ta = form.querySelector('textarea');
+        const text = ta.value.trim();
+        if (!text) return;
+        const btn = form.querySelector('button');
+        btn.disabled = true;
+        const { error } = await sb.from('diary_comments')
+          .insert({ entry_id: entryId, user_email: CURRENT_USER_EMAIL, comment: text });
+        btn.disabled = false;
+        if (error) { alert('Kunde inte spara kommentaren: ' + error.message); return; }
+        ta.value = '';
+        loadCommentsForEntries([entryId]);
+      });
+      listEl.addEventListener('click', async e => {
+        const del = e.target.closest('.c-del');
+        if (!del) return;
+        if (!confirm('Ta bort denna kommentar?')) return;
+        const { error } = await sb.from('diary_comments').delete().eq('id', del.dataset.comment);
+        if (error) { alert('Kunde inte ta bort: ' + error.message); return; }
+        const card = del.closest('.entry-card');
+        if (card) loadCommentsForEntries([card.dataset.id]);
+      });
+    }
+
     /* ─── LJUSBOX ─── */
     function openLightbox(url) {
       document.getElementById('lightbox-img').src = url;
@@ -867,6 +944,7 @@ function addPrivateNavLinks(email) {
           const list = document.getElementById('entries-list');
           const card = renderEntry(payload.new);
           list.insertBefore(card, list.firstChild);
+          loadCommentsForEntries([payload.new.id]);
         })
         .subscribe();
     }
@@ -884,6 +962,7 @@ function addPrivateNavLinks(email) {
       CURRENT_USER_EMAIL = data.session.user.email.toLowerCase();
       addPrivateNavLinks(CURRENT_USER_EMAIL);
       buildAuthorRow();
+      setupComments();
       await loadEntries();
       subscribeRealtime();
     }
