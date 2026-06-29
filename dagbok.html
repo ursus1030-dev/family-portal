@@ -230,7 +230,7 @@
       overflow: hidden;
       border: 2px solid rgba(61,92,58,0.15);
     }
-    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-thumb img, .photo-thumb video { width: 100%; height: 100%; object-fit: cover; }
     .photo-thumb .remove-photo {
       position: absolute;
       top: 2px;
@@ -385,6 +385,7 @@
     }
     .entry-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
     .entry-photo:hover img { transform: scale(1.03); }
+    .entry-photo video { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
     /* Reaktioner */
     .entry-reactions {
@@ -534,9 +535,9 @@
       <!-- Foton -->
       <div class="photo-section">
         <label class="photo-label" for="photo-input">
-          📷 Lägg till foton
+          📷 Lägg till foton eller video
         </label>
-        <input type="file" id="photo-input" accept="image/*" multiple />
+        <input type="file" id="photo-input" accept="image/*,video/*" multiple />
         <div class="photo-previews" id="photo-previews"></div>
         <div class="upload-progress" id="upload-progress"></div>
       </div>
@@ -660,7 +661,11 @@ function addPrivateNavLinks(email) {
       pendingPhotos.forEach((p, i) => {
         const wrap = document.createElement('div');
         wrap.className = 'photo-thumb';
-        wrap.innerHTML = `<img src="${p.previewUrl}" /><button class="remove-photo" onclick="removePhoto(${i})">✕</button>`;
+        const isVideo = p.file && p.file.type.startsWith('video');
+        const media = isVideo
+          ? `<video src="${p.previewUrl}" muted playsinline></video>`
+          : `<img src="${p.previewUrl}" />`;
+        wrap.innerHTML = `${media}<button class="remove-photo" onclick="removePhoto(${i})">✕</button>`;
         container.appendChild(wrap);
       });
     }
@@ -677,7 +682,7 @@ function addPrivateNavLinks(email) {
       fd.append('upload_preset', CLOUDINARY_PRESET);
       fd.append('folder', 'family_diary');
 
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/auto/upload`, {
         method: 'POST',
         body: fd
       });
@@ -700,10 +705,10 @@ function addPrivateNavLinks(email) {
       // Ladda upp foton
       let photoUrls = [];
       if (pendingPhotos.length > 0) {
-        showStatus(`Laddar upp ${pendingPhotos.length} foto(n)…`, '');
+        showStatus(`Laddar upp ${pendingPhotos.length} fil(er)…`, '');
         try {
           for (let i = 0; i < pendingPhotos.length; i++) {
-            document.getElementById('upload-progress').textContent = `Foto ${i + 1} av ${pendingPhotos.length}…`;
+            document.getElementById('upload-progress').textContent = `Laddar upp ${i + 1} av ${pendingPhotos.length}…`;
             const url = await uploadToCloudinary(pendingPhotos[i].file);
             photoUrls.push(url);
           }
@@ -793,7 +798,9 @@ function addPrivateNavLinks(email) {
       const colClass = photos.length === 1 ? 'cols-1' : photos.length === 2 ? 'cols-2' : 'cols-3';
       const photosHtml = photos.length ? `
         <div class="entry-photos ${colClass}">
-          ${photos.map(url => `<div class="entry-photo" onclick="openLightbox('${url}')"><img src="${url}" loading="lazy" /></div>`).join('')}
+          ${photos.map(url => url.includes('/video/upload/')
+            ? `<div class="entry-photo"><video src="${url}" controls playsinline preload="metadata"></video></div>`
+            : `<div class="entry-photo" onclick="openLightbox('${url}')"><img src="${url}" loading="lazy" /></div>`).join('')}
         </div>` : '';
 
       card.innerHTML = `
