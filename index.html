@@ -1154,6 +1154,40 @@
       }
     })();
 
+    // ── HERO-FOTO (slumpmässigt foto från familjealbumet) ──
+    (async function() {
+      function hexToRgba(hex, alpha) {
+        hex = (hex || '').trim().replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+        if (hex.length !== 6) return `rgba(42,63,40,${alpha})`; // fallback: mörk skogsgrön
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+      try {
+        const { data, error } = await sb.from('foton').select('url').limit(200);
+        if (error || !data || !data.length) return; // inga foton — behåll gradienten
+        const pick = data[Math.floor(Math.random() * data.length)];
+        if (!pick || !pick.url) return;
+
+        const img = new Image();
+        img.onload = () => {
+          const hero = document.querySelector('.hero');
+          if (!hero) return;
+          const rootStyle = getComputedStyle(document.documentElement);
+          const dk = rootStyle.getPropertyValue('--forest-dk').trim() || '#2a3f28';
+          const md = rootStyle.getPropertyValue('--forest').trim()    || '#3D5C3A';
+          hero.style.backgroundImage =
+            `linear-gradient(160deg, ${hexToRgba(dk, 0.88)} 0%, ${hexToRgba(md, 0.72)} 55%, ${hexToRgba(md, 0.5)} 100%), url("${pick.url}")`;
+          hero.style.backgroundSize = 'cover';
+          hero.style.backgroundPosition = 'center';
+        };
+        img.onerror = () => {}; // bilden gick inte att ladda — behåll gradienten, stör inget
+        img.src = pick.url;
+      } catch (e) { /* nätverksfel e.d. — behåll gradienten */ }
+    })();
+
     const PERSONS = {
       peter:   { name:'Peter Almström',           detail:'52 år · Admin · Stamhuset',       initials:'PA', bg:'linear-gradient(135deg,#3D5C3A,#6a9466)', bio:'Pappan som startade hela familjesajten. Gillar teknik, natur och en god kopp kaffe. Alltid på jakt efter nästa projekt att bygga.', emoji:'🏡', melody:'Lägg till favoritlåt…' },
       carina:  { name:'Carina Almström',           detail:'50 år · Stamhuset',               initials:'CA', bg:'linear-gradient(135deg,#A84C2A,#d4855e)', bio:'Familjehjärtat som håller ihop allt. Älskar trädgård, matlagning och långa promenader med Tyce.', emoji:'🌸', melody:'Lägg till favoritlåt…' },
