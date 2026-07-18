@@ -1,0 +1,1589 @@
+{
+  "foton": [
+    {
+      "id": "fef10078-f667-48bd-92ca-0a1dd58c7dd0",
+      "titel": "72241104_2999742190052493_8016358124984205312_n.jpg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779965635218_0.jpg",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T10:53:56.037676+00:00"
+    },
+    {
+      "id": "45eebd5e-fd5c-4f27-be78-4aa74d252fe5",
+      "titel": "73307327_2999743296719049_9155917788764700672_n.jpg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779977581513_0.jpg",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:13:02.065235+00:00"
+    },
+    {
+      "id": "06f91b0c-fc94-4451-b9f2-eecd4ac5a54d",
+      "titel": "72474080_2999744096718969_7914216204888178688_n.jpg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779977674177_0.jpg",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:14:34.699751+00:00"
+    },
+    {
+      "id": "236cee55-a375-4ce7-a853-3e8192c13ffa",
+      "titel": "2015-01-06 18.01.16.jpg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779977770409_0.jpg",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:16:11.594176+00:00"
+    },
+    {
+      "id": "7d18c253-9b29-4223-aa1e-db1e6cc5dec6",
+      "titel": "IMG_2610.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779977828649_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:17:10.496727+00:00"
+    },
+    {
+      "id": "a3c7cb95-3aeb-49b3-ad58-053440102055",
+      "titel": "IMG_3133.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779977940396_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:19:02.221214+00:00"
+    },
+    {
+      "id": "13dc0283-a6f7-4725-8d36-b08f20c2339f",
+      "titel": "IMG_3337.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978022392_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:20:23.458711+00:00"
+    },
+    {
+      "id": "8f53e073-0d98-4eca-8442-05f945c1fb39",
+      "titel": "IMG_3536.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978089998_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:21:31.417349+00:00"
+    },
+    {
+      "id": "5cd3ee89-5b4b-44ba-83c5-3e52b0ed27f5",
+      "titel": "IMG_3344.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978161223_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:22:42.715225+00:00"
+    },
+    {
+      "id": "e70216d0-2a41-449a-b2dc-cb2303f0e245",
+      "titel": "IMAG0605.jpg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978297452_0.jpg",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:24:58.307216+00:00"
+    },
+    {
+      "id": "daad4b97-16ff-4c77-a649-c1006e003c6f",
+      "titel": "IMG_1493.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978345990_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:25:47.181464+00:00"
+    },
+    {
+      "id": "8258451c-2a70-48ba-b97d-4a1692270d95",
+      "titel": "IMG_1920.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978377268_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:26:18.141828+00:00"
+    },
+    {
+      "id": "2b8c2a9b-4e6e-4686-b6ac-caa02089f8da",
+      "titel": "IMAG0457.jpg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978443435_0.jpg",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:27:24.397716+00:00"
+    },
+    {
+      "id": "a6658eb5-89dc-44bb-b90a-cfbc1cbe3ba0",
+      "titel": "034.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978522086_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:28:43.461388+00:00"
+    },
+    {
+      "id": "70a53850-ab62-414a-bc55-41fddd1b3ace",
+      "titel": "DSCF0019.JPG",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779978554006_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:29:14.567121+00:00"
+    },
+    {
+      "id": "202ed696-c81b-4511-875a-3c461585c0b8",
+      "titel": "IMG_9423.jpeg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1779993360631_0.jpeg",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T18:36:01.880695+00:00"
+    },
+    {
+      "id": "68fdc2a5-9fc9-41c3-ae7b-0b6d2de94fee",
+      "titel": "IMG_2768.jpeg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1780247005782_0.jpeg",
+      "album": "Hundaaar",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-31T17:03:29.177118+00:00"
+    },
+    {
+      "id": "ba67c01b-0c9c-4bb4-815e-91897574fcd7",
+      "titel": "Tack! Tavlan sitter nu uppe 😍",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1780247699509_0.jpeg",
+      "album": "Övrigt",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-31T17:15:01.900532+00:00"
+    },
+    {
+      "id": "2021ef48-3f47-41b0-8574-bbea0d372820",
+      "titel": "Test",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1780500596615_0.jpg",
+      "album": "Övrigt",
+      "skapad_av": "mattias.rutkowski",
+      "created_at": "2026-06-03T15:29:57.854534+00:00"
+    },
+    {
+      "id": "8ba07cb3-a2f2-4e52-836f-ab7408e0a52a",
+      "titel": "IMG_3013.jpeg",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781353918049_0.jpeg",
+      "album": "Hundaaar",
+      "skapad_av": "elias.almstrom",
+      "created_at": "2026-06-13T12:32:00.640475+00:00"
+    },
+    {
+      "id": "23e93b3d-17b7-413d-92ec-b24c0ec87667",
+      "titel": "Sveas favvo djur",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781371965211_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:32:47.590164+00:00"
+    },
+    {
+      "id": "0618929f-a007-48b5-9511-27b2b267f617",
+      "titel": "Mamma mu",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781371994979_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:33:16.872544+00:00"
+    },
+    {
+      "id": "a3c2d607-82c2-4931-a2ab-793e6bacec55",
+      "titel": "Mumin",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781372057692_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:34:19.83132+00:00"
+    },
+    {
+      "id": "2e37f0d9-e585-43fe-a295-f72252b33325",
+      "titel": "Tyce the Beast",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781372094699_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:34:56.395246+00:00"
+    },
+    {
+      "id": "65060e36-0e25-4edd-abe7-cdbf2e15a50a",
+      "titel": "Traktor",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781372131863_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:35:33.627213+00:00"
+    },
+    {
+      "id": "5d05d53f-e7c2-4fc2-854c-1dac93198a71",
+      "titel": "Drake",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781372157180_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:35:58.93311+00:00"
+    },
+    {
+      "id": "277c82ed-3ceb-483e-8adc-45df1847fce3",
+      "titel": "Mamma mu",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781372206854_0.png",
+      "album": "Svea goes Viral",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-13T17:36:49.715943+00:00"
+    },
+    {
+      "id": "4d90eb5e-3f87-455d-a355-3c6c59a467be",
+      "titel": "Otroligt snygg hund och skilled fotograf",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781896966683_0.jpeg",
+      "album": "Hundaaar",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-19T19:22:48.228573+00:00"
+    },
+    {
+      "id": "e4b8fc1a-6d3c-4f5a-b7e1-56dee8f2cf31",
+      "titel": "Otroligt snygg hund och skilled fotograf",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1781896967379_1.jpeg",
+      "album": "Hundaaar",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-19T19:22:48.228573+00:00"
+    },
+    {
+      "id": "7b6b2816-1841-4608-badb-46a63600b06b",
+      "titel": "Underbart fina exemplar",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782231838591_0.png",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-23T16:24:06.692004+00:00"
+    },
+    {
+      "id": "62cef2a7-f76b-41f8-a422-162f094e3609",
+      "titel": "Underbart fina exemplar",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782231840718_1.png",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-23T16:24:06.692004+00:00"
+    },
+    {
+      "id": "28f50005-f4b3-466d-86bc-399100b01705",
+      "titel": "Underbart fina exemplar",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782231842473_2.png",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-23T16:24:06.692004+00:00"
+    },
+    {
+      "id": "550da5e0-cfe3-4812-b19a-16d3fccc5ff4",
+      "titel": "Underbart fina exemplar",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782231844810_3.png",
+      "album": "Ta en titt eller inte",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-23T16:24:06.692004+00:00"
+    },
+    {
+      "id": "e7dd2e50-8e78-4731-ad4c-4c2303f1b67e",
+      "titel": "Picknick med Tim+Michelle",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782756602440_0.JPG",
+      "album": "Övrigt",
+      "skapad_av": "mattias.rutkowski",
+      "created_at": "2026-06-29T18:10:11.597844+00:00"
+    },
+    {
+      "id": "96350633-a0c1-4375-9f65-f40467de744e",
+      "titel": "Picknick med Tim+Michelle",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782756604253_1.JPG",
+      "album": "Övrigt",
+      "skapad_av": "mattias.rutkowski",
+      "created_at": "2026-06-29T18:10:11.597844+00:00"
+    },
+    {
+      "id": "28cd4a4d-6715-4560-8d51-1262e8a81b1f",
+      "titel": "Picknick med Tim+Michelle",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782756606113_2.JPG",
+      "album": "Övrigt",
+      "skapad_av": "mattias.rutkowski",
+      "created_at": "2026-06-29T18:10:11.597844+00:00"
+    },
+    {
+      "id": "1522cd4b-2d1b-43c5-98bc-a3279c3ca49f",
+      "titel": "Picknick med Tim+Michelle",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1782756608131_3.JPG",
+      "album": "Övrigt",
+      "skapad_av": "mattias.rutkowski",
+      "created_at": "2026-06-29T18:10:11.597844+00:00"
+    },
+    {
+      "id": "8f7c5be1-bdf3-4d3e-9afa-3c1c75173511",
+      "titel": "Jenna och mamma",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1783763861344_0.jpeg",
+      "album": "Övrigt",
+      "skapad_av": "toraalmstrom96",
+      "created_at": "2026-07-11T09:57:44.266386+00:00"
+    },
+    {
+      "id": "ceab33c3-d54b-48ed-9d6a-31260ab505d1",
+      "titel": "Jenna och mamma",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1783763862496_1.jpeg",
+      "album": "Övrigt",
+      "skapad_av": "toraalmstrom96",
+      "created_at": "2026-07-11T09:57:44.266386+00:00"
+    },
+    {
+      "id": "c5f0b57f-cea7-4d3b-8547-92f9b7ee3399",
+      "titel": "Jenna och mamma",
+      "beskrivning": null,
+      "url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/foton/1783763863273_2.jpeg",
+      "album": "Övrigt",
+      "skapad_av": "toraalmstrom96",
+      "created_at": "2026-07-11T09:57:44.266386+00:00"
+    }
+  ],
+  "memories": [
+    {
+      "id": "9139632f-bc17-412a-965c-9f3d5e0c8ed9",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🌲",
+      "text": "test",
+      "photos": [],
+      "stamp": "Familjehistoria",
+      "reactions_heart": 0,
+      "reactions_smile": 0,
+      "created_at": "2026-05-28T12:59:22.969248+00:00"
+    },
+    {
+      "id": "e9b70ee5-444e-43be-adf2-4205c6280405",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "Hej\n\nkommer lägga info ang uppdaterinar här och regler\n\nalla skall ha fått mejl nu  vissa har redan fått men inte loggat in   kul\n\nkika runt  testa lite  återkom med frågor kritik pos neg och gärna förslag     hoppas det är uppskattat elelr åtminstånde funkar",
+      "photos": [],
+      "stamp": "Milstolpe",
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-05-31T16:57:22.303284+00:00"
+    },
+    {
+      "id": "4af75365-8029-4756-a1d4-15d92c517b9c",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Testa inte detta hemma",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780990964/family_diary/honlebeaxyp0pzqbs9td.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 2,
+      "reactions_smile": 1,
+      "created_at": "2026-06-09T07:42:44.999494+00:00"
+    },
+    {
+      "id": "bf7bef19-5b12-4aa8-8bab-37d04aabe401",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "klartClaude responded: Vänta ~60 sek och kontrollera att händelsen nu ligger rätt på 24 juni.Vänta ~60 sek och kontrollera att händelsen nu ligger rätt på 24 juni.\nDen här buggen gällde alla användare — bra att Carina hittade den.",
+      "photos": [],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-06-01T18:34:07.562661+00:00"
+    },
+    {
+      "id": "596bad67-b04b-43cd-9686-f7c35f511cfb",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "Denna lilla rackare trillade ner på Elias en kväll  😱",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780247541/family_diary/eanqa00kqjeaeoa9lqc6.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-05-31T17:12:21.828528+00:00"
+    },
+    {
+      "id": "8803b861-cb8d-4aa3-bef0-d4815ecff2d7",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🌲",
+      "text": "",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1779973204/family_diary/k2ezqsicaxwaoyaxaqml.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-05-28T13:00:05.216921+00:00"
+    },
+    {
+      "id": "d84d66a7-56b2-41eb-8fce-3f616de11a85",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Darcy var varm efter en 50 min promenad och invigde badkaret med bravur! 10/10 enligt Darcy! Nu ska Darcy till veterinären för att undersöka en bula på hakan, vi håller tassar, tår och tummar att det är ofarligt!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780499711/family_diary/gpzsg47knvlrutrave85.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-06-03T15:15:12.229639+00:00"
+    },
+    {
+      "id": "d5a98f10-aad5-4687-a6c3-15b350daa054",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Jenna sitter i sin nya fåtölj vi köpte på loppis och tittar på tv. PS den är tvättat i 60 grader!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780288420/family_diary/qch35hxph0zkulpb9zwm.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-06-01T04:33:41.560293+00:00"
+    },
+    {
+      "id": "b1f77ddc-1deb-4603-a6dc-0fb2c822ff95",
+      "user_id": null,
+      "author_name": "Alva",
+      "author_emoji": "🎨",
+      "text": "En sötnos i bilen! ❤️",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780471918/family_diary/tndu675l2of1l7itxrec.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 4,
+      "reactions_smile": 2,
+      "created_at": "2026-06-03T07:31:59.220553+00:00"
+    },
+    {
+      "id": "c7a183d5-7632-4907-aee5-d82d785b9f7d",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "Då sidan igång\ndet kommer vara en hel del buggar initialt Fåga om ni undrar något så slipper jag dränka er i en predikan om ett ämne jag inte kan\nkika runt prova lite kom gärna med förslag  \nlåna inte ut inlog och lösen til någon annan  då åker skylten ner fort\ninga bilder och dokument ligger på sidan. de ligger i ett annat program säkrat\n\nhar ni konreta önskemåt så smsa mig så ser jag vad som går att göra\nVa generösa dela med er tanken bakom detta var simpel jag behövde göra ett verktyg i ett annat projekt och tänke varför inte     \nha det",
+      "photos": [],
+      "stamp": "Milstolpe",
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-05-29T23:35:05.15479+00:00"
+    },
+    {
+      "id": "69e8b1ae-a586-43fb-a0ea-df33743f45bf",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Idag har vi lagt trall, Darcy inviger balkongen. Elias var med på ett hörn och bar ut trallen till ballen så att säga!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780250610/family_diary/sr2wpj6kn86z6q0ywb2m.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-05-31T18:03:32.069293+00:00"
+    },
+    {
+      "id": "98f6a60b-b7f1-4ee2-b136-cab589e6662e",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "00:05 ATM, 20 barre woop woop, däremot en 20-åring med ålderskris!!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780783543/family_diary/n7vrbuxcvbhrfcrlay23.jpg"
+      ],
+      "stamp": "Milstolpe",
+      "reactions_heart": 4,
+      "reactions_smile": 0,
+      "created_at": "2026-06-06T22:05:44.897501+00:00"
+    },
+    {
+      "id": "985c6139-3959-42b8-91f6-244c8bce5da4",
+      "user_id": null,
+      "author_name": "Alva",
+      "author_emoji": "🎨",
+      "text": "Sveas första uppskattade glass! En kollega på isaks jobb bjöd henne på den❤️\n\nOch lite bebisgos❤️",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780735009/family_diary/d1lcwkhom5jlc7ej6zrm.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780735015/family_diary/wavnqisu6smpsszs7y7k.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780735021/family_diary/sprj1bbxbe0zlojrqfku.jpg"
+      ],
+      "stamp": "Familjehistoria",
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-06-06T08:37:03.196832+00:00"
+    },
+    {
+      "id": "7a267936-2908-46a5-81ac-53905581da71",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Frukost på Elias ”födelsedag”, välförtjänt efter att ha virrat runt på stan alldeles för sent!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780736357/family_diary/vzptaqzosvjxdhradtwr.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 1,
+      "reactions_smile": 1,
+      "created_at": "2026-06-06T08:59:18.6436+00:00"
+    },
+    {
+      "id": "dc1fd614-2c99-4cc6-8753-0f9c3f91aef3",
+      "user_id": null,
+      "author_name": "Alva",
+      "author_emoji": "🎨",
+      "text": "På promenad med nyfikna kor!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781400401/family_diary/kkgpspmhkdhri9zvkz4y.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781400402/family_diary/crckvloh4ocpho7h8ehl.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781400403/family_diary/m3rv2wtvsv3dbood9ifj.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781400405/family_diary/emgvwfptesbpv4n6bzfo.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-06-14T01:26:46.429691+00:00"
+    },
+    {
+      "id": "2033a8f2-6288-4c05-91af-07fade0bf788",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "Elias fortsätter sitt 20-års firande med pannkaks-lunch hos mormor & morfar o Almström-Demerviks ❤️",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780927008/family_diary/elxhzbv22i9ypp1l88qs.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 3,
+      "reactions_smile": 1,
+      "created_at": "2026-06-08T13:56:49.880952+00:00"
+    },
+    {
+      "id": "6523948b-2669-475d-bc0e-9824ba00a8ec",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Jag tittar bort en sekund och Darcy passar på att ta ett svalkande dopp i en smutsig vattenpöl! Han fick ytterligare ett dopp när han kom hem i badkaret men det tyckte han inte var lika roligt….",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781096482/family_diary/rtdgnhsirgtdwjgu2lzt.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-06-10T13:01:23.302365+00:00"
+    },
+    {
+      "id": "649b6ee7-8e53-49c1-a1c0-4b810582c204",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Shoutout till Alva som önskade bli en kräfta när hon var liten och skaldjursallergiska pappa Almström, muuums 🦞🦀🦐",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780775145/family_diary/j3kixtsarsduth46plvr.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780775146/family_diary/or9yll4hg2jhnhpqk1fu.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 3,
+      "reactions_smile": 0,
+      "created_at": "2026-06-06T19:45:47.836919+00:00"
+    },
+    {
+      "id": "6a892444-85b6-43ed-a86b-594bf3773b1a",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Idag stod köttbullsrullning på schemat hos familjen Rutkowski, över 1 kg för att vara exakt! Donnan somnade av utmattning!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781468343/family_diary/u3rhbnqqhorb5jkqgcns.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-06-14T20:19:04.289606+00:00"
+    },
+    {
+      "id": "301eaada-b25d-4637-bf57-a96fa516cfae",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "Ställ er i kö för att få låna! Här är mitt nya favorit pussel 🧩",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781543664/family_diary/j4z9dmw0w716llh23a3k.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 8,
+      "reactions_smile": 0,
+      "created_at": "2026-06-15T17:14:25.751865+00:00"
+    },
+    {
+      "id": "b3fcfcbf-57b8-449b-9c28-6f2495015352",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Jenna var på BVC idag och väger 5,5 kg och är hela 60.4 cm lång!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781658406/family_diary/o85eig95uqshmtbyn4cv.jpg"
+      ],
+      "stamp": "Milstolpe",
+      "reactions_heart": 3,
+      "reactions_smile": 0,
+      "created_at": "2026-06-17T01:06:47.427639+00:00"
+    },
+    {
+      "id": "d6920beb-e48e-41e2-bb59-bb24bee3dabc",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Babysim premiär med mormor! \n\nDagen till ära följde mormor med på babysim, inte för att skryta var hon den fräschaste mormodern där, även fräschare än många av mammorna! Trots detta försökte mormor med näbbar och klor hoppa över nakenduschen innan simmet. Mormor hade fått tydliga instruktioner innan om att hon skulle behöva duscha naken. När vi anländer till omklädningsrummet pekar mormor mot duscharna och säger ”man behöver inte duscha naken, alla har ju badkläder på sig i duschen”.  Det var bara det att alla duschade nakna FÖRST och sen satte på sig badkläderna men det ville inte mormor kännas vid. För att inte skämma ut stackars Jenna bland alla nudister såg jag till att mormor till slut genomförde nakenduschen i den enda duschen som hade ett draperi! \n\nVäl i poolen sjöng babysim fröken en påhittad sång som fick mormor att vilja krypa ur skinnet. Därtill fick Jenna en kallsup och höll på att somna och gråta i poolen. Jenna hann med andra ord inte alls visa vad hon går för och betygsätter babysimmet med 2/5 points denna gång!  Ni får en ny uppdatering nästa gång och då ska nog mormor hålla sig på torra land så att hon slipper tjafsa om att behöva duscha naken bland nyförlösta mammor!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782136572/family_diary/kln4hu6h13qgxwpivnji.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782136574/family_diary/spesothacxe0vusdtp6p.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782136575/family_diary/wdnrjlryuvjr3kduwus7.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 3,
+      "reactions_smile": 1,
+      "created_at": "2026-06-22T13:56:17.455484+00:00"
+    },
+    {
+      "id": "2c9e149b-1df0-4a14-a0cf-0e45d9a68557",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "Glad midsommar   Önskar alla en underbar kväll",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781896861/family_diary/uc65lovaxmzkez45c7rp.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 5,
+      "reactions_smile": 0,
+      "created_at": "2026-06-19T19:21:02.175484+00:00"
+    },
+    {
+      "id": "acc9d13c-9b8e-4b71-a27b-dd81af6e6d1b",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Vi har ett husdjur som kom med i lägenhetsköpet, alternativt en inneboende som inte betalar hyra. Det råkar också vara världens mest envisa spindeln som varje dag måste väva om sitt nät då Mattias varje dag går med kvastskaftet och förstör det. Mattias tröttnade rejält till slut och sa att han skulle skjuta spindeln med sin bug-a-salt optic sight 3.0 men då fick jag stoppa honom så inte grannarna skulle ringa polisen om en pistolbeväpnad galning på vår balkong! Tråkigt för Mattias och hurra för spindeln så får den åtminstone en natt till på balkongen!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782848691/family_diary/xg4bw16fxuhcusjo5jee.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782848692/family_diary/yfzcljq4bg2r86jnxcwb.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782848693/family_diary/ed3gvrjaidgopauazcy2.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 2,
+      "created_at": "2026-06-30T19:44:55.277585+00:00"
+    },
+    {
+      "id": "52c2becd-2a02-4c03-b8a8-139333ad7650",
+      "user_id": null,
+      "author_name": "Alva",
+      "author_emoji": "🎨",
+      "text": "Äntligen hemma efter husbilspremiär och en mysig men intensiv midsommar i Dalarna! Vi startade dagen med en ordentlig sovmorgon till 8:30, Svea har inte sovit så länge senaste året!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782030426/family_diary/vwnpsnxuvngqcktm3wrn.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782030427/family_diary/x4pwubssnbhrhauowtql.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782030427/family_diary/wp4zbrbovmgyhtuq0grt.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782030429/family_diary/ey38z6oitmgo22c6fjhu.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-06-21T08:27:11.55533+00:00"
+    },
+    {
+      "id": "4f675bc8-cbc2-4e81-b488-a2246c6d399c",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "Att jobba med hemsiddor är jobbigt men har bra utsikt   I LOVE IT",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782231566/family_diary/p8oxuwxaxmuxa2rrh9x2.png"
+      ],
+      "stamp": "Familjehistoria",
+      "reactions_heart": 2,
+      "reactions_smile": 2,
+      "created_at": "2026-06-23T16:19:27.361246+00:00"
+    },
+    {
+      "id": "504be5de-f4fc-454b-917a-5f737acfbc91",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Mattias ansiktsuttryck när jag tappade min nya iPhone första gången och han ville att jag skulle testa kamera för att se om den gått sönder… 😭 tack vare allt skydd han köpt till den fick jag istället för en spräckt kamera en sur bild på honom för den fungerar fortfarande galant! ❤️ Mattias har aldrig tappat sin telefon, däremot har jag tappat hans telefon i skogen så att skärmen fick en repa…",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1784182651/family_diary/wfak653ijibqhaka2krq.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 0,
+      "reactions_smile": 2,
+      "created_at": "2026-07-16T06:17:33.044965+00:00"
+    },
+    {
+      "id": "f7fba2e0-ed69-4cf3-889a-47a1dab0d1b6",
+      "user_id": null,
+      "author_name": "Alva",
+      "author_emoji": "🎨",
+      "text": "Från en dag på stranden! Sveas favorit sysselsättning är, jag citerar ”titta på barnen”. Efter att ha suttit på strandkanten och observerat barnen en lägre stund vill Svea att vi går ut på bryggan för att titta på de barn som hoppar och plaskar på de djupare vattnet. Väl ute observerar Svea noggrant ett syskonpar på ca 11-13 år. Flickan springer på bryggan och hoppas bomben ned i vattnet medan Svea ropar högt ”tjohoo här hoppar en ko”! Hoppas innerligt att de är lika stora mamma mu fan som Svea och förstår det fina med kommentaren ❤️\n\nDärefter blev det glass i vårt nya uv-tält som Isak slog upp så att Signe kunde sussa sött i skuggan.",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1784233064/family_diary/muwonl2pzknjtgv03xzs.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1784233068/family_diary/i9hprnoman6dekhsjadp.png"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 1,
+      "created_at": "2026-07-16T20:17:49.660789+00:00"
+    },
+    {
+      "id": "db1d2ac7-2e90-40ec-b60d-e9252a95d9a4",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "En trevlig blixtvisit av mormor och morbror! Både Elias och mamma fick spänna åt sina skärp extra hårt för att inte Jenna skulle charma brallorna av dom!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782581359/family_diary/mgre4gf0i8gly5ms0ugs.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782581360/family_diary/m7z5l34bkmqx92ayliif.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 1,
+      "created_at": "2026-06-27T17:29:21.856587+00:00"
+    },
+    {
+      "id": "e056db68-a3c8-4813-8c3b-e5627ae2e3b6",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "Öregrund 260702 ❤️",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783008692/family_diary/oceuajlwsgvh72pfushx.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783008694/family_diary/coyuannbdeqx0shaejc7.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783008696/family_diary/bclft4tjyxexgjcp43mq.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783008699/family_diary/ynkujrqgajpsjumfzsqd.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 3,
+      "reactions_smile": 0,
+      "created_at": "2026-07-02T16:11:40.378386+00:00"
+    },
+    {
+      "id": "de129ae0-289b-4e20-b9b9-b653d5ca326e",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "Test",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/video/upload/v1782703247/family_diary/qo2zpjk5vww3giz3qgst.mov"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-06-29T03:20:49.468391+00:00"
+    },
+    {
+      "id": "a3af3320-51cc-42cc-8c7d-775e6f135dd0",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "Sting 260627",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/video/upload/a_270/v1782711701/family_diary/rnj5ylw4gnpehyo3va98.mp4"
+      ],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 0,
+      "created_at": "2026-06-29T05:41:44.054104+00:00"
+    },
+    {
+      "id": "29eeb0d0-185d-45da-83af-db606d836ecc",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "I väntan på att Sting ska börja i Botaniska trädgården, Uppsala! Som alla ser är den den obligatoriska picknickflten på plats. En bra konsert och mysigt kväll! Tack till Josefin som drog till Grekland så att jag kunde ärva hennes biljett ❤️ Filmsnutt från konserten kommer lite senare  !",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782662575/family_diary/nrjxzrrhlwtj764pudnr.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-06-28T16:02:56.195213+00:00"
+    },
+    {
+      "id": "f03650c0-61e7-4bdf-83de-77d55bc2c21f",
+      "user_id": null,
+      "author_name": "Carina",
+      "author_emoji": "🌸",
+      "text": "Tack Tora-Stumpan 🌻💛",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783021535/family_diary/nlxsc75p6rlccetdrd4o.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 3,
+      "reactions_smile": 0,
+      "created_at": "2026-07-02T19:45:36.168068+00:00"
+    },
+    {
+      "id": "be137488-89a5-4182-be1e-879872c822e2",
+      "user_id": null,
+      "author_name": "Mattias",
+      "author_emoji": "🔧",
+      "text": "Dagensbabysim fick 5 av 5",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/video/upload/v1782766141/family_diary/obsypboa9n9mjapi7pvk.mp4"
+      ],
+      "stamp": null,
+      "reactions_heart": 4,
+      "reactions_smile": 1,
+      "created_at": "2026-06-29T20:49:04.148884+00:00"
+    },
+    {
+      "id": "df3a37b1-5759-4120-adda-4e253ecfd8de",
+      "user_id": null,
+      "author_name": "Elias",
+      "author_emoji": "🎮",
+      "text": "Jag har inga drag av Hybris",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783446391/family_diary/hnky7ajjkkk8us6jeess.png"
+      ],
+      "stamp": "Milstolpe",
+      "reactions_heart": 3,
+      "reactions_smile": 0,
+      "created_at": "2026-07-07T17:46:32.359937+00:00"
+    },
+    {
+      "id": "fcb6baed-1eee-4c62-a471-0da2438405ec",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "Kreativ Svea möter AI",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783388785/family_diary/duokxftegwlzm7ggn1b6.png",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783388786/family_diary/zadj4xwhzixnpjnlbma1.png",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783388787/family_diary/i9yo4ljh2lvypdpj1yna.png",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783388788/family_diary/yupyksm6jgun7pcgskby.png"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 2,
+      "reactions_smile": 1,
+      "created_at": "2026-07-07T01:46:29.275052+00:00"
+    },
+    {
+      "id": "a51d04e0-f537-4a2a-b455-37dd2ff60fb0",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "BVC 6/7\n\nDagen till ära på Jennas 5-månaders dag stod BVC på schemat! Vi tog som vanligt med oss mormor som förstärkning! 💪Det visade sig att Jenna vuxit och ligger bättre till på kurvan! Då har hon också ätit dåligt de två senaste veckorna med anledning av intensivkursen i babysim 😏 däremot verkade BVC sköterskan otroligt sticksugen och ville ge både Jenna en och två injektioner i låren. Jag var bered att hålla i BVC sköterskan medan mormor skulle slå till BVC sköterskan med hårdhandskarna 🥊\nSom då bokade om vaccinet till en annan dag när två sköterskor kunde sticka samtidigt! \n\nJenna har också börjat äta smaskig mat, än så länge gillar hon salcciacanniloni (glutenfri såklart) och yoghurt med miljoner goda bakterier! Får se vad Mattias lurar i henne här näst!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783504325/family_diary/pq8py1cloew5xaexdjhu.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783504326/family_diary/qzthe47jaqghplwzmdhc.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-07-08T09:52:08.644349+00:00"
+    },
+    {
+      "id": "a252ca97-91ec-41e6-b663-b7f2c788f0f6",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Babysim del 3. \n\nJag vill börja med att förtydliga att dagens utfall på babysimmet inte har någon som helst korrektion med coach mormors frånvaro… \n\nJenna hade idag de sämsta möjliga förutsättningarna för babysim. Efter en gårdagskväll kantad av magont hade Jenna inte hunnit ladda upp sina baby batterier alls. Efter en skuffig bussfärd anlände Jenna till babysimmet ambivalent, ena sekunden ville hon äta medan hon den andra sekunden bestämt skulle försöka vila sina ögonlock.\n\nVäl inne i omklädningsrummet blev Jenna hållen av en kvinna medan jag duschade, så hon var Jennas frånvarande mormors stand in. Jag kommer vidare benämna kvinnan som ”Veras mamma”, detta då mormor envist vägrar nämna kvinnan vid namn, kanske för att mormor plötsligt insett att hon blivit ersatt? Jenna lät i alla fall ”Veras mamma” hålla i henne utan bråk medan jag tog den obligatoriska nakenduschen.\n\nI och med mormors frånvaro vågade jag ta ut svängarna lite mer idag under namnsången genom att sjunga med och göra lite coola moves. Det visade sig vara en riktig fröjd för Jennas ögon. Det var sedan dags för ryggläge och örondopp, vilket visade sig vara en av jennas paradnummer! Jenna tillhörde minoriteten som inte började gråta hejdlöst av övningen, grädde på moset skrattade hon till och med när hon hörde vissa barn gråta! Denna gång var vi med andra ord inte i frökens skottlinje utan fick istället en välförtjänt klapp på  axeln! Men skrattar bäst som skrattar sist, de sista 5 minutrarna spenderade Jenna runt flytandes i poolen med sin napp i munnen, kanske var det glädjetårar eller så var hon bara ledsen att babysimmet var slut ? \n\nJenna betygsätter dagens babysim med 4 av 5 points, detta då hon önskat ha mormor eller pappa med ❤️",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782501897/family_diary/wrjgelg3nhaisjc1c5lk.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 1,
+      "created_at": "2026-06-26T19:24:59.26447+00:00"
+    },
+    {
+      "id": "644c7452-c790-43ac-9fb8-3f9029a277c5",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Babysim del 2. \n\nJenna hade de bästa förutsättningarna för dagens babysim. Hon laddade upp med kolhydrater igår när hon smakade på vaniljglass och stretchade genom att sträcka sig efter sina fötter, heller ingen bråkig mormor som vägrade nakendusch denna gång. Jenna hade istället mormor som coach på torra land. 10 min innan doppet värmer Jenna upp genom att kissa igenom sina badbyxor, rakt på mormor, kanske för att uppmuntra mormor att ändå ta en dusch ? \n\nVäl nere i plurret siktar simfröken av någon anledning in sig på mig och Jenna och jagar runt oss i poolen. Hon slutar aldrig prata men när simfröken till slut låter oss vara andas vi ut , men tji fick vi. Simfröken tar ton ”skrutte skrutte skrutte skrutte, vad heter du?” Varpå jag piper fram Jenna….”Jennnaaa åhh jeeeenaaaa, det heter duuuu!”\nTill min förtret verkar Jenna digga simfrökens uppträdande. Jenna ler medan jag och mormor bara vill dränka oss själva för en sekund…\n\nJenna gör i alla fall några coola trix men tröttnar fortf på vattnet och vill gå upp först av alla, vilket hon visar bestämt genom sitt gråt… man kan tro att Jenna var hungrig eller trött men hon ger mig världens leende när jag hittade henne sittandes i mormors famn efter att ha blivit påklädd…. Jenna gillar inte babysimmet så mycket och ger det 3/5 points, hon fick ialla fall ingen kallsup denna gång!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782306877/family_diary/mkghqo6zrezh107bee53.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782306878/family_diary/aiqmohemk7ouaniiwnsy.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1782306879/family_diary/gkuaf0zk3iazkptovhju.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 4,
+      "reactions_smile": 1,
+      "created_at": "2026-06-24T13:14:41.067399+00:00"
+    },
+    {
+      "id": "3a41d26b-fbac-416c-91d5-70ad39132f51",
+      "user_id": null,
+      "author_name": "Peter",
+      "author_emoji": "🏡",
+      "text": "silverfisk är dagens tema",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783763080/family_diary/zdqn03zagjnmmwligmzh.png",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783763082/family_diary/kxamifaopqogrpcrwf7w.png",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783763083/family_diary/huojpdy0y7fedrfa6428.png",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783763085/family_diary/vqn1vefpvkfkpkzlzfdn.png"
+      ],
+      "stamp": "Familjehistoria",
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-07-11T09:44:46.661184+00:00"
+    },
+    {
+      "id": "24899920-cc1e-4a83-8a8b-7a72da096f5e",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Några bilder från våra senaste äventyr ute i värmen! Jenna verkar tro att det är hon som styr kajutan när hon är ute och går med pappa genom att röra på benen som att hon går!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/video/upload/v1784183316/family_diary/pv4ke6z48qzaygyh0pia.mov",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1784183318/family_diary/v5aisqr2vt3md3ll9cvu.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1784183319/family_diary/fahkxm2ryhk1nxeuw4qw.jpg"
+      ],
+      "stamp": "Roligt",
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-07-16T06:28:40.850699+00:00"
+    },
+    {
+      "id": "64c0af50-e9c7-49be-a243-727c6b25e4fa",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Någon som vet vad detta är för träd ? Luktade underbart!!",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1784182810/family_diary/gn1fdb6wo3fe2qxvycj2.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-07-16T06:20:11.033674+00:00"
+    },
+    {
+      "id": "023c10f8-fc43-4c43-bda3-65bdab939221",
+      "user_id": null,
+      "author_name": "Tora",
+      "author_emoji": "☀️",
+      "text": "Och plötsligt blev jag tredje hjulet… trots min iPhone 17:s kamera får jag inte vara med :(",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783763777/family_diary/hq3f1kxo5uudz9lqyupq.jpg",
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783763778/family_diary/baycimeqlp0w0afrgkek.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 2,
+      "reactions_smile": 1,
+      "created_at": "2026-07-11T09:56:19.180859+00:00"
+    },
+    {
+      "id": "5aa376b3-3ad3-4104-a56a-0e4cdb4edee8",
+      "user_id": null,
+      "author_name": "Alva",
+      "author_emoji": "🎨",
+      "text": "Godnatt från dom här sötlopporna❤️ Svea vill alltid somna skedandes med Signe❤️",
+      "photos": [
+        "https://res.cloudinary.com/dnl6r7axn/image/upload/v1783542695/family_diary/l4usm5xfbahqci0cpm6s.jpg"
+      ],
+      "stamp": null,
+      "reactions_heart": 1,
+      "reactions_smile": 0,
+      "created_at": "2026-07-08T20:31:36.183433+00:00"
+    }
+  ],
+  "recept": [
+    {
+      "id": "838c9d5c-7dae-4809-8980-19ccb764ab03",
+      "title": "Svantes gädda",
+      "category": "frukost",
+      "description": "frusen gädda från 1937",
+      "ingredients": "gädda 7 kilo  anjovis  2 kg  potatis  från 1987\nlägg i ugn  kör 32 min sen ä elen för dyr  ta ut lägg åotatis på sidan  ät",
+      "instructions": "",
+      "servings": 1,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780588082/recept/mhvqtan15j3bibmpfoha.jpg",
+      "author_name": "Peter",
+      "author_emoji": "👨",
+      "created_at": "2026-06-04T15:48:10.21997+00:00"
+    },
+    {
+      "id": "33a400e9-2f21-4f7e-99f8-e2cb9741b0f9",
+      "title": "Köttisar",
+      "category": "middag",
+      "description": "",
+      "ingredients": "800 g blandfärs \n1 dl gräddmjölk (mjölk/grädde)\n1 dl ströbröd \n1 ägg \n1/2 dl vatten \n2 små gula lökar \n1 msk farinsocker \n3 msk fisksås \n2 msk kinesisk soya",
+      "instructions": "1. Rör ihop gräddmjölken, ströbrödet, ägg och vatten till en lös smet. Låt dra i cirka 10 minuter.\n2. Skala lökarna, riv en av lökarna på ett rivjärn, finhacka och stek den andra gyllenbrun.\n3. Blanda ihop farinsocker, soya och fisksås. \n4. Blanda ihop alla ingredienser till en smidig smet. \n5. Forma runda små köttbullar av cirka 25 g styck. \n\nTILLAGNING \nKöttbullarna kan stekas eller göras i ugnen. Eftersom jag gjort dom glutenfria har jag kokat dom i köttbuljong innan stekning, vilket jag kan rekommendera. Ta då en kastrull och för varje 1/2 liter vatten ta en köttbuljong tärning. Koka upp köttbuljongen och när det sjuder kasta i några köttbullar, de flyter upp när de är klara. Stek dom sedan för att få en fin yta!",
+      "servings": null,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781782472/recept/ohh41nscbig90caartnb.jpg",
+      "author_name": "Tora",
+      "author_emoji": "👧",
+      "created_at": "2026-06-18T11:34:35.929226+00:00"
+    },
+    {
+      "id": "98c1a443-7034-4aa3-9268-ec52dc3433bb",
+      "title": "Laxcheesecake till midsommar, jul eller påsk",
+      "category": "övrigt",
+      "description": "",
+      "ingredients": "Botten\n200 g kavring\n75 g smör\n\nFyllning\n6 gelatinblad\n5 dl crème fraiche 34 %\n1 dl gräddfil\n½ rödlök, finhackad\n1 burk röd stenbitsrom\n3 msk finhackad dill\n200 g kallrökt lax, tärnad strimlad\n½ tsk salt\n1 krm svartpeppar\n1 msk citronsaft \n\nGarnering\n100 g kallrökt lax, skivad\n1 citron, skivad\n1 lime, skivad\ndill",
+      "instructions": "Gör så här\n1.\nKantskär brödet, lägg i matberedare och kör till smulor. Smält matfettet och blanda med smulorna.\n2.\nKläm fast ett bakplåtspapper i bakform med löstagbar kant, ca 24 cm i diameter. Tryck ut blandningen med handen i formen tills du har en jämn botten. Låt stå svalt.\n3.\nBlötlägg gelatinbladen i kallt vatten ca 10 minuter.\n4.\nVispa upp crème fraiche med elvisp. Vispa kraftigt tills det tjocknat, rör sedan ner gräddfil.\n5.5.\nVänd ner samtliga ingredienser till fyllningen. Rör om.\n6.\nTa upp gelatinbladen och krama ur all vätska. Smält på svag värme i en liten kastrull. Tillsätt ev lite vätska (t ex mjölk) så att gelatinet smälter lättare.\n7.\nRör ner det smälta gelatinet i crème fraicheblandningen och rör om. Fördela fyllningen i formen och släta till med en kniv. Låt stå svalt ca 5 timmar.\n8.\nTa fram och skär runt kakans kant så att den lossar ur formen. Garnera med lax o citron",
+      "servings": 12,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781805769/recept/jzxdlumxup8ufynwxojp.jpg",
+      "author_name": "Carina",
+      "author_emoji": "👩",
+      "created_at": "2026-06-18T18:08:32.387349+00:00"
+    },
+    {
+      "id": "89a3bd54-0481-4fdc-917d-f419916e6fab",
+      "title": "Pavlova",
+      "category": "bakning",
+      "description": "Smaskig marängtårta som alltid passar till födelsedagen eller annan fikastund 🍓",
+      "ingredients": "4 äggvitor\n1/2 krm salt\n2 1/2 dl strösocker\n1 msk majsstärkelse\n2 tsk vaniljsocker\n1 tsk vitvinsvinäger\nmatfett till att smörja formen\n\nFyllning:\n3-4 dl vispgrädde\n1 tsk vaniljsocker\nValfria bär: massa hallon, blåbär och jordgubbar",
+      "instructions": "Sätt ugnen på 175°C, över- och undervärme.\n\nVispa äggvitor och salt till hårt skum. Tillsätt sockret lite i taget under vispning. Vispa tills smeten är hård. Vispa sedan i majsstärkelse, vaniljsocker och vinäger.\n\nSmörj en form ca 23 cm i diameter (för 8 bitar). Viktigt att smörja formen noga eller klä botten av formen med bakplåtspapper. Bred ut smeten i formen. Gör en liten fördjupning i mitten för fyllningen.\n\nSätt in formen i nedre delen av ugnen. Sänk ugnstemperaturen till 125°C. Grädda ca 1 1/2 timme. Stäng av värmen och låt formen stå kvar tills ugnen svalnat.\n\nLåt botten svalna. Skär försiktigt runt kanten på formen med en liten vass kniv. Lossa därefter botten.\n\nLägg tårtbotten på ett fat.\n\nVispa grädden. Skölj och snoppa jordgubbarna och dela dem eventuellt i halvor.",
+      "servings": 6,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1781806387/recept/txcv7bl15r5bteqzzllv.jpg",
+      "author_name": "Carina",
+      "author_emoji": "👩",
+      "created_at": "2026-05-29T12:35:29.545147+00:00"
+    }
+  ],
+  "minnesladan": [
+    {
+      "id": "71c950f3-1b8b-448a-879e-13873a430f57",
+      "title": null,
+      "year": 2026,
+      "month": 5,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1779973853/minnen/2026/wh1cbht7tpnpb8xyui4k.jpg",
+      "description": null,
+      "author_name": "Peter",
+      "author_emoji": "👨",
+      "tags": null,
+      "created_at": "2026-05-28T13:10:54.317739+00:00"
+    },
+    {
+      "id": "4d5c78c0-ee0f-482d-a5d7-97e7b6b5ad23",
+      "title": null,
+      "year": 2013,
+      "month": 6,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780497230/minnen/2013/rhtp1wogyq1itr1bq9aw.jpg",
+      "description": "Relaxed work mode",
+      "author_name": "Peter",
+      "author_emoji": "👨",
+      "tags": null,
+      "created_at": "2026-06-03T14:33:50.995877+00:00"
+    },
+    {
+      "id": "58fbde80-9a4b-488f-9836-abae1b0e780e",
+      "title": null,
+      "year": 2018,
+      "month": 10,
+      "photo_url": "https://res.cloudinary.com/dnl6r7axn/image/upload/v1780588189/minnen/2018/hbmzidgd7zqrwr3asmvz.jpg",
+      "description": "frukost",
+      "author_name": "Peter",
+      "author_emoji": "👨",
+      "tags": null,
+      "created_at": "2026-06-04T15:49:51.042796+00:00"
+    }
+  ],
+  "tidskapslar": [
+    {
+      "id": "318d219b-be26-41fb-b874-aa8427e1b50a",
+      "title": "Till familjen 20260529",
+      "message": "Test",
+      "open_date": "2027-05-29",
+      "author_name": "Peter",
+      "author_emoji": "👨",
+      "opened": false,
+      "created_at": "2026-05-28T13:25:00.604593+00:00"
+    },
+    {
+      "id": "c8de6b76-5ba3-4e58-af93-45b395fe39c8",
+      "title": "tora",
+      "message": "du har söta mjukisdjur",
+      "open_date": "2027-06-05",
+      "author_name": "Peter",
+      "author_emoji": "👨",
+      "opened": false,
+      "created_at": "2026-06-04T15:53:54.093683+00:00"
+    }
+  ],
+  "boktips": [
+    {
+      "id": "f59b1307-7b28-4276-8846-c9f711697a93",
+      "titel": "Förvandlingen",
+      "forfattare": "Franz Kafka",
+      "kategori": "ovrigt",
+      "betyg": 5,
+      "recension": null,
+      "rekommenderas_av": "pealmab",
+      "created_at": "2026-05-31T17:14:59.206458+00:00",
+      "forfatter": null,
+      "genre": "roman",
+      "kommentar": "Vem älskar inte Gregor Samsa??🤷‍♂️",
+      "skapad_av": null
+    },
+    {
+      "id": "a2e3462b-7876-43c3-a824-b35d06bfe73d",
+      "titel": "Svanters lilla Rosa",
+      "forfattare": "Svantes alterego",
+      "kategori": "ovrigt",
+      "betyg": null,
+      "recension": null,
+      "rekommenderas_av": "pealmab",
+      "created_at": "2026-06-04T16:02:07.191531+00:00",
+      "forfatter": null,
+      "genre": "övrigt",
+      "kommentar": "det värsta jag läst censur på den  värre än dantes inferno",
+      "skapad_av": null
+    },
+    {
+      "id": "6dd0e9b9-be1a-4dcb-98de-991e2b6ad266",
+      "titel": "Elastic: The Power of Flexible Thinking\" av fysikern och författaren Leonard Mlodinow.",
+      "forfattare": "Leonard Mlodinow",
+      "kategori": "ovrigt",
+      "betyg": null,
+      "recension": null,
+      "rekommenderas_av": "pealmab",
+      "created_at": "2026-07-07T01:58:45.431583+00:00",
+      "forfatter": null,
+      "genre": "övrigt",
+      "kommentar": "Det är en otroligt skarp och relevant observation. Eftersom boken gavs ut 2018 – precis *innan* det stora publika genombrottet för generativ AI och de enorma LLM-modellerna (Large Language Models) – blir Mlodinows teser faktiskt ännu mer brännande idag än när han skrev dem.\n\nHär är en analys av hur *Elastic* står sig i ljuset av dagens exponentiella dataexplosion och AI-utveckling:\n\n## 1. AI har automatiserat det \"analytiska\" tänkandet\n\nMlodinow delar upp tänkandet i *analytiskt* (följa regler, logik, mönsterigenkänning) och *elastiskt* (bryta ramverk, skapa helt nya koncept).\n\n* **Då:** Det analytiska tänkandet var fortfarande något vi värderade högt som en mänsklig spetskompetens.\n* **Idag:** AI är numera överlägsen människan på att bearbeta, sortera och hitta mönster i den exponentiella datamängden. Allt som handlar om ren dataanalys, optimering och regelstyrd logik kan automatiseras. Det gör att det analytiska tänkandet har devalverats i värde, medan det genuint **elastiska tänkandet har blivit vår viktigaste mänskliga valuta**.\n\n## 2. Dataexplosionen kräver \"ramverks-skifte\" (Framing)\n\nIdag drunknar vi i information och variation. Mlodinow pratar mycket om *framing* – vår förmåga att skapa det mentala ramverket för ett problem.\n\n* AI kan generera tusentals lösningar inom ett befintligt ramverk baserat på historisk data.\n* Men när datamängden och omvärlden förändras exponentiellt, blir gamla ramverk snabbt värdelösa. Att inse att *\"vi ställer fel fråga\"* eller att *\"vi måste skrota hela vår nuvarande affärsmodell/systemarkitektur och bygga något helt nytt\"* kräver elastiskt tänkande. AI kan interpolera (fylla i luckor), men människan måste fortfarande extrapolera (ta språnget till något helt okänt).\n\n## 3. Kollisionen mellan mänsklig biologi och AI-tempo\n\nMlodinow poängterar att den elastiska hjärnan utvecklades för att hantera en föränderlig miljö på savannen. Men den biologiska evolutionen hinner inte med i den teknologiska kurvan.\n\n* När datamängden och variationen ökar exponentiellt, blir vårt kognitiva filter hårt belastat.\n* Mlodinows bok fungerar idag nästan som en **överlevnadsmanual**. Om vi försöker möta dataexplosionen med enbart analytiskt tänkande blir vi utbrända eller omsprungna. Vi måste i stället lära oss att lita på den elastiska förmågan att \"zooma ut\", sänka filtret genom reflektion och fokusera på helheter snarare än att försöka processa varje enskild datapunkt manuellt.\n\n---\n\n## Sammanfattning: Boken har åldrats med en profetisk underton\n\nÄven om Mlodinow inte explicit kunde förutspå exakt hur snabbt AI-explosionen skulle gå, förutsåg han *behovet* av den mänskliga motvikten.\n\n*Elastic* har gått från att vara en intressant bok om neurovetenskap till att bli en kritisk kompass för hur vi leder, skapar och fattar beslut i en AI-driven värld. Den visar att ju mer data vi har, desto viktigare blir vår förmåga att ibland bortse från den för att tänka något helt nytt.",
+      "skapad_av": null
+    },
+    {
+      "id": "81e4e2f5-2193-4b16-a09f-90d7d70f6129",
+      "titel": "Jag som aldrig känt en man",
+      "forfattare": "Jacqueline Harpman",
+      "kategori": "ovrigt",
+      "betyg": 4,
+      "recension": null,
+      "rekommenderas_av": "alvaalmstrom",
+      "created_at": "2026-07-16T20:09:40.997847+00:00",
+      "forfatter": null,
+      "genre": "roman",
+      "kommentar": "Egentligen förtjänar boken 3,5 ⭐️. Nu kanske ni undrar hur det kommer sig att jag gör en bokrecension på en halvbra bok. Det är nämligen så att jag har väntat och väntat på att läsa en tillräckligt bra bok som förtjänar att komma in som recension här, jag trodde verkligen att denna bok skulle få sin välförtjänta plats på familjesidan men efter ungefär halva boken stannade det upp och blev inte lika bra… Det som däremot gör att jag trots allt skriver den här recensionen är för att jag inte kunnat släppa boken!! Det är den konstigaste och mest speciella bok jag någonsin läst, tänker fortfarande på den ibland. Nu ska jag inte spoila men älskade till en början inte slutet alls tyckte allt var otroligt oklart men efter att ha diskuterat slutet med olika personer så känns det lite mer okej och boken växte ytterligare lite på mig.",
+      "skapad_av": null
+    }
+  ],
+  "dialekt_ord": [
+    {
+      "id": "a507de76-b4e0-41b9-a202-75df0d132673",
+      "ord": "Gröding",
+      "betydelse": "Något som är riktigt bra eller imponerande",
+      "exempel": "Den här maten är en riktig gröding!",
+      "upphovsman": "Familjen",
+      "reactions_heart": 2,
+      "created_at": "2026-05-26T17:30:20.019824+00:00"
+    },
+    {
+      "id": "1961424d-5784-4f25-9f21-140a7bf349df",
+      "ord": "Plufsig",
+      "betydelse": "Mjuk och bekväm, lite rund",
+      "exempel": "Den fåtöljen är så plufsig.",
+      "upphovsman": "Familjen",
+      "reactions_heart": 3,
+      "created_at": "2026-05-26T17:30:20.019824+00:00"
+    },
+    {
+      "id": "9d31632d-1755-43a2-b651-5cabba011a3d",
+      "ord": "Pömsig",
+      "betydelse": "Trött, INTE sexuellt utmattad!!",
+      "exempel": "Jag är väldigt pömsig, jag lägger mig.",
+      "upphovsman": "Tora",
+      "reactions_heart": 1,
+      "created_at": "2026-05-28T18:49:06.457918+00:00"
+    },
+    {
+      "id": "a0d1143d-b87d-49d2-8716-5a0b73c8054b",
+      "ord": "Syndig",
+      "betydelse": "Extremt smaskig",
+      "exempel": "Tryffelnbrien är syndig!",
+      "upphovsman": "Mattias",
+      "reactions_heart": 1,
+      "created_at": "2026-06-06T20:31:09.683409+00:00"
+    },
+    {
+      "id": "88a4bab3-d8a0-4f50-a416-ce694e6c5e10",
+      "ord": "Lowkey reaching flow state",
+      "betydelse": "När en individ lyckas koncentrera sig, gör framsteg eller huperfokuserar",
+      "exempel": "Han kan inte städa just nu, han lowkey reaching flow state",
+      "upphovsman": "Elias",
+      "reactions_heart": 1,
+      "created_at": "2026-06-06T20:30:08.450599+00:00"
+    },
+    {
+      "id": "72b9ce4d-4490-46b2-91e6-c9cdc48e4228",
+      "ord": "Dogs",
+      "betydelse": "Fötter",
+      "exempel": "Han rastar dogsen, var är strumporna?",
+      "upphovsman": "Elias",
+      "reactions_heart": 1,
+      "created_at": "2026-06-05T00:47:11.919996+00:00"
+    },
+    {
+      "id": "1a4bfd18-d1b6-4202-83ea-5c5ee4cbae11",
+      "ord": "a men",
+      "betydelse": "amen",
+      "exempel": "Pappa ber ngn städa sitt rum   svar per default  \"amen\"",
+      "upphovsman": "Elias",
+      "reactions_heart": 2,
+      "created_at": "2026-06-04T15:55:45.727392+00:00"
+    },
+    {
+      "id": "d71d0841-a114-43a8-8121-a6481884f879",
+      "ord": "HundGrädde",
+      "betydelse": "Oklart men det är inget man vill ha på sitt lördagsgodis…",
+      "exempel": "Nääääeeee det är HundGrädde på godispåsen igen",
+      "upphovsman": "Peter",
+      "reactions_heart": 0,
+      "created_at": "2026-06-23T19:40:09.977655+00:00"
+    }
+  ],
+  "filmer": [
+    {
+      "id": "08e4dd17-9857-48ef-b05a-328893898614",
+      "created_at": "2026-06-03T16:00:45.998882+00:00",
+      "titel": "run from the law",
+      "regissor": null,
+      "genre": "drama",
+      "betyg": null,
+      "recension": "kanon",
+      "rekommenderas_av": null,
+      "bild_url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/filmer-posters/acb4e291-6606-4a31-98d4-352a908d0156/1780502444468.jpg",
+      "rekommenderas_till": "x  rated",
+      "tillagd_av": "pealmab"
+    },
+    {
+      "id": "5a4c5020-d14a-4af9-bced-b1f832ed4cf3",
+      "created_at": "2026-06-03T16:25:56.670275+00:00",
+      "titel": "Project Hail Mary",
+      "regissor": null,
+      "genre": "drama",
+      "betyg": null,
+      "recension": "Såå bra film! Har fått bra på imdb också! Jag, Mattias och Elias rekommenderar!",
+      "rekommenderas_av": null,
+      "bild_url": "https://vnxadbborwnfnenjnakm.supabase.co/storage/v1/object/public/filmer-posters/307a9896-7fac-4734-a216-a24281096d74/1780503955892.jpeg",
+      "rekommenderas_till": "Alla!",
+      "tillagd_av": "toraalmstrom96"
+    }
+  ],
+  "fiskerekord": [
+    {
+      "id": "ae746c23-edcb-4491-9c82-7a1a78029c90",
+      "person": "Peter",
+      "fisk_art": "Blåval",
+      "vikt_gram": 489,
+      "langd_cm": 240,
+      "plats": "Badkaret",
+      "datum": "2026-05-28",
+      "notering": "fick den på en vobbler med ett bambu metspö jag misstänker att den hade en ätstörining den var väldigt smal",
+      "created_at": "2026-05-28T14:01:44.744943+00:00",
+      "bild_url": null
+    },
+    {
+      "id": "c3c62887-55cf-4392-bcfa-3fa45b3633c3",
+      "person": "Jenna",
+      "fisk_art": "Silverfisk",
+      "vikt_gram": 2,
+      "langd_cm": 12,
+      "plats": "Under diskmaskinen",
+      "datum": "2026-05-28",
+      "notering": "Dubbelsprötad. Intorkad och avliden.",
+      "created_at": "2026-05-28T19:03:32.258519+00:00",
+      "bild_url": null
+    },
+    {
+      "id": "d9a26730-e694-4a84-aef0-7ce87f0de1a3",
+      "person": "Peter",
+      "fisk_art": "silverfisk",
+      "vikt_gram": 1563,
+      "langd_cm": 109,
+      "plats": "toras underlakan",
+      "datum": "2026-06-16",
+      "notering": "Ja en klassisk spinnare va  och med en ultraviolett go pro fäst i ena änden   speglarna i taket ovanför sängen var ett helvete att kompensera för men till slut fick jag den jäveln",
+      "created_at": "2026-06-16T22:08:02.517767+00:00",
+      "bild_url": null
+    }
+  ],
+  "kalender_events": [
+    {
+      "id": "086b06eb-3585-48e9-a3c9-d84bd3d0d934",
+      "title": "Födelsedagsfirande för alla män som fyller senare i juni",
+      "event_date": "2026-06-13",
+      "event_time": "15:00:00",
+      "description": "Ta med vad ni vill grilla, så fixar vi kol o tillbehören!",
+      "category": "födelsedag",
+      "author_name": "Carina",
+      "author_emoji": "👩",
+      "created_at": "2026-06-07T19:07:33.613829+00:00"
+    }
+  ],
+  "karta_platser": [
+    {
+      "id": "7acae440-be09-4226-8dde-131baa154b35",
+      "titel": "Home",
+      "beskrivning": "5 tr",
+      "lat": 59.3375883270361,
+      "lng": 18.0536115177154,
+      "kategori": "hem",
+      "emoji": "🏠",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T13:44:24.073168+00:00"
+    },
+    {
+      "id": "09d77c8e-2f32-4817-8d08-dd83682eb490",
+      "titel": "Isaks PB",
+      "beskrivning": "Forellbrax på fyra ton fångad med stortån",
+      "lat": 59.5290751483687,
+      "lng": 17.546460793906,
+      "kategori": "hem",
+      "emoji": "🎣",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:46:14.321265+00:00"
+    },
+    {
+      "id": "c27dcc4f-c7a8-40fa-af67-5e68bbe9a6c6",
+      "titel": "Isaks första gripande",
+      "beskrivning": "Naken bad i månsken",
+      "lat": 59.4495230840664,
+      "lng": 17.5925914097679,
+      "kategori": "hem",
+      "emoji": "🌲",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:47:25.175244+00:00"
+    },
+    {
+      "id": "6ffa8e6c-debc-4419-8d61-09d18042706a",
+      "titel": "Blue Marlin  Isaks hårdaste fight",
+      "beskrivning": "Bete Dagmask från svantes köckemödding   Spö  3 mm varmvalsat stålrör ingen tafs körde med kätting hela vägen\nIsak lovar att det är sant men han säger att hans kamera hade laddat ut  mmm jo visst",
+      "lat": 59.4333100898196,
+      "lng": 17.7339972655547,
+      "kategori": "hem",
+      "emoji": "⭐",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T14:51:07.91469+00:00"
+    },
+    {
+      "id": "e82eab57-a48c-4721-9380-8198d37f4a3a",
+      "titel": "Mattias och Toras förlovning",
+      "beskrivning": "Här förlovades Tora och Mattias en juli dag 2024",
+      "lat": 59.7715710827933,
+      "lng": 17.6399230957031,
+      "kategori": "historia",
+      "emoji": "❤️",
+      "skapad_av": "pealmab",
+      "created_at": "2026-05-28T18:58:01.559364+00:00"
+    },
+    {
+      "id": "c13bc7e5-7149-4b6d-94b9-f291ee3ed337",
+      "titel": "Sverige sämsta mentalskörare genom tiderna utan tvivel",
+      "beskrivning": "",
+      "lat": 59.8516697412621,
+      "lng": 17.6379003546107,
+      "kategori": "hem",
+      "emoji": "🏠",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-03T14:57:20.559212+00:00"
+    },
+    {
+      "id": "f1f73cb2-c381-4b7e-bd56-554ae11650dc",
+      "titel": "Bott i husbil mer än 3 månader",
+      "beskrivning": "",
+      "lat": 59.853016499243,
+      "lng": 17.6390209744533,
+      "kategori": "hem",
+      "emoji": "🌲",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-03T14:58:00.372733+00:00"
+    },
+    {
+      "id": "e4bde1d2-0f5b-4a13-be5e-b9237755c92e",
+      "titel": "Dantes inferno",
+      "beskrivning": "Svantes side Huzzle",
+      "lat": 65.0747194565173,
+      "lng": -16.1696723177123,
+      "kategori": "barndom",
+      "emoji": "❤️",
+      "skapad_av": "pealmab",
+      "created_at": "2026-06-04T16:11:54.889962+00:00"
+    }
+  ],
+  "quiz_citat": [
+    {
+      "id": "97eebb3f-5ed8-43f0-994a-e94b860f2220",
+      "citat": "Jag är hungrig, finns det något att äta?",
+      "svarare": "Peter",
+      "created_at": "2026-05-26T17:21:39.011788+00:00"
+    },
+    {
+      "id": "46ff86ac-0f97-45ea-98d3-0e0c6b246ffd",
+      "citat": "Vi måste dokumentera det här!",
+      "svarare": "Carina",
+      "created_at": "2026-05-26T17:21:39.011788+00:00"
+    },
+    {
+      "id": "183209dc-c648-4ce0-9573-84c6b788c59c",
+      "citat": "Det kan vi fixa, inget problem.",
+      "svarare": "Elias",
+      "created_at": "2026-05-26T17:21:39.011788+00:00"
+    },
+    {
+      "id": "28077389-7312-4cf6-8af4-0f164e8ab2d0",
+      "citat": "Åh, men titta vad gullig!",
+      "svarare": "Tora",
+      "created_at": "2026-05-26T17:21:39.011788+00:00"
+    },
+    {
+      "id": "3c816d46-d1e1-48a8-bec5-c772ab641c94",
+      "citat": "Är vi framme snart?",
+      "svarare": "Alva",
+      "created_at": "2026-05-26T17:21:39.011788+00:00"
+    },
+    {
+      "id": "cece1d2f-c510-41a3-bfa8-f8cab12d500b",
+      "citat": "Jag vill backa tiden",
+      "svarare": "Elias",
+      "created_at": "2026-05-28T13:19:57.881836+00:00"
+    },
+    {
+      "id": "34fd0fa8-04fa-4666-8710-d9bcf0ca896e",
+      "citat": "Jag vill backa tiden",
+      "svarare": "Elias",
+      "created_at": "2026-05-28T13:22:04.973712+00:00"
+    },
+    {
+      "id": "2861cabd-eb20-42c3-a9de-166bf9e0fda7",
+      "citat": "Bryter på Göteborgska",
+      "svarare": "Peter",
+      "created_at": "2026-06-04T15:51:09.239555+00:00"
+    }
+  ],
+  "quiz_poang": [
+    {
+      "id": "a33a2070-f3b3-4546-a0d8-bd0bd203d1fe",
+      "player_name": "Elias",
+      "player_emoji": "🧑",
+      "score": 5,
+      "games_played": 1,
+      "updated_at": "2026-05-28T14:10:45.461175+00:00"
+    },
+    {
+      "id": "d1b1695d-13e6-461e-a035-a00cf659c00c",
+      "player_name": "Tora",
+      "player_emoji": "👧",
+      "score": 3,
+      "games_played": 1,
+      "updated_at": "2026-05-28T18:46:33.323352+00:00"
+    },
+    {
+      "id": "5b4af8b0-22a5-45e9-9824-eccc138e9ce6",
+      "player_name": "Carina",
+      "player_emoji": "👩",
+      "score": 4,
+      "games_played": 1,
+      "updated_at": "2026-05-29T12:26:15.190672+00:00"
+    }
+  ],
+  "resor": [],
+  "slakt_noter": [],
+  "sopor": [
+    {
+      "id": "31dff766-c274-4467-a3e0-ee4de0ec08e5",
+      "person": "Peter",
+      "datum": "2026-05-28",
+      "kommentar": "Svantes  blöjor",
+      "created_at": "2026-05-28T13:59:14.783965+00:00"
+    },
+    {
+      "id": "d808e800-a840-49e4-b596-f59dfa7d9595",
+      "person": "Peter",
+      "datum": "2026-06-04",
+      "kommentar": "bomull",
+      "created_at": "2026-06-04T15:57:08.914309+00:00"
+    }
+  ],
+  "talamod": [
+    {
+      "id": "0a89260d-62e1-480e-9988-acf9ce2e8a12",
+      "person": "Peter",
+      "typ": "forlorat",
+      "datum": "2026-05-28",
+      "berattelse": "tunnbröd",
+      "created_at": "2026-05-28T13:58:47.393268+00:00"
+    }
+  ],
+  "visdom_answers": [
+    {
+      "id": "62d24066-54a8-4334-8203-aab7b4aca415",
+      "question_id": "f69a5a18-068e-4ed4-9408-6ef30a06af08",
+      "text": "Att skriva 1.0 på högskoleprovet på andra försöket",
+      "author_emoji": "🌲",
+      "created_at": "2026-05-28T18:37:47.550378+00:00"
+    },
+    {
+      "id": "66c1e215-4347-4e81-8259-6ec7c7c06826",
+      "question_id": "f69a5a18-068e-4ed4-9408-6ef30a06af08",
+      "text": "så klart",
+      "author_emoji": "🐕",
+      "created_at": "2026-05-29T17:15:57.359356+00:00"
+    },
+    {
+      "id": "e2688544-4fe7-4535-ac19-c51325688e13",
+      "question_id": "35fb3306-67b7-4b8d-b818-d757c4a4a0ff",
+      "text": "Så klart mjölken /filen först! Alltid!",
+      "author_emoji": "🌲",
+      "created_at": "2026-06-01T18:22:25.272342+00:00"
+    },
+    {
+      "id": "2dd35954-3498-4010-8afc-1b0d87a70ff8",
+      "question_id": "8196fcfe-d53d-4941-9fdf-3a2380676006",
+      "text": "Han har blivit girig, gått med i facket och vill ha mer betalt",
+      "author_emoji": "🌲",
+      "created_at": "2026-06-07T20:19:29.369981+00:00"
+    }
+  ],
+  "visdom_questions": [
+    {
+      "id": "f69a5a18-068e-4ed4-9408-6ef30a06af08",
+      "text": "JA  vad är visdom igentligen",
+      "created_at": "2026-05-28T10:54:29.69336+00:00"
+    },
+    {
+      "id": "a32b9a2f-53ae-44f2-aa1e-14efd45afbfc",
+      "text": "I vilken ordning lägger man lagren i en lasagne?",
+      "created_at": "2026-05-31T18:29:42.453792+00:00"
+    },
+    {
+      "id": "35fb3306-67b7-4b8d-b818-d757c4a4a0ff",
+      "text": "Håller man mjölk/fil i en skål först eller flingor ?",
+      "created_at": "2026-05-31T18:30:22.990972+00:00"
+    },
+    {
+      "id": "8196fcfe-d53d-4941-9fdf-3a2380676006",
+      "text": "varför bråkar claud så mycket",
+      "created_at": "2026-06-04T15:43:11.836481+00:00"
+    }
+  ]
+}
