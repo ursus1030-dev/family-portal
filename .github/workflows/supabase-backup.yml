@@ -2,8 +2,13 @@ name: Supabase nattlig backup
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # Varje natt kl 02:00 UTC
+    - cron: '0 7 * * *'   # 07:00 UTC = 09:00 svensk sommartid (08:00 vintertid)
   workflow_dispatch:       # Möjlighet att köra manuellt
+
+# Krävs för att git push ska fungera — utan detta är GITHUB_TOKEN skrivskyddad
+# och commit-steget dör med exit 128 (rootcause till att alla körningar failat sedan 2026-06-03)
+permissions:
+  contents: write
 
 jobs:
   backup:
