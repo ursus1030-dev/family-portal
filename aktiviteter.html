@@ -120,6 +120,7 @@
     .icon-dagbok { background: rgba(61,92,58,0.1); }
     .icon-recept { background: rgba(168,76,42,0.1); }
     .icon-minne { background: rgba(107,76,53,0.1); }
+    .icon-kommentar { background: rgba(201,169,110,0.18); }
 
 
     .feed-body { flex: 1; min-width: 0; }
@@ -209,6 +210,7 @@
     <button class="filter-btn" onclick="setFilter('dagbok', this)">📖 Dagbok</button>
     <button class="filter-btn" onclick="setFilter('recept', this)">🍽️ Recept</button>
     <button class="filter-btn" onclick="setFilter('minne', this)">🪴 Minnen</button>
+    <button class="filter-btn" onclick="setFilter('kommentar', this)">💬 Kommentarer</button>
 
   </div>
 
@@ -284,14 +286,22 @@
     localStorage.setItem(LAST_VISIT_KEY, now);
 
     await loadFeed();
+
+    // Auto-uppdatering: när fliken får fokus igen + var 60:e sekund
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') loadFeed();
+    });
+    setInterval(loadFeed, 60000);
   }
 
   async function loadFeed() {
-    const [foton, dagbok, recept, minnen] = await Promise.all([
-      sb.from('foton').select('id, title, url, created_at').order('created_at', { ascending: false }).limit(50),
-      sb.from('memories').select('id, title, body, created_at').order('created_at', { ascending: false }).limit(50),
+    const [foton, dagbok, recept, minnen, dagbokKomm, fotoKomm] = await Promise.all([
+      sb.from('foton').select('id, titel, url, album, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('memories').select('id, text, author_name, photos, created_at').order('created_at', { ascending: false }).limit(50),
       sb.from('recept').select('id, title, category, created_at').order('created_at', { ascending: false }).limit(50),
       sb.from('minnesladan').select('id, title, description, year, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('diary_comments').select('id, comment, user_email, created_at').order('created_at', { ascending: false }).limit(50),
+      sb.from('photo_comments').select('id, comment, user_email, created_at').order('created_at', { ascending: false }).limit(50),
     ]);
 
     allItems = [
@@ -299,6 +309,8 @@
       ...(dagbok.data || []).map(r => ({ ...r, _type: 'dagbok' })),
       ...(recept.data || []).map(r => ({ ...r, _type: 'recept' })),
       ...(minnen.data || []).map(r => ({ ...r, _type: 'minne' })),
+      ...(dagbokKomm.data || []).map(r => ({ ...r, _type: 'kommentar', _link: 'dagbok.html' })),
+      ...(fotoKomm.data || []).map(r => ({ ...r, _type: 'kommentar', _link: 'fotoalbum.html' })),
     ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     // Räkna nya sedan senaste besök
@@ -336,22 +348,25 @@
     const newDot = isNew ? '<span class="feed-new-dot"></span>' : '';
 
     const cfg = typeConfig(item);
+    const link = item._link || cfg.link;
 
-    // Thumbnail för foton
+    // Thumbnail för foton och dagboksinlägg med bild
     let thumb = '';
     if (item._type === 'foto' && item.url) {
       thumb = `<img class="feed-thumb" src="${item.url}" alt="" loading="lazy" onerror="this.style.display='none'">`;
+    } else if (item._type === 'dagbok' && item.photos && item.photos.length) {
+      thumb = `<img class="feed-thumb" src="${item.photos[0]}" alt="" loading="lazy" onerror="this.style.display='none'">`;
     }
 
     return `
-      <a class="feed-item ${newClass}" href="${cfg.link}">
+      <a class="feed-item ${newClass}" href="${link}">
         <div class="feed-icon ${cfg.iconClass}">${cfg.emoji}</div>
         <div class="feed-body">
           <div class="feed-meta">
             <span class="feed-type">${cfg.label}</span>
             ${newDot}
           </div>
-          <div class="feed-title">${escHtml(item.title || item.message?.substring(0, 60) || '—')}</div>
+          <div class="feed-title">${escHtml(cfg.title(item))}</div>
           <div class="feed-sub">${escHtml(cfg.sub(item))}</div>
           <div class="feed-time">${fmtRelative(item.created_at)}</div>
         </div>
@@ -359,13 +374,29 @@
       </a>`;
   }
 
+  const NAMN_KARTA = {
+    'pealmab@hotmail.com': 'Peter',
+    'toraalmstrom96@hotmail.com': 'Tora',
+    'alvaalmstrom@hotmail.com': 'Alva',
+    'carina_almstrom@hotmail.com': 'Carina',
+    'elias.almstrom@hotmail.com': 'Elias',
+    'mattias.rutkowski@yahoo.se': 'Mattias',
+    'bengthirvonen@hotmail.com': 'Bengt',
+    'isakdemervik@outlook.com': 'Isak'
+  };
+  function namnFor(email) {
+    const e = (email || '').toLowerCase();
+    return NAMN_KARTA[e] || e.split('@')[0] || 'Någon';
+  }
+
   function typeConfig(item) {
     switch (item._type) {
-      case 'foto':       return { emoji: '📷', label: 'Foto', iconClass: 'icon-foto',       link: 'fotoalbum.html',   sub: i => i.album || '' };
-      case 'dagbok':     return { emoji: '📖', label: 'Dagbok', iconClass: 'icon-dagbok',   link: 'dagbok.html',      sub: i => i.body?.substring(0, 80) || '' };
-      case 'recept':     return { emoji: '🍽️', label: 'Recept', iconClass: 'icon-recept',   link: 'receptbok.html',   sub: i => i.category || '' };
-      case 'minne':      return { emoji: '🪴', label: 'Minne', iconClass: 'icon-minne',     link: 'minnesladan.html', sub: i => i.year ? `År ${i.year}` : (i.description?.substring(0, 60) || '') };
-      default:           return { emoji: '📌', label: '', iconClass: '', link: '#', sub: () => '' };
+      case 'foto':       return { emoji: '📷', label: 'Foto', iconClass: 'icon-foto',       link: 'fotoalbum.html',   title: i => i.titel || 'Nytt foto', sub: i => i.album || '' };
+      case 'dagbok':     return { emoji: '📖', label: 'Dagbok', iconClass: 'icon-dagbok',   link: 'dagbok.html',      title: i => i.text?.substring(0, 60) || '—', sub: i => i.author_name || '' };
+      case 'recept':     return { emoji: '🍽️', label: 'Recept', iconClass: 'icon-recept',   link: 'receptbok.html',   title: i => i.title || '—', sub: i => i.category || '' };
+      case 'minne':      return { emoji: '🪴', label: 'Minne', iconClass: 'icon-minne',     link: 'minnesladan.html', title: i => i.title || '—', sub: i => i.year ? `År ${i.year}` : (i.description?.substring(0, 60) || '') };
+      case 'kommentar':  return { emoji: '💬', label: 'Kommentar', iconClass: 'icon-kommentar', link: 'dagbok.html',  title: i => i.comment?.substring(0, 60) || '—', sub: i => `${namnFor(i.user_email)} kommenterade` };
+      default:           return { emoji: '📌', label: '', iconClass: '', link: '#', title: i => i.title || '—', sub: () => '' };
     }
   }
 
