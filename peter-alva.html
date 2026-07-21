@@ -113,14 +113,14 @@
     const SUPABASE_URL  = 'https://vnxadbborwnfnenjnakm.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZueGFkYmJvcnduZm5lbmpuYWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MjMzODAsImV4cCI6MjA5NTE5OTM4MH0.6CwVQjxYVSgyV7GoQzalwIAfyWRG1nq8iEYBEXBu6Iw';
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-    const ALLOWED_EMAILS = ['pealmab@hotmail.com', 'alvaalmstrom@hotmail.com'];
     const BUCKET = 'peter-alva';
     let currentUser = null, stagedFiles = [], currentPhotoPath = null;
-    sb.auth.getSession().then(({ data }) => {
+    sb.auth.getSession().then(async ({ data }) => {
       const session = data.session;
       if (!session) { window.location.href = 'login.html'; return; }
       currentUser = session.user;
-      if (!ALLOWED_EMAILS.includes(currentUser.email.toLowerCase())) {
+      const { data: __p } = await sb.from('profiles').select('private_areas').eq('id', currentUser.id).maybeSingle();
+      if (!__p || !(__p.private_areas || []).includes(BUCKET)) {
         window.location.href = 'index.html';
       } else {
         document.getElementById('content').style.display = 'block';

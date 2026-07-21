@@ -830,6 +830,11 @@
     <div style="border-left:2px solid var(--gold,#C9A96E);padding-left:1.2rem;display:flex;flex-direction:column;gap:1.1rem">
 
       <div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">18 juli 2026</div>
+        <div style="color:#2a2a2a">Flödet är lagat — foton och dagboksinlägg syns nu i flödet igen (de har saknats sedan sidan byggdes), och kommentarer visas som egna rader. Flödet uppdaterar sig dessutom självt: när man växlar tillbaka till fliken och en gång i minuten. Bakom kulisserna fick sajten också en fungerande nattlig säkerhetskopiering av allt innehåll.</div>
+      </div>
+
+      <div>
         <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">16 juli 2026</div>
         <div style="color:#2a2a2a">Startsidan visar nu ett riktigt familjefoto i bakgrunden — ett slumpmässigt kort ur familjealbumet, med säsongsfärgerna toningen ovanpå. Byter varje gång sidan laddas.</div>
       </div>
@@ -1027,15 +1032,24 @@
       const nl = document.getElementById('navLinks');
       if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
-    function addPrivateNavLinks(email) {
-      const PETER = 'pealmab@hotmail.com';
-      const links = [];
-      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Tora & Peter 🌲' });
-      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Alva & Peter 🌺' });
-      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
-      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
-      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
-      if (email === PETER) links.push({ href: 'admin.html', label: 'Adminpanel ⚙️' });
+    async function addPrivateNavLinks() {
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user) return;
+      const { data: prof } = await sb.from('profiles')
+        .select('display_name, role, private_areas')
+        .eq('id', user.id).maybeSingle();
+      if (!prof) return;
+      const wn = document.getElementById('welcome-name');
+      if (wn && prof.display_name) wn.textContent = 'Välkommen hem, ' + prof.display_name + ' 🌲';
+      const AREA_LINKS = {
+        'peter-tora':  { href: 'peter-tora.html',  label: 'Tora & Peter 🌲' },
+        'peter-alva':  { href: 'peter-alva.html',  label: 'Alva & Peter 🌺' },
+        'peter-elias': { href: 'peter-elias.html', label: 'Elias & Peter 🎮' },
+        'toras-album': { href: 'toras-album.html', label: 'Jennas album 🌸' },
+        'alvas-album': { href: 'alvas-album.html', label: 'Svea & Signe 🌼' },
+      };
+      const links = (prof.private_areas || []).map(a => AREA_LINKS[a]).filter(Boolean);
+      if (prof.role === 'superadmin') links.push({ href: 'admin.html', label: 'Adminpanel ⚙️' });
       if (!links.length) return;
 
       // Desktop: dropdown i nav-right
@@ -1269,25 +1283,6 @@
         });
       }
     })();
-
-    // VALKOMSTNAMN
-    sb.auth.getSession().then(({ data }) => {
-      if (data?.session?.user) {
-        const nameMap = {
-          'pealmab@hotmail.com':           'Peter',
-          'toraalmstrom96@hotmail.com':    'Tora',
-          'alvaalmstrom@hotmail.com':      'Alva',
-          'carina_almstrom@hotmail.com':   'Carina',
-          'elias.almstrom@hotmail.com':    'Elias',
-          'mattias.rutkowski@ahoo.se':     'Mattias',
-          'bengthirvonen@hotmail.com':     'Benke',
-          'isakdemervik@outlook.com':      'Isak',
-        };
-        const email = data.session.user.email.toLowerCase();
-        const name = nameMap[email] || email.split('@')[0];
-        document.getElementById('welcome-name').textContent = 'Välkommen hem, ' + name + ' 🌲';
-      }
-    });
 
     function toggleNav() {
       const nl = document.getElementById('navLinks');

@@ -245,24 +245,55 @@
     });
 
 
-    function addPrivateNavLinks(email) {
-      const PETER = 'pealmab@hotmail.com';
-      const links = [];
-      if (email === PETER || email === 'toraalmstrom96@hotmail.com') links.push({ href: 'peter-tora.html', label: 'Tora & Peter 🌲' });
-      if (email === PETER || email === 'alvaalmstrom@hotmail.com')   links.push({ href: 'peter-alva.html', label: 'Alva & Peter 🌺' });
-      if (email === PETER || email === 'elias.almstrom@hotmail.com') links.push({ href: 'peter-elias.html', label: 'Elias & Peter 🎮' });
-      if (email === 'toraalmstrom96@hotmail.com')                    links.push({ href: 'toras-album.html', label: 'Jennas album 🌸' });
-      if (email === 'alvaalmstrom@hotmail.com')                      links.push({ href: 'alvas-album.html', label: 'Svea & Signe 🌼' });
-      if (email === PETER) links.push({ href: 'admin.html', label: 'Adminpanel ⚙️' });
+    async function addPrivateNavLinks() {
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user) return;
+      const { data: prof } = await sb.from('profiles')
+        .select('display_name, role, private_areas')
+        .eq('id', user.id).maybeSingle();
+      if (!prof) return;
+      const wn = document.getElementById('welcome-name');
+      if (wn && prof.display_name) wn.textContent = 'Välkommen hem, ' + prof.display_name + ' 🌲';
+      const AREA_LINKS = {
+        'peter-tora':  { href: 'peter-tora.html',  label: 'Tora & Peter 🌲' },
+        'peter-alva':  { href: 'peter-alva.html',  label: 'Alva & Peter 🌺' },
+        'peter-elias': { href: 'peter-elias.html', label: 'Elias & Peter 🎮' },
+        'toras-album': { href: 'toras-album.html', label: 'Jennas album 🌸' },
+        'alvas-album': { href: 'alvas-album.html', label: 'Svea & Signe 🌼' },
+      };
+      const links = (prof.private_areas || []).map(a => AREA_LINKS[a]).filter(Boolean);
+      if (prof.role === 'superadmin') links.push({ href: 'admin.html', label: 'Adminpanel ⚙️' });
       if (!links.length) return;
+
+      // Desktop: dropdown i nav-right
       const navRight = document.querySelector('.nav-right');
       if (navRight) {
         const wrap = document.createElement('div');
         wrap.className = 'private-dropdown';
         wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-        navRight.insertBefore(wrap, navRight.firstChild);
-        wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+        navRight.appendChild(wrap);
+        wrap.querySelector('.private-btn').addEventListener('click', e => {
+          e.stopPropagation();
+          wrap.classList.toggle('open');
+        });
         document.addEventListener('click', () => wrap.classList.remove('open'));
+      }
+
+      // Mobil: lägg till länkarna direkt i hamburger-menyn (nav-links)
+      const navLinks = document.getElementById('navLinks');
+      if (navLinks) {
+        const divider = document.createElement('div');
+        divider.style.cssText = 'height:1px;background:rgba(255,255,255,0.1);margin:0.3rem 0.8rem;';
+        navLinks.insertBefore(divider, navLinks.querySelector('.nav-mobile-footer'));
+        links.forEach(l => {
+          const a = document.createElement('a');
+          a.href = l.href;
+          a.textContent = l.label;
+          a.style.cssText = 'color:rgba(245,220,180,0.9);font-size:0.85rem;padding:0.55rem 0.8rem;border-radius:8px;text-decoration:none;display:block;transition:background 0.15s;';
+          a.onmouseenter = () => a.style.background = 'rgba(255,255,255,0.1)';
+          a.onmouseleave = () => a.style.background = '';
+          navLinks.insertBefore(a, navLinks.querySelector('.nav-mobile-footer'));
+        });
       }
     }
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
